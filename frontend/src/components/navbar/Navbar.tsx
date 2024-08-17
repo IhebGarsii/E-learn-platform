@@ -19,7 +19,6 @@ function Navbar() {
   const { data } = useUserState();
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
-  console.log("query data ", data);
   const onToggleMenu = () => {
     setMenuOpen(!menuOpen);
   };

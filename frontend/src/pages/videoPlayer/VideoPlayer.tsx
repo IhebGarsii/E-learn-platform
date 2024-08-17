@@ -7,12 +7,15 @@ import { getVideoComments } from "../../api/commentAPI";
 function VideoPlayer() {
   const { idVideo, idVid } = useParams();
   const { data: course } = useCourseState();
-  console.log("data course query", course);
-/*   const { data: video } = useQuery({
+
+  console.log(course?.video._id!);
+
+  const { data: video } = useQuery({
     queryKey: ["video"],
     queryFn: () => getVideoComments(course?.video._id!, idVid!),
+    enabled: !!course?.video._id,
   });
-  console.log(video,'sss'); */
+
   return (
     <div className="mt-15  flex flex-col items-center gap-5 justify-center py-16">
       <video
