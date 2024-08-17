@@ -20,7 +20,7 @@ function CourseDetail() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["course", idCourse], // Unique key based on course ID
+    queryKey: ["course"], // Unique key based on course ID
     queryFn: () => getCourse(idCourse!),
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
   });
@@ -42,6 +42,7 @@ function CourseDetail() {
       <div className="flex-1  flex flex-col w-full md:max-w-[70%]  p-4">
         <div className="bg-[#2C3539] rounded-md p-5 ">
           <h1 className="text-4xl text-white">{course.title}</h1>
+          <h1 className="text-2xl text-white">{course.secondTitle}</h1>
           <div className=" text-white flex items-center gap-2 p-2  ">
             <span>{course.avgRate.rate}</span>
 

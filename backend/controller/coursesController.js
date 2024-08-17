@@ -16,14 +16,25 @@ const getAllCourses = async (req, res) => {
 const getCourse = async (req, res) => {
   try {
     const { idCourse } = req.params;
-    const course = await coursesModel.findById(idCourse).populate("video");
-    console.log(course);
+
+    const course = await coursesModel
+      .findById(idCourse)
+      .populate({
+        path: "video",
+        populate: {
+          path: "video.videoList.comments",
+          model: "commentModel",
+        },
+      })
+      .populate("comments");
+
     if (!course) {
       return res.status(404).json({ error: "No Courses Found" });
     }
+
     res.status(200).json(course);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ error: error.message });
   }
 };
@@ -86,7 +97,8 @@ const AddCourse = async (req, res) => {
       if (!sectionData[sectionTitle]) {
         sectionData[sectionTitle] = { sectionTitle, videoList: [] };
       }
-      sectionData[sectionTitle].videoList.push(videoTitle); // Save only the video title
+      // Save video titles as objects with a `videoName` property
+      sectionData[sectionTitle].videoList.push({ videoName: videoTitle });
     });
 
     // Convert sectionData to an array
@@ -94,21 +106,20 @@ const AddCourse = async (req, res) => {
 
     // Handle thumbnail
     const thumbnail = req.files["thumbnail"][0];
+    console.log("sections", sections);
 
-    // Save course data
+    // Save video data with the new structure
     const savedVideo = await videoCourse.create({
       video: sections,
       instructorId: req.body.instructorId,
     });
 
+    // Save course data including the reference to the saved video
     const course = await coursesModel.create({
       ...req.body,
       thumbnail: thumbnail.filename,
       video: savedVideo._id, // Include organized sections
     });
-    console.log("sections", sections);
-    console.log("savedVideo", savedVideo);
-    console.log("course", course);
 
     // Respond to the client
     res.status(201).json({
@@ -120,20 +131,59 @@ const AddCourse = async (req, res) => {
   }
 };
 
+/* const getComments = async (req, res) => {
+  try {
+    const {idCourse,idVid}
+  } catch (error) {
+    
+  }
+}; */
 const addCommentToVideo = async (req, res) => {
   try {
-    const comment = commentsModel.create({
-      ...req.body,
+    const { idVid, commentText, givenUser } = req.body; // idVid is the video ID and commentText is the comment to add.
+    console.log(req.body);
+    // Create the comment document first
+    const newComment = await commentsModel.create({
+      givenUser,
+      commentText,
+      // Add any other fields required by your comment schema
     });
-    if (!comment) {
-      return res.status(402).json(comment);
+
+    if (!newComment) {
+      return res.status(400).json({ message: "Failed to create comment" });
     }
-    const video = videoCourse.findById(req.body.idVideo);
-    video.comments.push(comment._id);
-    await video.save();
-    return res.status(201).json(comment);
+
+    // Find the video document and specific video by idVid
+    const videoDocument = await videoCourse
+      .findOneAndUpdate(
+        { "video.videoList._id": idVid },
+        {
+          $push: {
+            "video.$[section].videoList.$[video].comments": newComment._id,
+          },
+        },
+        {
+          arrayFilters: [
+            { "section.videoList._id": idVid },
+            { "video._id": idVid },
+          ],
+          new: true,
+        }
+      )
+      .populate("video.videoList.comments"); // Populate comments
+
+    if (!videoDocument) {
+      return res.status(404).json({ message: "Video not found" });
+    }
+
+    // Return the updated video document
+    res.status(200).json({
+      message: "Comment added successfully",
+      videoDocument,
+    });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

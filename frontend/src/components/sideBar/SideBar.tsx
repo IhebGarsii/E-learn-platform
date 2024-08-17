@@ -80,7 +80,7 @@ function SideBar() {
           <Route path="signup" element={<SignUp />} />
           <Route path="coursesDarshboard" element={<AddCourse />} />
           <Route path="/Course/:idCourse" element={<CourseDetail />} />
-          <Route path="/Course/:idCourse/:idVideo" element={<VideoPlayer />} />
+          <Route path="/Course/:idCourse/:idVid/:idVideo" element={<VideoPlayer />} />
         </Routes>
       </div>
     </div>

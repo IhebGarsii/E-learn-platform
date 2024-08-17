@@ -23,6 +23,7 @@ export type cousers = {
   _id: string;
   difficulty: string;
   requirements: string;
+  secondTitle:string;
 };
 type rate = {
   rate: number;

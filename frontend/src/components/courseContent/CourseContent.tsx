@@ -2,9 +2,9 @@ import { useState } from "react";
 import img from "../../assets/arrow-dwon.png";
 import { Link } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
-import { video } from "../../types/video";
+import { videoResponse } from "../../types/video";
 type CourseContentProps = {
-  video: video[];
+  video: videoResponse[];
 };
 
 type DropdownState = {
@@ -14,7 +14,7 @@ type DropdownState = {
 function CourseContent({ video }: CourseContentProps) {
   // Initialize dropdown state with the first index open
   const [dropdowns, setDropdowns] = useState<DropdownState>({ 0: true });
-
+  console.log(video, "vid");
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({
       ...prev,
@@ -39,10 +39,11 @@ function CourseContent({ video }: CourseContentProps) {
                 {vid.videoList.map((video, vidIndex) => (
                   <div className="flex" key={vidIndex}>
                     <Link
-                      to={video}
+                      to={`${video._id}/${video.videoName}`}
                       className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
                     >
-                      <MdOutlineOndemandVideo /> {video.split(".")[0]}
+                      <span> {} </span>
+                      <MdOutlineOndemandVideo /> {video.videoName.split(".")[0]}
                     </Link>
                   </div>
                 ))}

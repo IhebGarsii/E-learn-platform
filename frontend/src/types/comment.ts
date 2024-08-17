@@ -2,6 +2,7 @@ export type comment = {
   givenUser: string;
 
   commentText: string;
-  idVideo?: string;
+  idVid?: string;
   gottenUser?: string;
+  date: number;
 };

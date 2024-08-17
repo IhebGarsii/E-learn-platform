@@ -19,7 +19,7 @@ function AddCourse() {
   const [tags, setTags] = useState<tags[]>([]);
   const [headTags, setHeadTags] = useState<tags[]>([]);
   const [target, setTarget] = useState<tags[]>([]);
-  const [videoSections, setVideoSections] = useState([]);
+  const [videoSections, setVideoSections] = useState<any[]>([]);
   const [descValue, setDescValue] = useState("");
 
   const handleTagsChange = (newTags: tags[]) => {
@@ -46,7 +46,7 @@ function AddCourse() {
     );
   };
 
-  const handleVideoChange = (updatedSections: video[]) => {
+  const handleVideoChange = (updatedSections: File[]) => {
     setVideoSections(updatedSections);
     console.log(updatedSections);
   };
@@ -105,6 +105,13 @@ function AddCourse() {
           placeholder="Enter course title"
         />
         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+        <label htmlFor="secondTitle">Second Title</label>
+        <input
+          {...register("secondTitle", { required: "Second Title is required" })}
+          className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+          type="text"
+          placeholder="Enter course Second Title"
+        />
         <label htmlFor="description">Description</label>
         {/* Uncomment this if you want to use ReactQuill */}
         {/* <ReactQuill theme="snow" value={descValue} onChange={setDescValue} /> */}
