@@ -1,7 +1,7 @@
 const commentsModel = require("../model/commentsModel");
 const coursesModel = require("../model/coursesModel");
 const videoCourse = require("../model/videoCourse");
-
+const mongoose = require("mongoose");
 const getAllCourses = async (req, res) => {
   try {
     const courses = await coursesModel.find().populate("instructorId");
@@ -131,13 +131,66 @@ const AddCourse = async (req, res) => {
   }
 };
 
-/* const getComments = async (req, res) => {
+const getComments = async (req, res) => {
   try {
-    const {idCourse,idVid}
+    // Log the request parameters
+    console.log(req.params);
+
+    // Extract parameters from the request
+    const { videoList, idVideo } = req.params;
+
+    // Convert videoList and idVideo to MongoDB ObjectId
+    const videoListId = new mongoose.Types.ObjectId(videoList);
+    const idVideoId = new mongoose.Types.ObjectId(idVideo);
+
+    // Log IDs to ensure they are correctly formatted
+    console.log("Video List ID:", videoListId);
+    console.log("Video ID:", idVideoId);
+
+    // Find the document with the specified videoListId and populate comments
+    const videoEntry = await videoCourse
+      .findOne({ _id: videoListId })
+      .populate({
+        path: "video.videoList.comments", // Path to populate comments
+        model: "commentModel", // Model to populate from
+      })
+      .exec();
+
+    // Log the result to see what's returned
+    console.log("Video Entry:", videoEntry);
+
+    if (!videoEntry) {
+      return res.status(404).json({ message: "Video list not found" });
+    }
+
+    // Find the specific video within the videoList array
+    const video = videoEntry.video.find((v) =>
+      v.videoList.some((vid) => vid._id.toString() === idVideoId.toString())
+    );
+
+    if (!video) {
+      return res.status(404).json({ message: "Video not found in the list" });
+    }
+
+    // Extract the specific video from the videoList
+    const specificVideo = video.videoList.find(
+      (vid) => vid._id.toString() === idVideoId.toString()
+    );
+
+    if (!specificVideo) {
+      return res.status(404).json({ message: "Video not found in the list" });
+    }
+
+    // Send the comments as a response
+    res.status(200).json({ comments: specificVideo.comments });
   } catch (error) {
-    
+    // Handle errors
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving comments" });
   }
-}; */
+};
 const addCommentToVideo = async (req, res) => {
   try {
     const { idVid, commentText, givenUser } = req.body; // idVid is the video ID and commentText is the comment to add.
@@ -231,4 +284,5 @@ module.exports = {
   updateCourse,
   rateCourse,
   addCommentToVideo,
+  getComments,
 };

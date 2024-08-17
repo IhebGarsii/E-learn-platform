@@ -1,7 +1,8 @@
 export type video = {
+  _id: string;
+
   sectionTitle: string;
   videoList: File[];
-  _id: string;
 };
 
 export type videoResponse = {

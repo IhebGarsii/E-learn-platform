@@ -22,6 +22,7 @@ export const addCommentToVideo = async (data: comment) => {
 
 export const getVideoComments = async (videoList: string, idVideo: string) => {
   try {
+    console.log(videoList);
     const response = await fetch(
       `${BASE_URL}/getVideoComments/${videoList}/${idVideo}`
     );
