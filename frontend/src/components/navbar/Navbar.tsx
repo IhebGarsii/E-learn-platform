@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 
@@ -8,10 +8,15 @@ import useLoginUser from "../../utl/useLoginUser.js";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
 function Navbar() {
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUserById(idUser),
+  });
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  /*  const { user } = useUser(); */
-  const { data, setData } = useUserState();
+
+  const { data } = useUserState();
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
   console.log("query data ", data);
@@ -23,11 +28,6 @@ function Navbar() {
   };
 
   const idUser = localStorage.getItem("idUser")!;
-
-  /* const { data } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getUserById(idUser),
-  }); */
 
   const logout = () => {
     localStorage.clear();
@@ -87,9 +87,9 @@ function Navbar() {
                 <>
                   <div className=" flex flex-row-reverse items-center w-50 gap-2  ">
                     <img
-                      className="w-14 h-12 rounded-full  "
-                      src={`http://localhost:4000/uploads/${data?.image}`}
-                      alt=""
+                      className="w-14 h-14 rounded-full  "
+                      src={`http://localhost:4000/uploads/users/${data?.image}`}
+                      alt={data?.image}
                     />
 
                     <h3 className="flex items-center gap-2">

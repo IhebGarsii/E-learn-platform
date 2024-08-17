@@ -45,7 +45,7 @@ coursesRouter.post("/addCourse", uploadFields, AddCourse);
 
 coursesRouter.get("/getAllCourses", getAllCourses);
 coursesRouter.get("/getCourse/:idCourse", getCourse);
-coursesRouter.get("/addCommentToVideo", addCommentToVideo);
+coursesRouter.post("/addCommentToVideo", addCommentToVideo);
 coursesRouter.delete("/deleteCourse/:idUser/:idCourse", deleteCourse);
 coursesRouter.put("/updateCourse/:idUser/:idCourse", updateCourse);
 coursesRouter.put("/rate/:idCourse", rateCourse);
