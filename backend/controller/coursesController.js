@@ -147,11 +147,15 @@ const getComments = async (req, res) => {
     console.log("Video List ID:", videoListId);
     console.log("Video ID:", idVideoId);
 
-    // Find the document with the specified videoListId and populate comments
+    // Find the document with the specified videoListId and populate comments along with the user who created them
     const videoEntry = await videoCourse
       .findOne({ _id: videoListId })
       .populate({
         path: "video.videoList.comments", // Path to populate comments
+        populate: {
+          path: "givenUser", // Path to populate user in comments
+          model: "userModel", // Model to populate from
+        },
         model: "commentModel", // Model to populate from
       })
       .exec();

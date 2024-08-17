@@ -20,7 +20,6 @@ function Comment({ idVideo, idVid }: commentProps) {
       idVid,
       commentText: comment,
       givenUser: localStorage.getItem("idUser")!,
-      date: Date.now(),
     };
     mutateComment(commentToAdded);
   };
