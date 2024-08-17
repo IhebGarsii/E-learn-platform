@@ -8,7 +8,7 @@ const commentModel = new Schema({
   },
   commentText: {
     type: String,
-
   },
+  date: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model("commentModel", commentModel);

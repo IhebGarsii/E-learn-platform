@@ -3,19 +3,21 @@ import Comment from "../../components/commentair/Comment";
 import { useCourseState } from "../../state/course";
 import { useQuery } from "@tanstack/react-query";
 import { getVideoComments } from "../../api/commentAPI";
+import CommentList from "../../components/commentList/CommentList";
+import { comment } from "../../types/comment";
 
 function VideoPlayer() {
   const { idVideo, idVid } = useParams();
   const { data: course } = useCourseState();
-
-  console.log(course?.video._id!);
 
   const { data: video } = useQuery({
     queryKey: ["video"],
     queryFn: () => getVideoComments(course?.video._id!, idVid!),
     enabled: !!course?.video._id,
   });
-
+  if (!video) {
+    return <div>fddffddffd</div>;
+  }
   return (
     <div className="mt-15  flex flex-col items-center gap-5 justify-center py-16">
       <video
@@ -24,6 +26,11 @@ function VideoPlayer() {
         controls
       ></video>
       <Comment idVideo={idVideo!} idVid={idVid!} />
+
+      {video.comments &&
+        video.comments.map((comment: comment, index: number) => (
+          <CommentList key={index} comment={comment} />
+        ))}
     </div>
   );
 }
