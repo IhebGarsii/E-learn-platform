@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 
@@ -86,7 +86,7 @@ function Navbar() {
                 <>
                   <div className=" flex flex-row-reverse items-center w-50 gap-2  ">
                     <img
-                      className="w-14 h-14 rounded-full  "
+                      className="w-12 h-12 rounded-full  "
                       src={`http://localhost:4000/uploads/users/${data?.image}`}
                       alt={data?.image}
                     />

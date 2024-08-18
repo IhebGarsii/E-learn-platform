@@ -17,7 +17,7 @@ function CommentList({ comment }: any) {
     : "Invalid date";
 
   return (
-    <div className="bg-blue-100 w-[70%] flex flex-col gap-3 p-5">
+    <div className=" w-[50%] flex flex-col gap-3  py-5 px-7">
       <div className="flex items-center gap-2">
         <img
           className="w-10 h-10 rounded-full"
@@ -28,7 +28,7 @@ function CommentList({ comment }: any) {
           <span>{comment.givenUser.firstName} </span>
           {comment.givenUser.lastName} <span></span>
         </h1>
-        <span className="font-light">{formattedDate}</span>
+        <span className="font-light text-sm">{formattedDate}</span>
       </div>
       <p className=""> {comment.commentText} </p>
     </div>
