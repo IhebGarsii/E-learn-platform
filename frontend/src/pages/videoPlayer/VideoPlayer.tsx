@@ -19,18 +19,20 @@ function VideoPlayer() {
     return <div>fddffddffd</div>;
   }
   return (
-    <div className="mt-15  flex flex-col items-center gap-5 justify-center py-16">
+    <div className="mt-15   flex flex-col items-center gap-5 justify-center pt-14">
       <video
-        style={{ width: "70%", height: "100%" }}
+        style={{ width: "90%", height: "100%" }}
         src={`http://localhost:4000/uploads/courses/${idVideo}`}
         controls
       ></video>
-      <Comment idVideo={idVideo!} idVid={idVid!} />
+      <div className="flex flex-col items-start w-[90%]   ">
+        <Comment idVideo={idVideo!} idVid={idVid!} />
 
-      {video.comments &&
-        video.comments.map((comment: comment, index: number) => (
-          <CommentList key={index} comment={comment} />
-        ))}
+        {video.comments &&
+          video.comments.map((comment: comment, index: number) => (
+            <CommentList key={index} comment={comment} />
+          ))}
+      </div>
     </div>
   );
 }

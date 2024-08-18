@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { addCommentToVideo } from "../../api/commentAPI";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { comment } from "../../types/comment";
 import { useUserState } from "../../state/user";
 type commentProps = {
@@ -12,7 +12,7 @@ function Comment({ idVideo, idVid }: commentProps) {
 
   const { data: user } = useUserState();
 
-  const handleComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
   const addComment = () => {
@@ -23,6 +23,7 @@ function Comment({ idVideo, idVid }: commentProps) {
     };
     mutateComment(commentToAdded);
   };
+
   const { mutate: mutateComment } = useMutation({
     mutationFn: (data: comment) => addCommentToVideo(data),
     onSuccess: () => {
@@ -33,20 +34,20 @@ function Comment({ idVideo, idVid }: commentProps) {
     },
   });
   return (
-    <div className="flex  ">
-      <img
-        className="w-16 h-16 rounded-full"
-        src={`http://localhost:4000/uploads/users/${user?.image}`}
-        alt=""
-      />
-      <span> {user?.firstName} </span> <span> {user?.lastName} </span>
-      <input
-        className="outline-blue-700 bg-gray-100"
-        type="text"
+    <div className="flex flex-col items-start gap-5  w-[50%]  ">
+      <textarea
+        className="outline-blue-700 border-gray border bg-gray-100 h-20 w-full p-3  "
         value={comment}
+        placeholder="Write a comment..."
         onChange={handleComment}
-      />
-      <button onClick={addComment}>add comment</button>
+      ></textarea>
+
+      <button
+        className="bg-blue-700 text-white py-2 px-3 rounded hover:bg-blue-800"
+        onClick={addComment}
+      >
+        add comment
+      </button>
     </div>
   );
 }
