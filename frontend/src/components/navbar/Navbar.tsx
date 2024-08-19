@@ -7,12 +7,23 @@ import { useUserState } from "../../state/user.js";
 import useLoginUser from "../../utl/useLoginUser.js";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
+import { FaCartShopping } from "react-icons/fa6";
+import { getUserCart } from "../../api/cartAPI.js";
+
 function Navbar() {
+  const idUser = localStorage.getItem("idUser")!;
+
   const { data: user } = useQuery({
     queryKey: ["user"],
     queryFn: () => getUserById(idUser),
+    enabled: !!idUser,
   });
-
+  const { data: cart } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => getUserCart(idUser),
+    enabled: !!idUser,
+  });
+  console.log(cart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
 
@@ -25,8 +36,6 @@ function Navbar() {
   const handelProfile = () => {
     setProfileMenu(!profileMenu);
   };
-
-  const idUser = localStorage.getItem("idUser")!;
 
   const logout = () => {
     localStorage.clear();
@@ -84,7 +93,7 @@ function Navbar() {
             <div className=" relative">
               {logedin ? (
                 <>
-                  <div className=" flex flex-row-reverse items-center w-50 gap-2  ">
+                  <div className=" flex flex-row-reverse items-center w-50 gap-3  ">
                     <img
                       className="w-12 h-12 rounded-full  "
                       src={`http://localhost:4000/uploads/users/${data?.image}`}
@@ -101,6 +110,12 @@ function Navbar() {
                       src={img}
                       alt=""
                     />
+                    <h1 className="releative mr-2 cursor-pointer">
+                      <FaCartShopping />
+                      <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-2 top-0">
+                        {cart?.quantity}
+                      </span>
+                    </h1>
                   </div>
                   {profileMenu && (
                     <div className="absolute z-10 bg-gray-300 p-2 h-fit ">
