@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
+import SmallCart from "../cartComponents/SmallCart.js";
 
 function Navbar() {
   const idUser = localStorage.getItem("idUser")!;
@@ -23,7 +24,6 @@ function Navbar() {
     queryFn: () => getUserCart(idUser),
     enabled: !!idUser,
   });
-  console.log(cart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
 
@@ -116,6 +116,7 @@ function Navbar() {
                         {cart?.quantity}
                       </span>
                     </h1>
+                    <SmallCart cart={cart} />
                   </div>
                   {profileMenu && (
                     <div className="absolute z-10 bg-gray-300 p-2 h-fit ">

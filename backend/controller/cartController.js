@@ -39,7 +39,16 @@ const addToCart = async (req, res) => {
 const getUserCart = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const cart = await cartModel.findOne({ idUser }).populate("courses");
+    const cart = await cartModel
+      .findOne({ idUser })
+      .populate("courses")
+      .populate({
+        path: "courses",
+        populate: {
+          path: "instructorId", // Path to populate user in comments
+          model: "userModel", // Model to populate from
+        },
+      });
     console.log(cart);
 
     return res.status(200).json(cart);

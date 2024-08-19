@@ -36,7 +36,9 @@ function Courses() {
       </div>
       <div className="grid grid-cols-1 m-5 lg:grid-cols-2 xl:grid-cols-3 items-center justify-center w-full gap-2">
         {filter && filter.length > 0 ? (
-          filter.map((course) => <CourseCard {...course} key={course._id} />)
+          filter.map((course) => (
+            <CourseCard course={course} key={course._id} />
+          ))
         ) : (
           <div>No course data available</div>
         )}
