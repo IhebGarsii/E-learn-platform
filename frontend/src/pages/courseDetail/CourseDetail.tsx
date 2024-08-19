@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
@@ -8,10 +8,13 @@ import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
 import DOMPurify from "dompurify";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/state";
+import { addToCartRedux } from "../../redux/cartSlice/cartSlice";
+import { addToCart } from "../../api/cartAPI";
 
 function CourseDetail() {
-  const { idCourse } = useParams(); // Extract course ID from URL params
-
+  const { idCourse } = useParams();
   const [desc, setDesc] = useState(false);
 
   // Fetch course data using React Query
@@ -20,40 +23,54 @@ function CourseDetail() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["course"], // Unique key based on course ID
+    queryKey: ["course", idCourse], // Include idCourse in the queryKey
     queryFn: () => getCourse(idCourse!),
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
   });
-  console.log("course", course);
+  const queryClient = useQueryClient();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const cartCourses = useSelector((state: RootState) => state.cart);
+
+  const { mutate: mutateCart } = useMutation({
+    mutationFn: (data: string) =>
+      addToCart(data, localStorage.getItem("idUser")!),
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      console.log("added to cart ", data);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+  });
+  const handleAddToCart = () => {
+    if (course) {
+      dispatch(addToCartRedux({ idCourse: course._id, price: course.price }));
+
+      mutateCart(course._id);
+    }
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading course data.</div>;
   if (!course) return <div>No course found.</div>;
 
-  // Sanitize the HTML description
-  const sanitizedHtml = course.description
-    ? DOMPurify.sanitize(course.description)
-    : "";
-  const toggleDescription = () => {
-    setDesc(!desc);
-  };
+  const sanitizedHtml = DOMPurify.sanitize(course.description || "");
+
   return (
     <div className="flex min-h-full gap-0 flex-col lg:w-[90%] md:mt-9 md:flex-row lg:justify-start  md:items-start mt-12  mx-auto md:gap-10 items-center">
       <div className="flex-1  flex flex-col w-full md:max-w-[70%]  p-4">
-        <div className="bg-[#2C3539] rounded-md p-5 ">
+        <div className="bg-[#2C3539] rounded-md p-5">
           <h1 className="text-4xl text-white">{course.title}</h1>
           <h1 className="text-2xl text-white">{course.secondTitle}</h1>
-          <div className=" text-white flex items-center gap-2 p-2  ">
+          <div className="text-white flex items-center gap-2 p-2">
             <span>{course.avgRate.rate}</span>
-
-            <span>
-              <Rating
-                className="text-xs"
-                style={{ maxWidth: 250, width: 100 }}
-                value={course.avgRate.rate}
-                readOnly
-              />
-            </span>
+            <Rating
+              className="text-xs"
+              style={{ maxWidth: 250, width: 100 }}
+              value={course.avgRate.rate}
+              readOnly
+            />
             <span className="whitespace-nowrap">
               ({course.avgRate.nbRate} ratings)
             </span>
@@ -79,19 +96,19 @@ function CourseDetail() {
         <p>{course.requirements}</p>
         <h1 className="text-xl font-bold">Description:</h1>
         <div
-          className={desc ? "text-sm h-fit  " : " overflow-hidden  max-h-40 "}
+          className={desc ? "text-sm h-fit" : "overflow-hidden max-h-40"}
           dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
         />
         <button
           className="mt-2 text-blue-500 hover:underline"
-          onClick={toggleDescription}
+          onClick={() => setDesc(!desc)}
         >
           {desc ? "see less" : "see more"}
         </button>
       </div>
 
-      <div className="flex-1  md:fixed md:right-0 md:w-[25%]  shadow-md border mb-32 p-4">
-        <div className="flex w-[100%] flex-col gap-5  ">
+      <div className="flex-1 md:fixed md:right-0 md:w-[25%] shadow-md border mb-32 p-4">
+        <div className="flex w-[100%] flex-col gap-5">
           <video className="w-full h-52" controls>
             <source
               src="https://www.youtube.com/watch?v=fQTsENCG7YU"
@@ -101,7 +118,10 @@ function CourseDetail() {
           <div className="flex flex-col">
             <div className="flex flex-col w-[100%] gap-4">
               <span className="text-4xl font-bold">${course.price}</span>
-              <button className="w-[90%] md:w-[70%] bg-dark-blue text-white text-xl rounded h-10 mx-auto">
+              <button
+                onClick={handleAddToCart}
+                className="w-[90%] md:w-[70%] bg-dark-blue text-white text-xl rounded h-10 mx-auto"
+              >
                 Add to cart
               </button>
               <button className="w-[90%] md:w-[70%] border-2 border-black text-black text-xl rounded h-10 mx-auto">
@@ -141,8 +161,8 @@ function CourseDetail() {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-0 bg-white w-[77%] flex justify-center py-3  md:hidden">
-        <span className="text-2xl flex justify-center items-center px-2  font-bold">
+      <div className="fixed bottom-0 bg-white w-[77%] flex justify-center py-3 md:hidden">
+        <span className="text-2xl flex justify-center items-center px-2 font-bold">
           ${course.price}
         </span>
         <button className="bg-dark-blue text-white text-xl rounded h-12 w-[80%] mx-auto">
