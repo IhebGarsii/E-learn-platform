@@ -110,13 +110,19 @@ function Navbar() {
                       src={img}
                       alt=""
                     />
-                    <h1 className="releative mr-2 cursor-pointer">
-                      <FaCartShopping />
-                      <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-2 top-0">
-                        {cart?.quantity}
-                      </span>
-                    </h1>
-                    <SmallCart cart={cart} />
+                    <div className="relative group">
+                      <h1 className="relative mr-2 cursor-pointer">
+                        <FaCartShopping />
+                        <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-2 top-0">
+                          {cart?.quantity}
+                        </span>
+                      </h1>
+
+                      {/* SmallCart component, initially hidden, shown on hover */}
+                      <div className="absolute top-full right-0 hidden group-hover:block">
+                        <SmallCart cart={cart} />
+                      </div>
+                    </div>
                   </div>
                   {profileMenu && (
                     <div className="absolute z-10 bg-gray-300 p-2 h-fit ">
