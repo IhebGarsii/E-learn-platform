@@ -113,7 +113,7 @@ function Navbar() {
                     <div className="relative group ">
                       <h1 className="relative mr-2 cursor-pointer">
                         <FaCartShopping />
-                        <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-2 top-0">
+                        <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-4 bottom-4">
                           {cart?.quantity}
                         </span>
                       </h1>
