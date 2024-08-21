@@ -43,7 +43,7 @@ function CourseContent({ video }: CourseContentProps) {
                       className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
                     >
                       <span> {} </span>
-                      <MdOutlineOndemandVideo /> {video.videoName.split(".")[0]}
+                      <MdOutlineOndemandVideo /> {video.videoName?.split(".")[0]}
                     </Link>
                   </div>
                 ))}

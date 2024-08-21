@@ -20,8 +20,7 @@ function SmallCart({ cart }: smallCartProp) {
             />
             <div className="flex flex-col">
               <span className="text-lg font-semibold overfolw-hidden">
-                {" "}
-                {course.title}{" "}
+                {course.title}
               </span>
               <span className="text-sm text-gray-400 font-light">
                 {course.instructorId.firstName} {course.instructorId.lastName}

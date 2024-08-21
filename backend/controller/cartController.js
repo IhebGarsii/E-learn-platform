@@ -4,15 +4,12 @@ const addToCart = async (req, res) => {
   try {
     const { idUser, idCourse } = req.params;
     const course = await coursesModel.findById(idCourse);
-    console.log(course);
 
     if (!course) {
-      console.log(idCourse);
       return res.status(404).json({ message: "Course not found" });
     }
 
     const cartt = await cartModel.findOne({ idUser });
-    console.log(cartt, "cartt");
 
     if (!cartt) {
       console.log("!cartt");
@@ -25,7 +22,11 @@ const addToCart = async (req, res) => {
       return res.status(201).json(cart);
     }
     console.log("cart");
-
+    const exist = cartt.courses.find((courseId) => courseId.equals(idCourse));
+    if (exist) {
+      return res.status(301).json("you already have this course in the cart");
+    }
+    console.log(exist, "exist");
     cartt.quantity++;
     cartt.totalPrice += course.price;
     cartt.courses.push(idCourse);
@@ -49,7 +50,6 @@ const getUserCart = async (req, res) => {
           model: "userModel", // Model to populate from
         },
       });
-    console.log(cart);
 
     return res.status(200).json(cart);
   } catch (error) {
