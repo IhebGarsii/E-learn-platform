@@ -93,7 +93,7 @@ function Navbar() {
             <div className=" relative">
               {logedin ? (
                 <>
-                  <div className=" flex flex-row-reverse items-center w-50 gap-3  ">
+                  <div className=" flex flex-row-reverse items-center w-50 gap-6  ">
                     <img
                       className="w-12 h-12 rounded-full  "
                       src={`http://localhost:4000/uploads/users/${data?.image}`}
@@ -110,7 +110,7 @@ function Navbar() {
                       src={img}
                       alt=""
                     />
-                    <div className="relative group">
+                    <div className="relative group ">
                       <h1 className="relative mr-2 cursor-pointer">
                         <FaCartShopping />
                         <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-2 top-0">
@@ -118,8 +118,8 @@ function Navbar() {
                         </span>
                       </h1>
 
-                      {/* SmallCart component, initially hidden, shown on hover */}
-                      <div className="absolute top-full right-0 hidden group-hover:block">
+                      {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
+                      <div className="absolute top-1  right-0  hidden pt-10 w-fit group-hover:block hover:block z-10">
                         <SmallCart cart={cart} />
                       </div>
                     </div>

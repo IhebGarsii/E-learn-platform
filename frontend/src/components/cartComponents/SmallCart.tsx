@@ -7,7 +7,7 @@ type smallCartProp = {
 function SmallCart({ cart }: smallCartProp) {
   return (
     <>
-      <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-5 border-gray border fixed top-16 right-48">
+      <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-5 border-gray border ">
         {cart?.courses.map((course) => (
           <div
             key={course._id}
@@ -32,7 +32,7 @@ function SmallCart({ cart }: smallCartProp) {
         ))}
       </div>
       <div className=" absolute top-80 right-36 h-16 flex items-center p-5  w-72 bg-white border-2 ">
-        <h1 className="  font-semibold text-xl">total: {cart.totalPrice}$ </h1>
+        <h1 className="  font-semibold text-xl">total: {cart?.totalPrice}$ </h1>
       </div>
     </>
   );
