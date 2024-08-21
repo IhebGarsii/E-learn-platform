@@ -1,6 +1,8 @@
 const cartModel = require("../model/cartModel");
 const coursesModel = require("../model/coursesModel");
 const addToCart = async (req, res) => {
+  console.log("aa");
+
   try {
     const { idUser, idCourse } = req.params;
     const course = await coursesModel.findById(idCourse);
@@ -19,14 +21,16 @@ const addToCart = async (req, res) => {
         totalPrice: course.price,
         idUser,
       });
+
       return res.status(201).json(cart);
     }
-    console.log("cart");
-    const exist = cartt.courses.find((courseId) => courseId.equals(idCourse));
+
+    const exist = cartt.courses.find((courseId) => courseId.equals("dffdfdfd"));
+    console.log(exist, "exeeeeeeeeeeeeeeist");
+
     if (exist) {
-      return res.status(301).json("you already have this course in the cart");
+      return res.status(500).json("you already have this course in the cart");
     }
-    console.log(exist, "exist");
     cartt.quantity++;
     cartt.totalPrice += course.price;
     cartt.courses.push(idCourse);
@@ -57,18 +61,33 @@ const getUserCart = async (req, res) => {
     return res.status(500).error;
   }
 };
-const remouveFromCart = async (req, res) => {
+const removeFromCart = async (req, res) => {
   try {
-    const { idUser, idCourse } = req.params;
-    const cart = await cartModel.findOne({ idUser });
-    cart.courses.filter((courses) => courses === idCourse);
+    const { idCourse, idCart } = req.params;
+    const cart = await cartModel.findById(idCart);
     if (!cart) {
       return res.status(404).json("Cart Not Found");
     }
+
+    cart.courses = cart.courses.filter(
+      (course) => course.toString() !== idCourse
+    );
+
+    cart.quantity = cart.courses.length;
+    const course = await coursesModel.findById(idCourse);
+    if (course) {
+      cart.totalPrice -= course.price;
+    }
+
+    await cart.save();
+
     return res.status(201).json(cart);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "An error occurred while removing the item from the cart.",
+    });
   }
 };
 
-module.exports = { addToCart, getUserCart };
+module.exports = { addToCart, getUserCart, removeFromCart };

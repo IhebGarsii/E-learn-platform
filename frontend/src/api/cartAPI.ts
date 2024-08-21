@@ -24,6 +24,25 @@ export const getUserCart = async (idUser: string) => {
     throw error;
   }
 };
+export const removeFromCart = async (idCourse: string, idCart: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/removeFromCart/${idCart}/${idCourse}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-export const remouveFromCart = async () => {};
+    if (!response.ok) {
+      const errorMessage = `Error: ${response.status} - ${response.statusText}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to remove from cart:", error);
+    throw error;
+  }
+};
+
 export const updateProductQuantity = async () => {};
