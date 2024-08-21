@@ -8,14 +8,13 @@ const createToken = (id) => {
 
 const registerInstroctor = async (req, res) => {
   try {
-    console.log(req.body);
+   
 
     const user = await userModel.find({ email: req.body.email });
     if (user.length > 0) {
       return res.status(300).json("email is used");
     }
     const image = req.file.originalname;
-    console.log(image);
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
     const newUser = userModel.create({ ...req.body, password: hash, image });
@@ -33,7 +32,7 @@ const login = async (req, res) => {
     if (req.body.google) {
       const { email } = req.body;
       const user = await userModel.findOne({ email });
-      console.log(user);
+
 
       if (user === null || user.length === 0) {
         return res.status(404).json("User Not Found please regester");
@@ -86,7 +85,7 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json("No user Were Found");
     }
-    console.log('ee',user);
+ 
 
     return res.status(200).json(user);
   } catch (error) {

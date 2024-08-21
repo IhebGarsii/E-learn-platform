@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { cartSaved } from "../../types/cart";
 
 type smallCartProp = {
@@ -7,11 +8,12 @@ type smallCartProp = {
 function SmallCart({ cart }: smallCartProp) {
   return (
     <>
-      <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-5 border-gray border ">
-        {cart?.courses.map((course) => (
-          <div
+      <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-3 border-gray border ">
+        {cart?.courses?.map((course) => (
+          <Link
+            to={`/course/${course._id}`}
             key={course._id}
-            className="flex items-center py-3 gap-3 border-b-2 border-gray-500 "
+            className="flex items-center py-2 gap-3 border-b-2 border-gray-500 "
           >
             <img
               className="w-18 h-16"
@@ -27,11 +29,13 @@ function SmallCart({ cart }: smallCartProp) {
               </span>
               <span className="font-bold text-lg "> {course.price} $ </span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
-      <div className=" absolute top-80 right-36 h-16 flex items-center p-5  w-72 bg-white border-2 ">
-        <h1 className="  font-semibold text-xl">total: {cart?.totalPrice}$ </h1>
+      <div className=" absolute top-full right-0 h-16 flex items-center p-5   w-full bg-white border shadow-2xl ">
+        <h1 className=" px-5  font-semibold text-xl">
+          total: {cart?.totalPrice}${" "}
+        </h1>
       </div>
     </>
   );

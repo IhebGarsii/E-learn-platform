@@ -4,9 +4,11 @@ export type cart = {
   courses: string[];
   totalPrice: number;
   quantity: number;
+  _id: string;
 };
 export type cartSaved = {
-  courses: cousers[];
+  courses?: cousers[];
   totalPrice: number;
   quantity: number;
+  _id: string;
 };
