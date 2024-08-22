@@ -1,5 +1,6 @@
 const cartModel = require("../model/cartModel");
 const coursesModel = require("../model/coursesModel");
+const cartRouter = require("../Router/cartRouter");
 const addToCart = async (req, res) => {
   try {
     const { idUser, idCourse } = req.params;
@@ -53,6 +54,7 @@ const getUserCart = async (req, res) => {
           model: "userModel", // Model to populate from
         },
       });
+    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
     return res.status(200).json(cart);
   } catch (error) {
@@ -80,8 +82,9 @@ const removeFromCart = async (req, res) => {
 
     await cart.save();
     console.log("cart", cart);
+    const cartt = await cartModel.findById(idCart).populate("courses");
 
-    return res.status(201).json(cart);
+    return res.status(201).json(cartt);
   } catch (error) {
     console.log(error);
     return res.status(500).json({

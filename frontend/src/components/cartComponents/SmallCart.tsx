@@ -7,7 +7,9 @@ type smallCartProp = {
 
 function SmallCart({ cart }: smallCartProp) {
   console.log("small", cart);
-
+if(!cart){
+  return <div className="mt-20">your cart is empty</div>
+}
   return (
     <>
       <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-3 border-gray border ">
