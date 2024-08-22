@@ -25,7 +25,7 @@ const addToCart = async (req, res) => {
       });
       return res.status(201).json(cart);
     }
-    const exist = cartt.courses.find((courseId) => courseId.equals("dffdfdfd"));
+    const exist = cartt.courses.find((courseId) => courseId.equals(idCourse));
     console.log(exist, "exeeeeeeeeeeeeeeist");
     if (exist) {
       return res.status(500).json("you already have this course in the cart");
@@ -54,7 +54,7 @@ const getUserCart = async (req, res) => {
           model: "userModel", // Model to populate from
         },
       });
-    console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    console.log("cart");
 
     return res.status(200).json(cart);
   } catch (error) {
