@@ -125,11 +125,11 @@ function Navbar() {
                         </span>
                       </Link>
                       {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
-                      {/* {cart && (
+                      {cart && (
                         <div className="absolute top-1 right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">
                           <SmallCart cart={cart} />
                         </div>
-                      )} */}
+                      )}
                     </div>
                   </div>
                   {profileMenu && (

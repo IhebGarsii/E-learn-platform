@@ -44,10 +44,10 @@ function ShopingCart() {
               {typeof course.instructorId !== "string" && (
                 <Link
                   className=" text-blue-500 text-sm"
-                  to={`/instructor/${course.instructorId._id}`}
+                  to={`/instructor/${course.instructorId?._id}`}
                 >
-                  By {course.instructorId.firstName}
-                  {course.instructorId.lastName}
+                  By {course.instructorId?.firstName}
+                  {course.instructorId?.lastName}
                 </Link>
               )}
 
