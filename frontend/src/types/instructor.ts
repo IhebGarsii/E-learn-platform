@@ -1,7 +1,7 @@
 import { cousers } from "./course";
 
 export type instructor = {
-  courses: cousers;
+  courses: cousers[];
   createdAt: Date;
   email: string;
   firstName: string;

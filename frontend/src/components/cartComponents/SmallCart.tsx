@@ -6,6 +6,8 @@ type smallCartProp = {
 };
 
 function SmallCart({ cart }: smallCartProp) {
+  console.log("small", cart);
+
   return (
     <>
       <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-3 border-gray border ">
@@ -24,9 +26,11 @@ function SmallCart({ cart }: smallCartProp) {
               <span className="text-lg font-semibold overfolw-hidden">
                 {course.title}
               </span>
-              <span className="text-sm text-gray-400 font-light">
-                {course.instructorId.firstName} {course.instructorId.lastName}
-              </span>
+              {typeof course.instructorId !== "string" && (
+                <span className="text-sm text-gray-400 font-light">
+                  {course.instructorId.firstName} {course.instructorId.lastName}
+                </span>
+              )}
               <span className="font-bold text-lg "> {course.price} $ </span>
             </div>
           </Link>
