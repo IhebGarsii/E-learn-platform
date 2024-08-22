@@ -1,4 +1,8 @@
 import { createGlobalState } from ".";
-import { cart, cartSaved } from "../types/cart";
+import { cartSaved } from "../types/cart";
 
-export const useCartState = createGlobalState<cartSaved>("cart")
+export const useCartState = createGlobalState<cartSaved>("cart", {
+  quantity: 0,
+  totalPrice: 5,
+  _id: "",
+});

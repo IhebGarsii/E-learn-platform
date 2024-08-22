@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { cousers } from "../../types/course";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "../../api/cartAPI";
+import { useCartState } from "../../state/cart";
 type courseCardProps = {
   course: cousers;
 };
@@ -10,7 +11,7 @@ function CourseCard({ course }: courseCardProps) {
     return <div>No course data available</div>;
   }
   const queryClient = useQueryClient();
-
+  const { setData } = useCartState();
   // Ensure avgRate and avgRate.rate are valid numbers
   const rate = course.avgRate?.rate || 0;
   const formattedRate = typeof rate === "number" ? rate.toFixed(1) : "0.0";
@@ -25,7 +26,7 @@ function CourseCard({ course }: courseCardProps) {
     },
     onSuccess: (data) => {
       console.log("added to cart ", data);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      setData({ ...data });
     },
   });
   const handleAddToCart = () => {

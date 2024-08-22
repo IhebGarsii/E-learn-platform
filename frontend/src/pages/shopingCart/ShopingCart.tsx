@@ -4,7 +4,7 @@ import { removeFromCart } from "../../api/cartAPI";
 import { Link } from "react-router-dom";
 import { Rating } from "@smastrom/react-rating";
 function ShopingCart() {
-  const { data: cart, resetData } = useCartState();
+  const { data: cart } = useCartState();
   const queryClient = useQueryClient();
   console.log("ttttt", cart);
 
@@ -44,13 +44,16 @@ function ShopingCart() {
               <h1 className="text-lg font-semibold lg:text-xl lg:font-bold ">
                 {course.title}
               </h1>
-              <Link
-                className=" text-blue-500 text-sm"
-                to={`/instructor/${course.instructorId._id}`}
-              >
-                By {course.instructorId.firstName}{" "}
-                {course.instructorId.lastName}
-              </Link>
+              {typeof course.instructorId !== "string" && (
+                <Link
+                  className=" text-blue-500 text-sm"
+                  to={`/instructor/${course.instructorId._id}`}
+                >
+                  By {course.instructorId.firstName}
+                  {course.instructorId.lastName}
+                </Link>
+              )}
+
               <div className="flex gap-1 items-center">
                 <span className="font-bold">{course.avgRate.rate}</span>
                 <Rating

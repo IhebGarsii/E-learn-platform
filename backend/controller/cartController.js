@@ -1,18 +1,19 @@
 const cartModel = require("../model/cartModel");
 const coursesModel = require("../model/coursesModel");
 const addToCart = async (req, res) => {
-  console.log("aa");
-
   try {
     const { idUser, idCourse } = req.params;
     const course = await coursesModel.findById(idCourse);
-
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
-
-    const cartt = await cartModel.findOne({ idUser });
-
+    const cartt = await cartModel
+      .findOne({ idUser })
+      .populate("courses")
+      .populate({
+        path: "courses.studentsId",
+        model: "userModel",
+      });
     if (!cartt) {
       console.log("!cartt");
       const cart = await cartModel.create({
@@ -21,13 +22,10 @@ const addToCart = async (req, res) => {
         totalPrice: course.price,
         idUser,
       });
-
       return res.status(201).json(cart);
     }
-
     const exist = cartt.courses.find((courseId) => courseId.equals("dffdfdfd"));
     console.log(exist, "exeeeeeeeeeeeeeeist");
-
     if (exist) {
       return res.status(500).json("you already have this course in the cart");
     }
@@ -35,6 +33,7 @@ const addToCart = async (req, res) => {
     cartt.totalPrice += course.price;
     cartt.courses.push(idCourse);
     await cartt.save();
+    console.log("cartt", cartt);
     return res.status(201).json(cartt);
   } catch (error) {
     console.log(error);
@@ -80,6 +79,7 @@ const removeFromCart = async (req, res) => {
     }
 
     await cart.save();
+    console.log("cart", cart);
 
     return res.status(201).json(cart);
   } catch (error) {
