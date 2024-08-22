@@ -30,7 +30,7 @@ if(!cart){
               </span>
               {typeof course.instructorId !== "string" && (
                 <span className="text-sm text-gray-400 font-light">
-                  {course.instructorId.firstName} {course.instructorId.lastName}
+                  {course.instructorId?.firstName} {course.instructorId?.lastName}
                 </span>
               )}
               <span className="font-bold text-lg "> {course.price} $ </span>
