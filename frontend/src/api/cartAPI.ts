@@ -27,10 +27,7 @@ export const getUserCart = async (idUser: string) => {
 export const removeFromCart = async (idCourse: string, idCart: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/removeFromCart/${idCart}/${idCourse}`,
-      {
-        method: "DELETE",
-      }
+      `${BASE_URL}/removeFromCart/${idCart}/${idCourse}`
     );
 
     if (!response.ok) {

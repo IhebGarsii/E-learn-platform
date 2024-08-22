@@ -4,20 +4,17 @@ import { removeFromCart } from "../../api/cartAPI";
 import { Link } from "react-router-dom";
 import { Rating } from "@smastrom/react-rating";
 function ShopingCart() {
-  const { data: cart } = useCartState();
-  const queryClient = useQueryClient();
-  console.log("ttttt", cart);
-
+  const { data: cart, setData } = useCartState();
   const { mutate: mutateRemove } = useMutation({
     mutationFn: (idCourse: string) => removeFromCart(idCourse, cart?._id!),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log("removed from cart ", data);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      setData(data);
     },
   });
+  console.log("shoping", cart);
 
   const handleRemove = (idCourse: string) => {
     if (cart) {

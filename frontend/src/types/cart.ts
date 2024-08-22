@@ -7,8 +7,9 @@ export type cart = {
   _id: string;
 };
 export type cartSaved = {
-  courses?: cousers[];
+  courses: cousers[];
   totalPrice: number;
   quantity: number;
+  idUser: string;
   _id: string;
 };
