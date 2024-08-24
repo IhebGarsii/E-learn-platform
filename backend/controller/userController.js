@@ -8,8 +8,6 @@ const createToken = (id) => {
 
 const registerInstroctor = async (req, res) => {
   try {
-   
-
     const user = await userModel.find({ email: req.body.email });
     if (user.length > 0) {
       return res.status(300).json("email is used");
@@ -17,9 +15,37 @@ const registerInstroctor = async (req, res) => {
     const image = req.file.originalname;
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
-    const newUser = userModel.create({ ...req.body, password: hash, image });
+    const newUser = await userModel.create({
+      ...req.body,
+      password: hash,
+      image,
+    });
+    const token = createToken(newUser._id);
     if (newUser) {
-      return res.status(201).json(newUser);
+      return res.status(201).json({ newUser, token });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const user = await userModel.findByIdAndUpdate(req.body._id, req.body);
+    console.log(user, "ssssssssss");
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt);
+
+    user.image = req.file.originalname;
+    user.password = hash;
+    await user.save();
+    const token = createToken(user._id);
+    if (user) {
+      return res.status(201).json({ user, token });
     }
   } catch (error) {
     console.error(error);
@@ -33,12 +59,11 @@ const login = async (req, res) => {
       const { email } = req.body;
       const user = await userModel.findOne({ email });
 
-
       if (user === null || user.length === 0) {
         return res.status(404).json("User Not Found please regester");
       }
 
-      token = createToken(user._id);
+      const token = createToken(user._id);
       return res.status(200).json({ user, token });
     } else {
       const { email, password } = req.body;
@@ -85,7 +110,6 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json("No user Were Found");
     }
- 
 
     return res.status(200).json(user);
   } catch (error) {
@@ -172,6 +196,7 @@ const deleteAcountByAdmin = async (req, res) => {
   }
 };
 module.exports = {
+  updateUser,
   registerInstroctor,
   registerStudent,
   login,

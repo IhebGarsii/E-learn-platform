@@ -40,6 +40,23 @@ export const signup = async (formData: FormData) => {
   }
 };
 
+export const updateUser = async (formData: FormData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/updateUser`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 export const getUserById = async (idUser: string) => {
   const user = await fetch(`${BASE_URL}/getUserById/${idUser}`);
   if (!user.ok) {

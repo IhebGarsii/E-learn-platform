@@ -12,6 +12,7 @@ const {
   deleteAcount,
   deleteAcountByAdmin,
   getUserById,
+  updateUser,
 } = require("../controller/userController");
 const userRouer = express.Router();
 const upload = multer({
@@ -29,6 +30,7 @@ const upload = multer({
 });
 
 userRouer.post("/register", upload.single("image"), registerInstroctor);
+userRouer.put("/updateUser", upload.single("image"), updateUser);
 userRouer.post("/login", login);
 userRouer.get("/getStutent", getStutent);
 userRouer.get("/getUserById/:idUser", getUserById);
