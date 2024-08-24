@@ -29,9 +29,9 @@ function ShopingCart() {
       <h1 className="text-center p-3 text-xl  lg:text-3xl font-bold">
         You Have {cart?.quantity} Items In Your Cart
       </h1>
-      <div className="flex items-center flex-col mx-auto">
+      <div className="flex items-center w-[80%] flex-col lg:items-start  lg:flex-row gap-5 mx-auto">
         <CartCoupon />
-        <nav className="w-full  mx-auto">
+        <nav className="w-full mx-auto">
           {cart?.courses?.map((course) => (
             <CartRow course={course} onRemove={handleRemove} />
           ))}

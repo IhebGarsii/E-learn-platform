@@ -7,6 +7,7 @@ import SignUp from "../../pages/signUp/SignUp";
 import CourseDetail from "../../pages/courseDetail/CourseDetail";
 import VideoPlayer from "../../pages/videoPlayer/VideoPlayer";
 import ShopingCart from "../../pages/shopingCart/ShopingCart";
+import Profile from "../../pages/profile/Profile";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ function SideBar() {
           </ul>
         </div>
       )}
-      <div className="min-h-screen  w-fit flex-1">
+      <div className="min-h-screen  overflow-hidden w-fit flex-1">
         <Routes>
           <Route path="/Courses" element={<Courses />} />
           <Route path="login" element={<Login />} />
@@ -89,6 +90,7 @@ function SideBar() {
             element={<VideoPlayer />}
           />
           <Route path="/cart/:idUser" element={<ShopingCart />} />
+          <Route path="/profile/:idUser" element={<Profile />} />
         </Routes>
       </div>
     </div>

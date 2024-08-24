@@ -15,6 +15,7 @@ function CartCoupon() {
     };
     fetchCoupon();
   }, [coupon]);
+  let totalPrice = cart?.totalPrice;
   const handleCoupon = () => {
     if (cart) {
       const updatedCourse = cart.courses.map((course) => ({
@@ -25,7 +26,24 @@ function CartCoupon() {
     }
   };
   return (
-    <div className="">
+    <div className="flex flex-col gap-2 w-full lg:w-[40%]">
+      <section className="flex flex-col ">
+        <h1 className="lg:text-2xl font-bold">Total:</h1>
+        <span className="lg:text-4xl font-bold"> ${cart?.totalPrice} </span>
+
+        {couponDiscount > 0 ? (
+          <>
+            <span className="line-through text-lg font-bold text-gray-500">
+              ${totalPrice}
+            </span>
+            <span className="font-semibold"> {couponDiscount * 100}% Off </span>
+          </>
+        ) : (
+          <></>
+        )}
+        <button className="p-3 bg-blue-700 w-full text-white font-bold">Checkout</button>
+      </section>
+      <h1 className="font-bold text-lg">Promotions</h1>
       <input
         type="text"
         className="p-2"
