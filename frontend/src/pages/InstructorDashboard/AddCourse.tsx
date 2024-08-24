@@ -6,7 +6,7 @@ import TagInput from "../../components/tagInput/TagInput";
 import VideoUpload from "../../components/videoUpload/VideoUpload";
 import { tags } from "../../types/tags";
 import { cousers } from "../../types/course";
-import { video } from "../../types/video";
+
 
 function AddCourse() {
   const {
@@ -120,7 +120,7 @@ function AddCourse() {
         )}
         <label htmlFor="difficulty">Difficulty Level:</label>
         <select
-          {...register("difficulty")}
+          {...register("difficultyLevel")}
           className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
           id="difficulty"
         >
@@ -131,8 +131,8 @@ function AddCourse() {
           <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
         </select>
-        {errors.difficulty && (
-          <p className="text-red-500">{errors.difficulty.message}</p>
+        {errors.difficultyLevel && (
+          <p className="text-red-500">{errors.difficultyLevel.message}</p>
         )}
         <label htmlFor="price">Price:</label>
         <input

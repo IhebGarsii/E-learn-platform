@@ -25,10 +25,6 @@ function Navbar() {
     queryFn: () => getUserCart(idUser),
     enabled: !!idUser,
   });
-  console.log("idUser before user query:", idUser);
-  console.log("User data:", user);
-  console.log("idUser before cart query:", idUser);
-  console.log("Cart data:", cart);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
@@ -49,11 +45,11 @@ function Navbar() {
 
   return (
     <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
-      <header className="bg-white">
-        <nav className="flex justify-between items-center w-[92%] mx-auto">
+      <header className="bg-white ">
+        <nav className="flex justify-between items-center w-fit  mx-auto">
           <div>
             <img
-              className="w-16 cursor-pointer"
+              className="w-12 cursor-pointer"
               src="https://cdn-icons-png.flaticon.com/512/5968/5968204.png"
               alt="Logo"
             />
@@ -100,7 +96,7 @@ function Navbar() {
                 <>
                   <div className="flex flex-row-reverse items-center w-50 gap-6">
                     <img
-                      className="w-12 h-12 rounded-full"
+                      className="w-10 h-10 rounded-full"
                       src={`http://localhost:4000/uploads/users/${user?.image}`}
                       alt={user?.image}
                     />
@@ -126,7 +122,7 @@ function Navbar() {
                       </Link>
                       {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
                       {cart && (
-                        <div className="absolute top-1 right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">
+                        <div className="absolute md:top-1 md:right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">
                           <SmallCart cart={cart} />
                         </div>
                       )}

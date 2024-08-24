@@ -6,7 +6,6 @@ type smallCartProp = {
 };
 
 function SmallCart({ cart }: smallCartProp) {
-  console.log("small", cart);
 if(!cart){
   return <div className="mt-20">your cart is empty</div>
 }
@@ -17,10 +16,10 @@ if(!cart){
           <Link
             to={`/course/${course._id}`}
             key={course._id}
-            className="flex items-center py-2 gap-3 border-b-2 border-gray-500 "
+            className="flex items-start py-2 gap-3 border-b-2 border-gray-500 "
           >
             <img
-              className="w-18 h-16"
+              className="w-18 h-16 mt-3"
               src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
               alt=""
             />
@@ -33,7 +32,7 @@ if(!cart){
                   {course.instructorId?.firstName} {course.instructorId?.lastName}
                 </span>
               )}
-              <span className="font-bold text-lg "> {course.FisstName} $ </span>
+              <span className="font-bold text-lg "> {course.price} $ </span>
             </div>
           </Link>
         ))}

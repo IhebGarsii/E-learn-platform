@@ -8,18 +8,21 @@ type cartRowProps = {
 };
 function CartRow({ course, onRemove }: cartRowProps) {
   return (
-    <section key={course._id} className="grid lg:grid-cols-3 border-b-2">
-      <main className="flex">
-        <div className="flex gap-3 ">
+    <section
+      key={course._id}
+      className="flex flex-wrap w-[70%] bg-red-300 border-b-2 lg:justify-between"
+    >
+      <main className="flex justify-between lg:-w-ful bg-blue-400 ">
+        <div className="flex gap-2 w-[90%] ">
           <Link to={`/course/${course._id}`}>
             <img
-              className="min-w-24  h-16 lg:w-40 lg:h-24"
+              className="min-w-16  h-14 lg:w-40 lg:h-24"
               src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
               alt=""
             />
           </Link>
           <div className="">
-            <h1 className="text-lg font-semibold lg:text-xl lg:font-bold ">
+            <h1 className="text-sm font-bold w-[95%] md:w-fit lg:text-xl lg:font-bold ">
               {course.title}
             </h1>
             {typeof course.instructorId !== "string" && (
@@ -44,29 +47,31 @@ function CartRow({ course, onRemove }: cartRowProps) {
                 ({course.avgRate.nbRate} ratings)
               </span>
             </div>
-            <ul className="flex space-x-2 text-xs font-light">
-              <li className="whitespace-nowrap">
+            <nav className="flex w-full  justify-between md:justify-start md:gap-3">
+              <h2 className="whitespace-nowrap text-xs">
                 {course.duration} Total Hours
-              </li>
-              <li className="whitespace-nowrap">
+              </h2>
+              <h2 className="whitespace-nowrap text-xs">
                 {course.articles} Total Articles
-              </li>
-              <li className="whitespace-nowrap">
-                {/*  {course.difficulty} Difficulty Level */}
-              </li>
-            </ul>
+              </h2>
+              <h2 className="whitespace-nowrap text-xs">
+                {course.difficultyLevel} Difficulty Level
+              </h2>
+            </nav>
           </div>
         </div>
-        <div className="font-black text-blue-900 text-xl">${course.price}</div>
+        <div className="font-black text-blue-900 text-md w-[10%]">
+          ${course.price}
+        </div>
       </main>
-      <div className="flex gap-3 ">
+      <div className="flex gap-3 lg:flex-col ">
         <button
           onClick={() => onRemove(course._id)}
-          className="bg-red-500  hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded"
+          className="bg-red-500  hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded lg:h-10"
         >
           Remove
         </button>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-sm py-1 px-2 rounded">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-sm py-1 px-2 rounded lg:h-10">
           Buy Now
         </button>
       </div>

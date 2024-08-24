@@ -25,7 +25,6 @@ function CourseCard({ course }: courseCardProps) {
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log("added to cart ", data);
       /* queryClient.invalidateQueries({ queryKey: ["cart"] }); */
       setData(data);
     },
