@@ -7,9 +7,11 @@ function CartCoupon() {
   const { data: cart, setData } = useCartState();
   useEffect(() => {
     const fetchCoupon = async () => {
-      const res = await fetch(`http://localhost:4000/coupon/${coupon}`);
+      const res = await fetch(
+        `http://localhost:4000/coupon/getCoupon/${coupon}`
+      );
       const data = await res.json();
-      setCouponDiscount(data);
+      setCouponDiscount(data.discount);
     };
     fetchCoupon();
   }, [coupon]);
@@ -25,7 +27,7 @@ function CartCoupon() {
   return (
     <div className="">
       <input
-        type="number"
+        type="text"
         className="p-2"
         placeholder="coupon"
         onChange={(e) => setCoupon(e.target.value)}
