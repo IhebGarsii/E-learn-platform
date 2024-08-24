@@ -22,7 +22,7 @@ function CartRow({ course, onRemove }: cartRowProps) {
             />
           </Link>
           <div className="">
-            <h1 className="text-sm font-bold w-[95%] md:w-fit lg:text-xl lg:font-bold ">
+            <h1 className="text-sm font-bold w-[95%] md:w-fit lg:w-[80%] lg:text-xl lg:font-bold ">
               {course.title}
             </h1>
             {typeof course.instructorId !== "string" && (

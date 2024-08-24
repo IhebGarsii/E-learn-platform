@@ -2,14 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import img from "../../assets/arrow-dwon.png";
-import { useUserState } from "../../state/user.js";
 import useLoginUser from "../../utl/useLoginUser.js";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
-import { useCartState } from "../../state/cart.js";
 
 function Navbar() {
   const idUser = localStorage.getItem("idUser")!;
@@ -138,7 +136,7 @@ function Navbar() {
                           Logout
                         </li>
                         <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
-                          Profile
+                          <Link to={`/profile/${user._id}`}>Profile</Link>
                         </li>
                         <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
                           Notification
