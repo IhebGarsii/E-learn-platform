@@ -10,10 +10,10 @@ function CartRow({ course, onRemove }: cartRowProps) {
   return (
     <section
       key={course._id}
-      className="flex flex-wrap w-[70%] bg-red-300 border-b-2 lg:justify-between"
+      className="flex flex-wrap w-full py-4  mx-auto  border-b-2 lg:justify-between"
     >
-      <main className="flex justify-between lg:-w-ful bg-blue-400 ">
-        <div className="flex gap-2 w-[90%] ">
+      <main className="flex justify-between lg:-w-full  ">
+        <div className="flex gap-2  ">
           <Link to={`/course/${course._id}`}>
             <img
               className="min-w-16  h-14 lg:w-40 lg:h-24"
@@ -47,20 +47,18 @@ function CartRow({ course, onRemove }: cartRowProps) {
                 ({course.avgRate.nbRate} ratings)
               </span>
             </div>
-            <nav className="flex w-full  justify-between md:justify-start md:gap-3">
+            <nav className="flex w-full bg-red-200 justify-between md:justify-start md:gap-3">
               <h2 className="whitespace-nowrap text-xs">
                 {course.duration} Total Hours
               </h2>
-              <h2 className="whitespace-nowrap text-xs">
-                {course.articles} Total Articles
-              </h2>
+           
               <h2 className="whitespace-nowrap text-xs">
                 {course.difficultyLevel} Difficulty Level
               </h2>
             </nav>
           </div>
         </div>
-        <div className="font-black text-blue-900 text-md w-[10%]">
+        <div className="font-black text-blue-900 text-md ">
           ${course.price}
         </div>
       </main>
