@@ -8,6 +8,7 @@ import CourseDetail from "../../pages/courseDetail/CourseDetail";
 import VideoPlayer from "../../pages/videoPlayer/VideoPlayer";
 import ShopingCart from "../../pages/shopingCart/ShopingCart";
 import Profile from "../../pages/profile/Profile";
+import UpdateBasic from "../profileComponents/UpdateBasic";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -91,6 +92,7 @@ function SideBar() {
           />
           <Route path="/cart/:idUser" element={<ShopingCart />} />
           <Route path="/profile/:idUser" element={<Profile />} />
+          <Route path="/profile/:idUser/basic" element={<UpdateBasic />} />
         </Routes>
       </div>
     </div>
