@@ -14,7 +14,6 @@ function ShopingCart() {
     },
   });
 
-
   const handleRemove = (idCourse: string) => {
     if (cart) {
       mutateRemove(idCourse);
@@ -22,13 +21,16 @@ function ShopingCart() {
   };
 
   return (
-    <div className="mt-12 w-[90%] mx-auto flex  shadow-md flex-col gap-7 ">
-      <h1 className="text-center p-3 text-xl lg:text-3xl font-bold">
-        You Have {cart?.quantity} Items In Your Cart
-      </h1>
-      {cart?.courses?.map((course) => (
-        <CartRow course={course} onRemove={handleRemove} />
-      ))}
+    <div className="mt-12 w-full mx-auto p-2 flex  shadow-md flex-col gap-7 ">
+      <div className="">
+        <h1 className="text-center p-3 text-xl  lg:text-3xl font-bold">
+          You Have {cart?.quantity} Items In Your Cart
+        </h1>
+
+        {cart?.courses?.map((course) => (
+          <CartRow course={course} onRemove={handleRemove} />
+        ))}
+      </div>
     </div>
   );
 }

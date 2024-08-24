@@ -21,7 +21,7 @@ export type cousers = {
   video: video;
   videoDuration: string;
   _id: string;
-  difficulty: string;
+  difficultyLevel: string;
   requirements: string;
   secondTitle: string;
 };
