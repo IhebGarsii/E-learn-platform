@@ -104,7 +104,7 @@ const getAllStutent = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const user = await userModel.findById(idUser);
+    const user = await userModel.findById(idUser).populate("courses");
     if (!user) {
       return res.status(404).json("No user Were Found");
     }

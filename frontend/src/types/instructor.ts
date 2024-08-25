@@ -1,4 +1,4 @@
-import { cousers } from "./course";
+import { cousers, rate } from "./course";
 
 export type instructor = {
   courses: cousers[];
@@ -10,5 +10,7 @@ export type instructor = {
   password: string;
   roles: string[];
   updatedAt: Date;
+  avgRate: rate;
+  aboutMe: string;
   _id: string;
 };

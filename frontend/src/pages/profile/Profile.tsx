@@ -1,6 +1,7 @@
 import { useUserState } from "../../state/user";
 import UpdateBasic from "../../components/profileComponents/UpdateBasic";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const { data: user } = useUserState();
@@ -22,7 +23,7 @@ function Profile() {
   };
 
   return (
-    <div className="flex w-full flex-col md:flex-row md:w-[70%] mt-16 mx-auto">
+    <div className="flex w-full flex-col md:flex-row md:w-[70%] gap-5 mt-16 mx-auto">
       <section className="flex flex-col justify-center items-center gap-3">
         <img
           className=" md:w-40 w-28 md:h-40 h-28 max-w-xs rounded-full"
@@ -30,9 +31,7 @@ function Profile() {
           alt="User profile"
         />
         <nav className="flex flex-col gap-2 font-bold">
-          <button onClick={() => setActiveSection("Profile")}>
-            View public profile
-          </button>
+          <Link to={`publicProfile`}>View public profile</Link>
           <button onClick={() => setActiveSection("Profile")}>Profile</button>
           <button onClick={() => setActiveSection("Photo")}>Photo</button>
           <button onClick={() => setActiveSection("Account Security")}>
@@ -46,7 +45,7 @@ function Profile() {
           </button>
         </nav>
       </section>
-      <section className="mt-8 w-[90%] mx-auto ">{renderSection()}</section>
+      <section className=" w-[90%] mx-auto ">{renderSection()}</section>
     </div>
   );
 }

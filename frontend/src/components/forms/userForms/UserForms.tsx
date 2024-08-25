@@ -26,7 +26,7 @@ function UserForms({ onSubmit, isPending, update }: userFormProps) {
 
   return (
     <form
-      className="w-full rounded-md bg-white flex flex-col gap-5  p-5"
+      className="w-full rounded-md bg-white  flex flex-col gap-5  p-5"
       onSubmit={handleSubmit(onSubmit)}
     >
       {update ? (

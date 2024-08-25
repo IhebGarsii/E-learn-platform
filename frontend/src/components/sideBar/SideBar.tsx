@@ -9,6 +9,7 @@ import VideoPlayer from "../../pages/videoPlayer/VideoPlayer";
 import ShopingCart from "../../pages/shopingCart/ShopingCart";
 import Profile from "../../pages/profile/Profile";
 import UpdateBasic from "../profileComponents/UpdateBasic";
+import PublicProfile from "../profileComponents/PublicProfile";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -93,6 +94,10 @@ function SideBar() {
           <Route path="/cart/:idUser" element={<ShopingCart />} />
           <Route path="/profile/:idUser" element={<Profile />} />
           <Route path="/profile/:idUser/basic" element={<UpdateBasic />} />
+          <Route
+            path="/profile/:idUser/publicProfile"
+            element={<PublicProfile />}
+          />
         </Routes>
       </div>
     </div>
