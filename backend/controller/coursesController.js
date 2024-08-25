@@ -1,6 +1,8 @@
 const commentsModel = require("../model/commentsModel");
 const coursesModel = require("../model/coursesModel");
 const videoCourse = require("../model/videoCourse");
+const userModel = require("../model/userModel");
+
 const mongoose = require("mongoose");
 const getAllCourses = async (req, res) => {
   try {
@@ -120,10 +122,13 @@ const AddCourse = async (req, res) => {
       thumbnail: thumbnail.filename,
       video: savedVideo._id, // Include organized sections
     });
-
+    const user = await userModel.findById(req.body.instructorId);
+    user.courses.push(course._id);
+    await user.save();
     // Respond to the client
     res.status(201).json({
       message: "Course added successfully!",
+      user,
     });
   } catch (error) {
     console.error(error);

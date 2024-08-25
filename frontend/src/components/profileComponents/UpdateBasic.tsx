@@ -39,7 +39,13 @@ function UpdateBasic() {
 
   return (
     <div className="w-full md:w-fit mx-auto            ">
-      <UserForms update={true} onSubmit={onSubmit} isPending={isPending} />
+      <main className="flex flex-col items-center border border-gray-400">
+        <h1 className="text-4xl font-bold mx-auto">Profile</h1>
+        <p className="">Add information about yourself</p>
+      </main>
+      <main className="border border-gray-400">
+        <UserForms update={true} onSubmit={onSubmit} isPending={isPending} />
+      </main>
     </div>
   );
 }

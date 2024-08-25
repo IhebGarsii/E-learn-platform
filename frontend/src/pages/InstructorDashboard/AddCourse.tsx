@@ -6,7 +6,7 @@ import TagInput from "../../components/tagInput/TagInput";
 import VideoUpload from "../../components/videoUpload/VideoUpload";
 import { tags } from "../../types/tags";
 import { cousers } from "../../types/course";
-
+import { useUserState } from "../../state/user";
 
 function AddCourse() {
   const {
@@ -21,7 +21,7 @@ function AddCourse() {
   const [target, setTarget] = useState<tags[]>([]);
   const [videoSections, setVideoSections] = useState<any[]>([]);
   const [descValue, setDescValue] = useState("");
-
+  const { setData: setUser } = useUserState();
   const handleTagsChange = (newTags: tags[]) => {
     setTags(newTags);
     setValue(
@@ -53,6 +53,9 @@ function AddCourse() {
 
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => addCourse(formData),
+    onSuccess: (data) => {
+      setUser(data.user);
+    },
   });
 
   const submitCourse = async (data: cousers) => {

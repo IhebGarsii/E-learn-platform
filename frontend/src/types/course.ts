@@ -25,7 +25,7 @@ export type cousers = {
   requirements: string;
   secondTitle: string;
 };
-type rate = {
+export type rate = {
   rate: number;
   nbRate: number;
 };
