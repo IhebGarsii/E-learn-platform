@@ -22,10 +22,10 @@ function Profile() {
   };
 
   return (
-    <div className="flex w-[80%] flex-col mt-16 mx-auto">
+    <div className="flex w-full flex-col md:flex-row md:w-[70%] mt-16 mx-auto">
       <section className="flex flex-col justify-center items-center gap-3">
         <img
-          className="w-40 h-40 rounded-full"
+          className=" md:w-40 w-28 md:h-40 h-28 max-w-xs rounded-full"
           src={`http://localhost:4000/uploads/users/${user?.image}`}
           alt="User profile"
         />
@@ -46,7 +46,7 @@ function Profile() {
           </button>
         </nav>
       </section>
-      <section className="mt-8">{renderSection()}</section>
+      <section className="mt-8 w-[90%] mx-auto ">{renderSection()}</section>
     </div>
   );
 }

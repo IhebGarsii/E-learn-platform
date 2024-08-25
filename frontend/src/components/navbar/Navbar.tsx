@@ -54,7 +54,7 @@ function Navbar() {
           </div>
           <div
             className={`nav-links z-50 duration-500 md:static absolute bg-white md:min-h-fit min-h-[40vh] left-0 transition-transform ${
-              menuOpen ? "top-[90%]" : "top-[-600%]"
+              menuOpen ? "top-[90%]" : "top-[-800%]"
             } w-full flex items-center px-5`}
           >
             <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] mx-auto gap-8">
