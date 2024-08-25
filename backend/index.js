@@ -7,6 +7,7 @@ const userRouer = require("./Router/userRouter");
 const path = require("path");
 const cartRouter = require("./Router/cartRouter");
 const couponRouer = require("./Router/couponRouter");
+const projectRouter = require("./Router/projectRouter");
 const app = express();
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -22,6 +23,7 @@ app.use("/courses", coursesRouter);
 app.use("/users", userRouer);
 app.use("/cart", cartRouter);
 app.use("/coupon", couponRouer);
+app.use("/projects", projectRouter);
 app.listen("4000", () => console.log("Connected To Port 4000"));
 mongoose
   .connect(process.env.MONGO_URL)
