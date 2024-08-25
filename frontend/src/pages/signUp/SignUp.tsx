@@ -14,7 +14,7 @@ function SignUp() {
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => signup(formData),
     onSuccess: (data: signupData) => {
-      console.log(data);  
+      console.log(data);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUser", data.newUser._id);
@@ -40,7 +40,11 @@ function SignUp() {
     mutate(formData);
   };
 
-  return <UserForms onSubmit={onSubmit} isPending={isPending} />;
+  return (
+    <div className="mt-8 h-screen w-full flex items-center justify-center bg-[url('././assets/auth.jpg')] bg-cover bg-no-repeat">
+      <UserForms onSubmit={onSubmit} isPending={isPending} />;
+    </div>
+  );
 }
 
 export default SignUp;

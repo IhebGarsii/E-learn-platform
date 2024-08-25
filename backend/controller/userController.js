@@ -32,10 +32,8 @@ const registerInstroctor = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    console.log(req.body);
 
     const user = await userModel.findByIdAndUpdate(req.body._id, req.body);
-    console.log(user, "ssssssssss");
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
