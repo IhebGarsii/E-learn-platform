@@ -10,12 +10,13 @@ import ShopingCart from "../../pages/shopingCart/ShopingCart";
 import Profile from "../../pages/profile/Profile";
 import UpdateBasic from "../profileComponents/UpdateBasic";
 import PublicProfile from "../profileComponents/PublicProfile";
+import AddProject from "../../pages/InstructorDashboard/AddProject";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
   const role = localStorage.getItem("roles") === "INSTRUCTOR";
   const Menus = [
-    { title: "Dashboard", src: "Chart_fill", link: "/coursesDarshboard" },
+    { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
     { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },
     { title: "Accounts", src: "User", gap: true, link: "/coursesDarshboard" },
     { title: "Schedule ", src: "Calendar", link: "/coursesDarshboard" },
@@ -86,6 +87,7 @@ function SideBar() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="coursesDarshboard" element={<AddCourse />} />
+          <Route path="/addProject" element={<AddProject />} />
           <Route path="/Course/:idCourse" element={<CourseDetail />} />
           <Route
             path="/Course/:idCourse/:idVid/:idVideo"
