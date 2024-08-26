@@ -8,6 +8,9 @@ const projectModel = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",
   },
+  headTags: [{ type: String }],
+  tags: [{ type: String }],
+  title: { type: String },
 });
 
 module.exports = mongoose.model("projectModel", projectModel);

@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 import { useUserState } from "../../state/user";
 import { Rating } from "@smastrom/react-rating";
 import { Fragment } from "react/jsx-runtime";
+import { memorySizeOf } from "../../utl/memorySizeOf";
+import ProjectCard from "../projectComponents/ProjectCard";
+import { project } from "../../types/project";
 
 function PublicProfile() {
   const { data: user } = useUserState();
-  console.log(user);
-  
+  const memorySize = memorySizeOf(user);
+  console.log(memorySize);
   return (
     <div className="mt-14 p-3">
       <section className="flex flex-col items-start ">
@@ -62,6 +65,11 @@ function PublicProfile() {
             </Fragment>
           ))}
         </nav>
+        <div className="">
+          {user?.projects.map((project) => (
+            <ProjectCard project={project} key={project._id} />
+          ))}
+        </div>
       </section>
     </div>
   );

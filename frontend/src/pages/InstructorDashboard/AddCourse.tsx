@@ -7,7 +7,8 @@ import VideoUpload from "../../components/videoUpload/VideoUpload";
 import { tags } from "../../types/tags";
 import { cousers } from "../../types/course";
 import { useUserState } from "../../state/user";
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 function AddCourse() {
   const {
     register,
@@ -116,8 +117,8 @@ function AddCourse() {
           placeholder="Enter course Second Title"
         />
         <label htmlFor="description">Description</label>
-        {/* Uncomment this if you want to use ReactQuill */}
-        {/* <ReactQuill theme="snow" value={descValue} onChange={setDescValue} /> */}
+
+        <ReactQuill theme="snow" value={descValue} onChange={setDescValue} />
         {errors.description && (
           <p className="text-red-500">{errors.description.message}</p>
         )}

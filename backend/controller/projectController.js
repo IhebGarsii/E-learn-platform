@@ -14,6 +14,8 @@ const createProject = async (req, res) => {
       ...req.body,
       images,
     });
+    user.projects.push(project._id);
+    await user.save();
     return res.status(201).json(project);
   } catch (error) {
     console.log(error);
