@@ -38,6 +38,12 @@ const userModel = new Schema({
       ref: "coursesModel", // Reference to a Course model
     },
   ],
+  projects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "projectModel", // Reference to a Course model
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

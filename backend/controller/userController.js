@@ -32,7 +32,6 @@ const registerInstroctor = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-
     const user = await userModel.findByIdAndUpdate(req.body._id, req.body);
 
     const salt = await bcrypt.genSalt(10);
@@ -104,7 +103,10 @@ const getAllStutent = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { idUser } = req.params;
-    const user = await userModel.findById(idUser).populate("courses");
+    const user = await userModel
+      .findById(idUser)
+      .populate("courses")
+      .populate("projects");
     if (!user) {
       return res.status(404).json("No user Were Found");
     }
