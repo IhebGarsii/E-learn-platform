@@ -13,6 +13,6 @@ export type instructor = {
   updatedAt: Date;
   avgRate: rate;
   aboutMe: string;
-  projects: string[] | project[];
+  projects: (project | string)[];
   _id: string;
 };

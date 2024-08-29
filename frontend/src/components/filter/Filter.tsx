@@ -55,7 +55,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
     setMaxValue(e.maxValue);
   };
 
-  const onSubmitFilter = (data: filter) => {
+  const onSubmitFilter = (ss: filter) => {
     const filteredCourses = courses.filter((course: cousers) => {
       // Check price range
       const isWithinPriceRange =
@@ -67,7 +67,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
         selectedCategory.some((category) => course.headTags.includes(category));
 
       // Check if course tags match selected filters
-      const selectedTags = Object.keys(data).filter(
+      const selectedTags = Object.keys(ss).filter(
         (key) => data[key] === true
       );
       const isMatchingTags =

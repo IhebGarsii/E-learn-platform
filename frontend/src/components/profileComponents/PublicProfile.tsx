@@ -5,10 +5,17 @@ import { Fragment } from "react/jsx-runtime";
 import { memorySizeOf } from "../../utl/memorySizeOf";
 import ProjectCard from "../projectComponents/ProjectCard";
 import { project } from "../../types/project";
+import { useState } from "react";
+import ProjectDetail from "../projectComponents/ProjectDetail";
 
 function PublicProfile() {
   const { data: user } = useUserState();
   const memorySize = memorySizeOf(user);
+  const [projectDetail, setProjectDetail] = useState(false);
+  const onClickDetail = (display: boolean) => {
+    setProjectDetail(display);
+  };
+
   console.log(memorySize);
   return (
     <div className="mt-14 p-3">
@@ -65,10 +72,27 @@ function PublicProfile() {
             </Fragment>
           ))}
         </nav>
-        <div className="">
-          {user?.projects.map((project) => (
-            <ProjectCard project={project} key={project._id} />
-          ))}
+        <div className="relative">
+          {user?.projects.map((proj) =>
+            typeof proj !== "string" ? (
+              <>
+                <ProjectCard
+                  onClick={onClickDetail}
+                  project={proj}
+                  key={proj._id}
+                />
+              </>
+            ) : (
+              <div key={proj}>
+                <p>{proj}</p>
+              </div>
+            )
+          )}
+          {projectDetail && (
+            <div className="bg-red-900 w-screen h-screen absolute top-5">
+              <ProjectDetail />
+            </div>
+          )}
         </div>
       </section>
     </div>
