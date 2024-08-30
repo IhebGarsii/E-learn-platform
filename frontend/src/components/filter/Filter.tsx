@@ -64,7 +64,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
       // Check if course headTags match selected categories
       const isMatchingHeadTags =
         selectedCategory.length === 0 ||
-        selectedCategory.some((ss) => course.headTags.includes(category));
+        selectedCategory.some((category) => course.headTags.includes(category));
 
       // Check if course tags match selected filters
       const selectedTags = Object.keys(data).filter(
