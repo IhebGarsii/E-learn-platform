@@ -10,13 +10,12 @@ import ProjectDetail from "../projectComponents/ProjectDetail";
 
 function PublicProfile() {
   const { data: user } = useUserState();
-  const memorySize = memorySizeOf(user);
+
   const [projectDetail, setProjectDetail] = useState(false);
   const onClickDetail = (display: boolean) => {
     setProjectDetail(display);
   };
 
-  console.log(memorySize);
   return (
     <div className="mt-14 p-3">
       <section className="flex flex-col items-start ">

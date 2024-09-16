@@ -6,9 +6,9 @@ type smallCartProp = {
 };
 
 function SmallCart({ cart }: smallCartProp) {
-if(!cart){
-  return <div className="mt-20">your cart is empty</div>
-}
+  if (!cart) {
+    return <div className="mt-20">your cart is empty</div>;
+  }
   return (
     <>
       <div className="h-80 w-80 bg-white overflow-y-scroll overflow-x-hidden p-3 border-gray border ">
@@ -29,7 +29,8 @@ if(!cart){
               </span>
               {typeof course.instructorId !== "string" && (
                 <span className="text-sm text-gray-400 font-light">
-                  {course.instructorId?.firstName} {course.instructorId?.lastName}
+                  {course.instructorId?.firstName}{" "}
+                  {course.instructorId?.lastName}
                 </span>
               )}
               <span className="font-bold text-lg "> {course.price} $ </span>
@@ -39,7 +40,7 @@ if(!cart){
       </div>
       <div className=" absolute top-full right-0 h-16 flex items-center p-5   w-full bg-white border shadow-2xl ">
         <h1 className=" px-5  font-semibold text-xl">
-          total: {cart?.totalPrice}${" "}
+          total: {cart?.totalPrice}$
         </h1>
       </div>
     </>
