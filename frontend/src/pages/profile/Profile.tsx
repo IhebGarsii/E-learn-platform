@@ -2,6 +2,7 @@ import { useUserState } from "../../state/user";
 import UpdateBasic from "../../components/profileComponents/UpdateBasic";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import UpdateInformation from "../../components/profileComponents/UpdateInformation";
 
 function Profile() {
   const { data: user } = useUserState();
@@ -13,8 +14,8 @@ function Profile() {
         return <>Photo</>;
       case "Account Security":
         return <>acount</>;
-      case "Subscriptions":
-        return <>Subscriptions</>;
+      case "Update Information":
+        return <UpdateInformation />;
       case "Close account":
         return <>Close account</>;
       default:
@@ -37,8 +38,8 @@ function Profile() {
           <button onClick={() => setActiveSection("Account Security")}>
             Account Security
           </button>
-          <button onClick={() => setActiveSection("Subscriptions")}>
-            Subscriptions
+          <button onClick={() => setActiveSection("Update Information")}>
+            Update Information
           </button>
           <button onClick={() => setActiveSection("Close account")}>
             Close account

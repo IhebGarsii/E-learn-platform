@@ -33,7 +33,7 @@ function ShopingCart() {
         <CartCoupon />
         <nav className="w-full mx-auto">
           {cart?.courses?.map((course) => (
-            <CartRow course={course} onRemove={handleRemove} />
+            <CartRow key={course._id} course={course} onRemove={handleRemove} />
           ))}
         </nav>
       </div>

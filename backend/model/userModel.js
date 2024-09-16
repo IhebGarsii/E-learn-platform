@@ -52,6 +52,31 @@ const userModel = new Schema({
     type: Date,
     default: Date.now,
   },
+  avgRate: {
+    rate: { type: Number, default: 0 },
+    nbRate: { type: Number, default: 0 },
+  },
+  following: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userModel",
+  },
+  followers: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userModel",
+  },
+  aboutMe: {
+    type: String,
+  },
+  experience: { type: String, trim: true }, // Professional experience summary
+  education: { type: String, trim: true }, // Educational background
+  languages: [{ type: String, trim: true }], // Languages the instructor speaks or teaches
+  skills: [{ type: String, trim: true }], // e.g., ["JavaScript", "React", "Node.js"]
+  certifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "certificationModel",
+    },
+  ],
 });
 
 module.exports = mongoose.model("userModel", userModel);

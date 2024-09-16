@@ -44,7 +44,7 @@ function Navbar() {
   return (
     <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
       <header className="bg-white ">
-        <nav className="flex justify-between items-center w-fit  mx-auto">
+        <nav className="flex justify-around  items-center w-full  mx-auto">
           <div>
             <img
               className="w-12 cursor-pointer"
@@ -135,9 +135,14 @@ function Navbar() {
                         >
                           Logout
                         </li>
-                        <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
-                          <Link to={`/profile/${user._id}`}>Profile</Link>
-                        </li>
+
+                        <>
+                          {user && (
+                            <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
+                              <Link to={`/profile/${user._id}`}>Profile</Link>
+                            </li>
+                          )}
+                        </>
                         <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
                           Notification
                         </li>
