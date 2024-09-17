@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { tags } from "../../types/tags";
 import { instructor } from "../../types/instructor";
 import { useMutation } from "@tanstack/react-query";
+import { updateUserInformation } from "../../api/userAPI";
 
 function UpdateInformation() {
   const { setValue, handleSubmit, register } = useForm<instructor>();
@@ -13,17 +14,22 @@ function UpdateInformation() {
   const [tags, setTags] = useState<tags[]>([]);
   const [skills, setSkills] = useState<tags[]>([]);
   const { data: user } = useUserState();
-  const {mutate:mutateUser}=useMutation({
-    mutationFn:
-  })
-  const handleTagsChange = (newSkill: tags[]) => {
+  const { mutate: mutateUser } = useMutation({
+    mutationFn: (data: instructor) => updateUserInformation(data, user?._id!),
+    onSuccess: (data: instructor) => {
+      console.log("user updated : ", data);
+    },
+  });
+  const handleSkillsChange = (newSkill: tags[]) => {
     setSkills(newSkill);
+    console.log(skills);
+
     setValue(
       "skills",
       newSkill.map((skill) => skill.text)
     );
   };
-  const handleSkillsChange = (newTags: tags[]) => {
+  const handleTagsChange = (newTags: tags[]) => {
     setTags(newTags);
     setValue(
       "languages",
@@ -36,6 +42,7 @@ function UpdateInformation() {
   };
   const submitInformation = async (data: instructor) => {
     console.log(data);
+    mutateUser(data);
   };
   return (
     <form onSubmit={handleSubmit(submitInformation)} className="flex flex-col">

@@ -4,6 +4,7 @@ const path = require("path");
 const {
   registerInstroctor,
   registerStudent,
+  updateUserInformation,
   login,
   getAllInstroctor,
   getAllStutent,
@@ -31,6 +32,7 @@ const upload = multer({
 
 userRouer.post("/register", upload.single("image"), registerInstroctor);
 userRouer.put("/updateUser", upload.single("image"), updateUser);
+userRouer.put("/updateUserInformation/:idUser", updateUserInformation);
 userRouer.post("/login", login);
 userRouer.get("/getStutent", getStutent);
 userRouer.get("/getUserById/:idUser", getUserById);
