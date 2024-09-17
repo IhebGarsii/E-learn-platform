@@ -1,3 +1,4 @@
+import { certification } from "./certifications";
 import { cousers, rate } from "./course";
 import { project } from "./project";
 
@@ -15,4 +16,10 @@ export type instructor = {
   aboutMe: string;
   projects: (project | string)[];
   _id: string;
+  experience: number;
+  education: string;
+  languages: string[];
+  skills: string[];
+  degree: string;
+  certifications: certification;
 };
