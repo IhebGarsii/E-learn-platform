@@ -10,8 +10,16 @@ function UpdateInformation() {
   const { setValue, handleSubmit, register } = useForm<instructor>();
   const [descValue, setDescValue] = useState("");
   const [tags, setTags] = useState<tags[]>([]);
+  const [skills, setSkills] = useState<tags[]>([]);
   const { data: user } = useUserState();
-  const handleTagsChange = (newTags: tags[]) => {
+  const handleTagsChange = (newSkill: tags[]) => {
+    setSkills(newSkill);
+    setValue(
+      "skills",
+      newSkill.map((skill) => skill.text)
+    );
+  };
+  const handleSkillsChange = (newTags: tags[]) => {
     setTags(newTags);
     setValue(
       "languages",
@@ -53,6 +61,8 @@ function UpdateInformation() {
       />
       <label htmlFor="">languages</label>
       <TagInput tags={tags} onChange={handleTagsChange} />
+      <label htmlFor="">Skills</label>
+      <TagInput tags={skills} onChange={handleSkillsChange} />
       <button type="submit">update</button>
     </form>
   );
