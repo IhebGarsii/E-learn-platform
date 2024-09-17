@@ -31,10 +31,15 @@ function UpdateInformation() {
       <label htmlFor="">Education</label>
       <input
         className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-        placeholder="Enter course duration"
+        placeholder="Enter your School Name"
         type="text"
       />
-
+      <label htmlFor="">Degree</label>
+      <input
+        className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        placeholder="Enter your Degree Name"
+        type="text"
+      />
       <label htmlFor="">languages</label>
       <TagInput tags={tags} onChange={handleTagsChange} />
     </div>
