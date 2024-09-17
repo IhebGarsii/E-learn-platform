@@ -1,3 +1,4 @@
+import { json } from "react-router-dom";
 import { googleLogin } from "../types/googleLogin";
 import { instructor } from "../types/instructor";
 
@@ -68,10 +69,17 @@ export const updateUserInformation = async (
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body:
+        body: JSON.stringify(data),
       }
     );
-  } catch (error) {}
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 export const getUserById = async (idUser: string) => {
   const user = await fetch(`${BASE_URL}/getUserById/${idUser}`);

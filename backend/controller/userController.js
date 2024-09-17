@@ -1,6 +1,7 @@
 const { sign } = require("jsonwebtoken");
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
+const { useParams } = require("react-router-dom");
 
 const createToken = (id) => {
   return sign({ id }, process.env.SECRET, { expiresIn: "3d" });
@@ -119,6 +120,18 @@ const getUserById = async (req, res) => {
     });
   }
 };
+const updateUserInformation = async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    if (!idUser) {
+      return res.status(404).json("id Not with data");
+    }
+    const user = await userModel.findByIdAndUpdate(idUser, ...req.body);
+    return res.status(202).json(user);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
 const getAllInstroctor = async (req, res) => {
   try {
@@ -206,5 +219,7 @@ module.exports = {
   getStutent,
   deleteAcount,
   deleteAcountByAdmin,
+
   getUserById,
+  updateUserInformation,
 };
