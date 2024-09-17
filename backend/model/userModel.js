@@ -68,7 +68,7 @@ const userModel = new Schema({
     type: String,
   },
   experience: { type: String, trim: true }, // Professional experience summary
-  education: { type: String, trim: true }, // Educational background
+  university: { type: String, trim: true }, // Educational background
   languages: [{ type: String, trim: true }], // Languages the instructor speaks or teaches
   skills: [{ type: String, trim: true }], // e.g., ["JavaScript", "React", "Node.js"]
   degree: { type: String },

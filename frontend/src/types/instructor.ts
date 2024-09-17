@@ -17,7 +17,7 @@ export type instructor = {
   projects: (project | string)[];
   _id: string;
   experience: number;
-  education: string;
+  university: string;
   languages: string[];
   skills: string[];
   degree: string;

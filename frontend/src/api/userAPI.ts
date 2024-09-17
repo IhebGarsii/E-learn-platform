@@ -1,4 +1,5 @@
 import { googleLogin } from "../types/googleLogin";
+import { instructor } from "../types/instructor";
 
 const BASE_URL = "http://localhost:4000/users";
 export const signin = async (data: googleLogin) => {
@@ -56,6 +57,21 @@ export const updateUser = async (formData: FormData) => {
     console.error(error);
     throw error;
   }
+};
+export const updateUserInformation = async (
+  data: instructor,
+  idUser: string
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/updateUserInformation/${idUser}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body:
+      }
+    );
+  } catch (error) {}
 };
 export const getUserById = async (idUser: string) => {
   const user = await fetch(`${BASE_URL}/getUserById/${idUser}`);

@@ -5,6 +5,7 @@ import TagInput from "../tagInput/TagInput";
 import { useForm } from "react-hook-form";
 import { tags } from "../../types/tags";
 import { instructor } from "../../types/instructor";
+import { useMutation } from "@tanstack/react-query";
 
 function UpdateInformation() {
   const { setValue, handleSubmit, register } = useForm<instructor>();
@@ -12,6 +13,9 @@ function UpdateInformation() {
   const [tags, setTags] = useState<tags[]>([]);
   const [skills, setSkills] = useState<tags[]>([]);
   const { data: user } = useUserState();
+  const {mutate:mutateUser}=useMutation({
+    mutationFn:
+  })
   const handleTagsChange = (newSkill: tags[]) => {
     setSkills(newSkill);
     setValue(
@@ -45,12 +49,12 @@ function UpdateInformation() {
         {...register("experience")}
       />
 
-      <label htmlFor="">Education</label>
+      <label htmlFor="">University</label>
       <input
         className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-        placeholder="Enter your School Name"
+        placeholder="Enter your University Name"
         type="text"
-        {...register("education")}
+        {...register("university")}
       />
       <label htmlFor="">Degree</label>
       <input
