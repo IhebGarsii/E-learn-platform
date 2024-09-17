@@ -44,7 +44,7 @@ function Navbar() {
   return (
     <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
       <header className="bg-white ">
-        <nav className="flex justify-around  items-center w-full  mx-auto">
+        <nav className="flex justify-around  bg-blue-200  items-center w-full  mx-auto">
           <div>
             <img
               className="w-12 cursor-pointer"
@@ -53,7 +53,7 @@ function Navbar() {
             />
           </div>
           <div
-            className={`nav-links z-50 duration-500 md:static absolute bg-white md:min-h-fit min-h-[40vh] left-0 transition-transform ${
+            className={`nav-links z-50 duration-500 md:static absolute bg-white  md:w-fit  md:min-h-fit min-h-[40vh] left-0 transition-transform ${
               menuOpen ? "top-[90%]" : "top-[-800%]"
             } w-full flex items-center px-5`}
           >
