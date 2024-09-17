@@ -1,6 +1,6 @@
 import ReactQuill from "react-quill";
 import { useUserState } from "../../state/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TagInput from "../tagInput/TagInput";
 import { useForm } from "react-hook-form";
 import { tags } from "../../types/tags";
@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUserInformation } from "../../api/userAPI";
 
 function UpdateInformation() {
-  const { setValue, handleSubmit, register } = useForm<instructor>();
+  const { setValue, handleSubmit, register, reset } = useForm<instructor>();
   const [descValue, setDescValue] = useState("");
   const [tags, setTags] = useState<tags[]>([]);
   const [skills, setSkills] = useState<tags[]>([]);
@@ -18,8 +18,28 @@ function UpdateInformation() {
     mutationFn: (data: instructor) => updateUserInformation(data, user?._id!),
     onSuccess: (data: instructor) => {
       console.log("user updated : ", data);
+      setDescValue("");
+      setTags([]);
+      setSkills([]);
+      reset();
     },
   });
+  useEffect(() => {
+    if (user) {
+      // Set the values using the keys of the Instructor interface
+      (Object.keys(user) as Array<keyof instructor>).forEach((key) => {
+        if (key in user) {
+          setValue(key, user[key as keyof instructor] as string);
+          /* setSkills([]) */
+        /*   if (key === "skills") {
+             setDescValue(user[key]);
+            console.log(user);
+          } */
+        }
+      });
+    }
+  }, [user, setValue]);
+
   const handleSkillsChange = (newSkill: tags[]) => {
     setSkills(newSkill);
     console.log(skills);

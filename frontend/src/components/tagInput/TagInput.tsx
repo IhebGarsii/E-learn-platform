@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { tags } from "../../types/tags";
@@ -10,6 +10,7 @@ type TagInputProps = {
 
 function TagInput({ tags, onChange }: TagInputProps) {
   const [tag, setTag] = useState("");
+  console.log(tags,'from TagInput');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTag(e.target.value);

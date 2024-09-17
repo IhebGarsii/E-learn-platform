@@ -1,7 +1,6 @@
 const { sign } = require("jsonwebtoken");
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
-const { useParams } = require("react-router-dom");
 
 const createToken = (id) => {
   return sign({ id }, process.env.SECRET, { expiresIn: "3d" });
@@ -126,9 +125,15 @@ const updateUserInformation = async (req, res) => {
     if (!idUser) {
       return res.status(404).json("id Not with data");
     }
-    const user = await userModel.findByIdAndUpdate(idUser, ...req.body);
+      const user = await userModel.findByIdAndUpdate(
+        idUser, // The ID of the user to update
+        { $set: req.body }, // Update the fields based on request body
+        { new: true } // Return the updated document
+      );
     return res.status(202).json(user);
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json(error);
   }
 };
