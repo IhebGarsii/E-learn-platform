@@ -71,6 +71,7 @@ const userModel = new Schema({
   education: { type: String, trim: true }, // Educational background
   languages: [{ type: String, trim: true }], // Languages the instructor speaks or teaches
   skills: [{ type: String, trim: true }], // e.g., ["JavaScript", "React", "Node.js"]
+  degree: { type: String },
   certifications: [
     {
       type: mongoose.Schema.Types.ObjectId,
