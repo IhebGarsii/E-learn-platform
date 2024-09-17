@@ -88,3 +88,9 @@ export const getUserById = async (idUser: string) => {
   }
   return await user.json();
 };
+
+export const followUser = async () => {
+  try {
+    
+  } catch (error) {}
+};
