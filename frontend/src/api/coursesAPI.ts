@@ -37,12 +37,19 @@ export const addCourse = async (formData: FormData) => {
 
 export const DeleteCourse = async (idUser: string, idCourse: string) => {
   try {
-    const response = await fetch(`/deleteCourse/${idUser}/${idCourse}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `${BASE_URL}/deleteCourse/${idUser}/${idCourse}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("errrrrrrrrrrrr");
+    }
     return await response.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 

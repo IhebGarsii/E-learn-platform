@@ -38,7 +38,7 @@ function CourseCard({ course }: courseCardProps) {
     <div className="w-full   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link className="rounded-md" to={`/Course/${course._id}`}>
         <img
-          className="p-2  w-[100%] rounded-xl    "
+          className="p-2  w-full  rounded-xl    "
           src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
           alt="Course thumbnail"
         />

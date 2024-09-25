@@ -251,21 +251,33 @@ const addCommentToVideo = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
   const { idUser, idCourse } = req.params;
+
   try {
     const coursre = await coursesModel.findById(idCourse);
+
     const user = await userModel.findById(idUser);
-    if (coursre.student.length > 0) {
+    console.log(coursre);
+
+    if (coursre.students.length > 0) {
       return res
-        .status(300)
+        .status(404)
         .json(
           "You Cant Delete This Course becaues student allready enrroled in it"
         );
     }
-    if (user.courses.includes(idCourse)) {
+    console.log(user.courses.includes(idCourse));
+    /*  if (user.courses.includes(idCourse)) {
       const deletedCoures = await coursesModel.findByIdAndDelete(idCourse);
+      console.log(deletedCoures);
+
       return res.status(202).json("Coures Deleted Succsefuly");
-    }
+    } */
+    const deletedCoures = await coursesModel.findByIdAndDelete(idCourse);
+    console.log(deletedCoures);
+    return res.status(202).json("Coures Deleted Succsefuly");
   } catch (error) {
+    console.log(error);
+
     res.status(500).json(error.message);
   }
 };
