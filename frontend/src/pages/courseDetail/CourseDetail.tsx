@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { useParams } from "react-router-dom";
-import { getCourse } from "../../api/coursesAPI";
+import { useNavigate, useParams } from "react-router-dom";
+import { DeleteCourse, getCourse } from "../../api/coursesAPI";
 import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
@@ -12,9 +12,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/state";
 import { addToCartRedux } from "../../redux/cartSlice/cartSlice";
 import { addToCart } from "../../api/cartAPI";
+import { cousers } from "../../types/course";
 
 function CourseDetail() {
   const { idCourse } = useParams();
+  const navigate = useNavigate();
   const [desc, setDesc] = useState(false);
 
   // Fetch course data using React Query
@@ -49,6 +51,19 @@ function CourseDetail() {
 
       mutateCart(course._id);
     }
+  };
+  const { mutate: mutateDelete } = useMutation({
+    mutationFn: (course: cousers) =>
+      DeleteCourse(localStorage.getItem("idUser")!, course._id),
+    onSuccess: (data) => {
+      console.log(data,'ererere');
+      navigate("/courses");
+    },
+    onError: (error) => {
+    },
+  });
+  const handleDelete = (course: cousers) => {
+    mutateDelete(course);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -153,7 +168,7 @@ function CourseDetail() {
             {course.tags.map((tag: string, index: number) => (
               <span
                 key={index}
-                className="flex items-center justify-center rounded-lg font-semibold w-20 min-h-10 bg-white border-2 border-black"
+                className="flex items-center justify-center rounded-lg font-semibold w-fit min-h-10 bg-white border-2 border-black px-1"
               >
                 {tag}
               </span>
@@ -168,6 +183,12 @@ function CourseDetail() {
         <button className="bg-dark-blue text-white text-xl rounded h-12 w-[80%] mx-auto">
           Buy Now
         </button>
+      </div>
+      <div className="mt-32">
+        <button className="bg-red-400" onClick={() => handleDelete(course)}>
+          Delete
+        </button>
+        <button className="bg-blue-600">Edit</button>
       </div>
     </div>
   );
