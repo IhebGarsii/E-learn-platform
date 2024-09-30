@@ -6,13 +6,15 @@ import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 type CourseFormProps = {
   submitCourse: (data: cousers) => void;
-  handleVideoChange: () => void;
+  handleVideoChange?: () => void;
   handleDecriptionChange: (NewDecpription: string) => void;
+  update?: boolean;
 };
 function CourseForm({
   submitCourse,
   handleVideoChange,
   handleDecriptionChange,
+  update,
 }: CourseFormProps) {
   const { register, handleSubmit } = useForm<cousers>();
   const [descValue, setDescValue] = useState("");
@@ -137,7 +139,7 @@ function CourseForm({
           Add Course
         </button>
       </form>
-      <VideoUpload onChange={handleVideoChange} />
+      {update && <VideoUpload onChange={handleVideoChange!} />}
     </div>
   );
 }
