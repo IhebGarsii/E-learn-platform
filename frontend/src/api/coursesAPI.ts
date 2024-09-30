@@ -53,7 +53,7 @@ export const DeleteCourse = async (idUser: string, idCourse: string) => {
   }
 };
 
-export const UpdateCourse = async (
+export const updateCourse = async (
   formData: FormData,
   idUser: string,
   idCourse: string
