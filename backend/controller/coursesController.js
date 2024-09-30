@@ -250,13 +250,11 @@ const addCommentToVideo = async (req, res) => {
 };
 
 const deleteCourse = async (req, res) => {
-  const { idUser, idCourse } = req.params;
+  const { idCourse } = req.params;
 
   try {
+    let idUser = "dfdf";
     const coursre = await coursesModel.findById(idCourse);
-
-    const user = await userModel.findById(idUser);
-    console.log(coursre);
 
     if (coursre.students.length > 0) {
       return res
@@ -265,20 +263,20 @@ const deleteCourse = async (req, res) => {
           "You Cant Delete This Course becaues student allready enrroled in it"
         );
     }
-    console.log(user.courses.includes(idCourse));
-    /*  if (user.courses.includes(idCourse)) {
-      const deletedCoures = await coursesModel.findByIdAndDelete(idCourse);
-      console.log(deletedCoures);
 
-      return res.status(202).json("Coures Deleted Succsefuly");
-    } */
+    if (!(coursre.instructorId === idUser)) {
+      console.log("You Don't Have The Permition For This Action");
+
+      return res
+        .status(403)
+        .json("You Don't Have The Permition For This Action");
+    }
     const deletedCoures = await coursesModel.findByIdAndDelete(idCourse);
     console.log(deletedCoures);
     return res.status(202).json("Coures Deleted Succsefuly");
   } catch (error) {
     console.log(error);
-
-    res.status(500).json(error.message);
+    return res.status(500).json(error.message);
   }
 };
 const updateCourse = async (req, res) => {
