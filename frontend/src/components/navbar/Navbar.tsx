@@ -44,7 +44,7 @@ function Navbar() {
   return (
     <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
       <header className="bg-white ">
-        <nav className="flex justify-around  bg-blue-200  items-center w-full  mx-auto">
+        <nav className="flex justify-around  z items-center w-full  mx-auto">
           <div>
             <img
               className="w-12 cursor-pointer"

@@ -60,6 +60,8 @@ function CourseDetail() {
       navigate("/courses");
     },
     onError: (error) => {
+      console.log(error);
+      
     },
   });
   const handleDelete = (course: cousers) => {
