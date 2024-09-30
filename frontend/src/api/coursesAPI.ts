@@ -53,9 +53,13 @@ export const DeleteCourse = async (idUser: string, idCourse: string) => {
   }
 };
 
-export const UpdateCourse = async (formData: FormData, idUser: string) => {
+export const UpdateCourse = async (
+  formData: FormData,
+  idUser: string,
+  idCourse: string
+) => {
   try {
-    const response = await fetch(`/updateCourse/${idUser}`, {
+    const response = await fetch(`/updateCourse/${idUser}/${idCourse}`, {
       method: "PUT",
       body: formData,
     });
