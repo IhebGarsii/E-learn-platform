@@ -3,13 +3,20 @@ import { cousers } from "../../../types/course";
 import VideoUpload from "../../videoUpload/VideoUpload";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useState } from "react";
 type CourseFormProps = {
   submitCourse: (data: cousers) => void;
   handleVideoChange: () => void;
-  handleDecriptionChange: () => void;
+  handleDecriptionChange: (NewDecpription: string) => void;
 };
-function CourseForm({ submitCourse, handleVideoChange }: CourseFormProps) {
+function CourseForm({
+  submitCourse,
+  handleVideoChange,
+  handleDecriptionChange,
+}: CourseFormProps) {
   const { register, handleSubmit } = useForm<cousers>();
+  const [descValue, setDescValue] = useState("");
+
   return (
     <div className="w-[90%] min-h-screen mt-20 lg:w-[40%] mx-auto">
       <form
@@ -111,12 +118,12 @@ function CourseForm({ submitCourse, handleVideoChange }: CourseFormProps) {
           className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
           placeholder="Enter access time"
         />
-        <label htmlFor="tags">Tags</label>
+        {/*  <label htmlFor="tags">Tags</label>
         <TagInput tags={tags} onChange={handleTagsChange} />
         <label htmlFor="headTags">Header Tags</label>
         <TagInput tags={headTags} onChange={handleHeadTagsChange} />
         <label htmlFor="learnTarget">Learning Targets</label>
-        <TagInput tags={target} onChange={handleTargetChange} />
+        <TagInput tags={target} onChange={handleTargetChange} /> */}
         <label htmlFor="thumbnail">Thumbnail:</label>
         <input
           {...register("thumbnail")}

@@ -22,7 +22,9 @@ function AddCourse() {
   const [target, setTarget] = useState<tags[]>([]);
   const [videoSections, setVideoSections] = useState<any[]>([]);
   const [descValue, setDescValue] = useState("");
+  const [decpription, setDecpription] = useState("");
   const { setData: setUser } = useUserState();
+
   const handleTagsChange = (newTags: tags[]) => {
     setTags(newTags);
     setValue(
@@ -94,8 +96,8 @@ function AddCourse() {
 
     mutate(formData);
   };
-  const handleDecriptionChange = () => {
-    setDescValue('eeeeee')
+  const handleDecriptionChange = (NewDecpription: string) => {
+    setDecpription(NewDecpription);
   };
 
   return (
@@ -121,11 +123,7 @@ function AddCourse() {
         />
         <label htmlFor="description">Description</label>
 
-        <ReactQuill
-          theme="snow"
-          value={descValue}
-          onChange={handleDecriptionChange}
-        />
+        <ReactQuill theme="snow" value={descValue} onChange={setDescValue} />
         {errors.description && (
           <p className="text-red-500">{errors.description.message}</p>
         )}
