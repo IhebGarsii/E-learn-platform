@@ -1,103 +1,15 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { addCourse } from "../../api/coursesAPI";
-import TagInput from "../../components/tagInput/TagInput";
-import VideoUpload from "../../components/videoUpload/VideoUpload";
-import { tags } from "../../types/tags";
-import { cousers } from "../../types/course";
-import { useUserState } from "../../state/user";
+import { cousers } from "../../../types/course";
+import VideoUpload from "../../videoUpload/VideoUpload";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-function AddCourse() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<cousers>();
-
-  const [tags, setTags] = useState<tags[]>([]);
-  const [headTags, setHeadTags] = useState<tags[]>([]);
-  const [target, setTarget] = useState<tags[]>([]);
-  const [videoSections, setVideoSections] = useState<any[]>([]);
-  const [descValue, setDescValue] = useState("");
-  const { setData: setUser } = useUserState();
-  const handleTagsChange = (newTags: tags[]) => {
-    setTags(newTags);
-    setValue(
-      "tags",
-      newTags.map((tag) => tag.text)
-    );
-  };
-
-  const handleHeadTagsChange = (newTags: tags[]) => {
-    setHeadTags(newTags);
-    setValue(
-      "headTags",
-      newTags.map((tag) => tag.text)
-    );
-  };
-
-  const handleTargetChange = (newTags: tags[]) => {
-    setTarget(newTags);
-    setValue(
-      "learnTarget",
-      newTags.map((tag) => tag.text)
-    );
-  };
-
-  const handleVideoChange = (updatedSections: File[]) => {
-    setVideoSections(updatedSections);
-    console.log(updatedSections);
-  };
-
-  const { mutate } = useMutation({
-    mutationFn: (formData: FormData) => addCourse(formData),
-    onSuccess: (data) => {
-      setUser(data.user);
-    },
-  });
-
-  const submitCourse = async (data: cousers) => {
-    const formData = new FormData();
-    formData.append("description", descValue);
-
-    Object.keys(data).forEach((key) => {
-      const value = data[key as keyof cousers];
-      if (value) {
-        formData.append(key, value as any); // Use any here to satisfy TypeScript
-      }
-    });
-
-    if (data.thumbnail && data.thumbnail[0]) {
-      formData.append("thumbnail", data.thumbnail[0]);
-    }
-
-    if (data.tags) {
-      data.tags.forEach((tag) => formData.append("tags", tag));
-    }
-
-    if (data.headTags) {
-      data.headTags.forEach((tag) => formData.append("headTags", tag));
-    }
-
-    if (data.learnTarget) {
-      data.learnTarget.forEach((tag) => formData.append("learnTarget", tag));
-    }
-    console.log(Array.isArray(videoSections));
-    videoSections.forEach((file) => {
-      formData.append("video", file);
-    });
-
-    formData.append("instructorId", localStorage.getItem("idUser")!);
-
-    mutate(formData);
-  };
-  const handleDecriptionChange = () => {
-    setDescValue('eeeeee')
-  };
-
+type CourseFormProps = {
+  submitCourse: (data: cousers) => void;
+  handleVideoChange: () => void;
+  handleDecriptionChange: () => void;
+};
+function CourseForm({ submitCourse, handleVideoChange }: CourseFormProps) {
+  const { register, handleSubmit } = useForm<cousers>();
   return (
     <div className="w-[90%] min-h-screen mt-20 lg:w-[40%] mx-auto">
       <form
@@ -111,7 +23,6 @@ function AddCourse() {
           type="text"
           placeholder="Enter course title"
         />
-        {errors.title && <p className="text-red-500">{errors.title.message}</p>}
         <label htmlFor="secondTitle">Second Title</label>
         <input
           {...register("secondTitle", { required: "Second Title is required" })}
@@ -121,14 +32,8 @@ function AddCourse() {
         />
         <label htmlFor="description">Description</label>
 
-        <ReactQuill
-          theme="snow"
-          value={descValue}
-          onChange={handleDecriptionChange}
-        />
-        {errors.description && (
-          <p className="text-red-500">{errors.description.message}</p>
-        )}
+        <ReactQuill theme="snow" value={descValue} onChange={setDescValue} />
+
         <label htmlFor="difficulty">Difficulty Level:</label>
         <select
           {...register("difficultyLevel")}
@@ -142,9 +47,7 @@ function AddCourse() {
           <option value="intermediate">Intermediate</option>
           <option value="advanced">Advanced</option>
         </select>
-        {errors.difficultyLevel && (
-          <p className="text-red-500">{errors.difficultyLevel.message}</p>
-        )}
+
         <label htmlFor="price">Price:</label>
         <input
           {...register("price")}
@@ -232,4 +135,4 @@ function AddCourse() {
   );
 }
 
-export default AddCourse;
+export default CourseForm;
