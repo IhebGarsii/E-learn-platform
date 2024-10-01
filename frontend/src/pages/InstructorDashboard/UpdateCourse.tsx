@@ -3,13 +3,13 @@ import CourseForm from "../../components/forms/courseForms/CourseForm";
 import { cousers } from "../../types/course";
 import { updateCourse } from "../../api/coursesAPI";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function UpdateCourse() {
   const { idCourse } = useParams();
   const queryClient = useQueryClient();
-
   const [decpription, setDecpription] = useState("");
+  const [course, setCourse] = useState<cousers>();
 
   const handleDecriptionChange = (NewDecpription: string) => {
     setDecpription(NewDecpription);
@@ -55,22 +55,26 @@ function UpdateCourse() {
 
     mutateUpdate(formData);
   };
-  const handleGetCourse = () => {
-    const course = queryClient.getQueryData(["course", idCourse]);
+
+  useEffect(() => {
+ 
+
+    setCourse(queryClient.getQueryData(["course", idCourse]));
 
     if (course) {
       console.log("Course found in cache:", course);
     } else {
       console.log("Course not found in cache, fetching...");
     }
-  };
-  handleGetCourse();
+  });
+
   return (
     <div>
       <CourseForm
         handleDecriptionChange={handleDecriptionChange}
         submitCourse={submitCourse}
         update
+        course={course}
       />
     </div>
   );
