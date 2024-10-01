@@ -32,10 +32,15 @@ function UpdateCourse() {
 
     Object.keys(data).forEach((key) => {
       const value = data[key as keyof cousers];
-      if (value) {
-        console.log(key, "www");
+      if (Array.isArray(value) && value.length === 0) {
+        console.log(`${key} is an empty array, skipping...`);
+      } else if (key === "video") {
+      } else {
+        if (value) {
+          console.log(key, "=====>", value);
 
-        formData.append(key, value as any); // Use any here to satisfy TypeScript
+          formData.append(key, value as any); // Use any here to satisfy TypeScript
+        }
       }
     });
 
