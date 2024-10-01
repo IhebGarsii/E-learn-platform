@@ -287,11 +287,11 @@ const updateCourse = async (req, res) => {
     /*   const thumbnail = req.files["thumbnail"][0]; */
 
     const course = await coursesModel.findById(idCourse);
-    if (!(course.instructorId.toString() !== idUser)) {
+    /* if (!(course.instructorId.toString() !== idUser)) {
       return res
         .status(403)
         .json({ error: "You are not authorized to update this course." });
-    }
+    } */
     const updatedCourse = await coursesModel.findByIdAndUpdate(
       idCourse,
       { ...req.body },
