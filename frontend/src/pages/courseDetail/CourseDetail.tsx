@@ -19,7 +19,6 @@ function CourseDetail() {
   const navigate = useNavigate();
   const [desc, setDesc] = useState(false);
 
-  // Fetch course data using React Query
   const {
     data: course,
     isLoading,
@@ -56,12 +55,11 @@ function CourseDetail() {
     mutationFn: (course: cousers) =>
       DeleteCourse(localStorage.getItem("idUser")!, course._id),
     onSuccess: (data) => {
-      console.log(data,'ererere');
+      console.log(data, "ererere");
       navigate("/courses");
     },
     onError: (error) => {
       console.log(error);
-      
     },
   });
   const handleDelete = (course: cousers) => {

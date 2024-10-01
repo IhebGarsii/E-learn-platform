@@ -1,4 +1,4 @@
-import { useMutation, useQueries } from "@tanstack/react-query";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import CourseForm from "../../components/forms/courseForms/CourseForm";
 import { cousers } from "../../types/course";
 import { updateCourse } from "../../api/coursesAPI";
@@ -6,12 +6,14 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 function UpdateCourse() {
+  const { idCourse } = useParams();
+  const queryClient = useQueryClient();
+
   const [decpription, setDecpription] = useState("");
 
   const handleDecriptionChange = (NewDecpription: string) => {
     setDecpription(NewDecpription);
   };
-  const { idCourse } = useParams();
   const { mutate: mutateUpdate } = useMutation({
     mutationFn: (formData: FormData) =>
       updateCourse(formData, localStorage.getItem("idUser")!, idCourse!),
@@ -53,6 +55,16 @@ function UpdateCourse() {
 
     mutateUpdate(formData);
   };
+  const handleGetCourse = () => {
+    const course = queryClient.getQueryData(["course", idCourse]);
+
+    if (course) {
+      console.log("Course found in cache:", course);
+    } else {
+      console.log("Course not found in cache, fetching...");
+    }
+  };
+  handleGetCourse();
   return (
     <div>
       <CourseForm
