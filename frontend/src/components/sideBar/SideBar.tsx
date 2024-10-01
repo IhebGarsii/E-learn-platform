@@ -11,6 +11,7 @@ import Profile from "../../pages/profile/Profile";
 import UpdateBasic from "../profileComponents/UpdateBasic";
 import PublicProfile from "../profileComponents/PublicProfile";
 import AddProject from "../../pages/InstructorDashboard/AddProject";
+import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -100,6 +101,7 @@ function SideBar() {
             path="/profile/:idUser/publicProfile"
             element={<PublicProfile />}
           />
+          <Route path="updateCourse/:idCourse" element={<UpdateCourse />} />
         </Routes>
       </div>
     </div>

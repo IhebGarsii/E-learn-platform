@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { DeleteCourse, getCourse } from "../../api/coursesAPI";
 import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
@@ -163,6 +163,14 @@ function CourseDetail() {
               <MdAccessTimeFilled /> {course.timeAccess}
             </li>
           </ul>
+          <div className="mt-32">
+            <button className="bg-red-400" onClick={() => handleDelete(course)}>
+              Delete
+            </button>
+            <Link to={`/updateCourse/${idCourse}`} className="bg-blue-600">
+              Edit
+            </Link>
+          </div>
         </div>
         <div className="w-[100%]">
           <h2>Explore Related Topics</h2>
@@ -185,12 +193,6 @@ function CourseDetail() {
         <button className="bg-dark-blue text-white text-xl rounded h-12 w-[80%] mx-auto">
           Buy Now
         </button>
-      </div>
-      <div className="mt-32">
-        <button className="bg-red-400" onClick={() => handleDelete(course)}>
-          Delete
-        </button>
-        <button className="bg-blue-600">Edit</button>
       </div>
     </div>
   );
