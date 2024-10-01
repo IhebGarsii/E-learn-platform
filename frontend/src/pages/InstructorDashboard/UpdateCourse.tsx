@@ -33,17 +33,17 @@ function UpdateCourse() {
     Object.keys(data).forEach((key) => {
       const value = data[key as keyof cousers];
       if (value) {
+        console.log(key, "www");
+
         formData.append(key, value as any); // Use any here to satisfy TypeScript
       }
     });
 
-    if (data.thumbnail && data.thumbnail[0]) {
+    /*  if (data.thumbnail && data.thumbnail[0]) {
       formData.append("thumbnail", data.thumbnail[0]);
-    }
+    } */
 
     console.log(formData.getAll("price"));
-
-    formData.append("instructorId", localStorage.getItem("idUser")!);
 
     mutateUpdate(formData);
   };

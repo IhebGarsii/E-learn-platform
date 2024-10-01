@@ -256,7 +256,7 @@ const deleteCourse = async (req, res) => {
     let idUser = "dfdf";
     const coursre = await coursesModel.findById(idCourse);
 
-    if (coursre.students.length > 0) {
+    if (coursre.studentsId.length > 0) {
       return res
         .status(404)
         .json(
@@ -282,26 +282,27 @@ const deleteCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
   const { idUser, idCourse } = req.params;
   try {
+    console.log(req.body);
+
+    /*   const thumbnail = req.files["thumbnail"][0]; */
+
     const course = await coursesModel.findById(idCourse);
     if (!(course.instructorId.toString() !== idUser)) {
-      console.log(
-        course.instructorId.toString() !== idUser,
-        "tureeeeeeeee falseeeeeee"
-      );
-
       return res
         .status(403)
         .json({ error: "You are not authorized to update this course." });
     }
     const updatedCourse = await coursesModel.findByIdAndUpdate(
       idCourse,
-      req.body
+      { ...req.body },
+      { new: true }
     );
-    console.log(req.body,'fffff');
 
     res.status(202).json("Your Course Has Been Updated");
   } catch (error) {
-    res.status(500).json(error.message);
+    console.log(error);
+
+    return res.status(500).json(error.message);
   }
 };
 

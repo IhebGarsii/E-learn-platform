@@ -11,7 +11,7 @@ const coursesModel = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",
   },
-  students: [
+  studentsId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "userModel",
