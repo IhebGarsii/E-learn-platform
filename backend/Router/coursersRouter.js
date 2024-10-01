@@ -49,7 +49,11 @@ coursesRouter.get("/getCourse/:idCourse", getCourse);
 coursesRouter.post("/addCommentToVideo", addCommentToVideo);
 coursesRouter.get("/getVideoComments/:videoList/:idVideo", getComments);
 coursesRouter.delete("/deleteCourse/:idUser/:idCourse", deleteCourse);
-coursesRouter.put("/updateCourse/:idUser/:idCourse", updateCourse);
+coursesRouter.put(
+  "/updateCourse/:idUser/:idCourse",
+  uploadFields,
+  updateCourse
+);
 coursesRouter.put("/rate/:idCourse", rateCourse);
 
 module.exports = coursesRouter;

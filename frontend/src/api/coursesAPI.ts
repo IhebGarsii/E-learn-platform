@@ -59,8 +59,6 @@ export const updateCourse = async (
   idCourse: string
 ) => {
   try {
-    console.log(formData.getAll("price"));
-
     const response = await fetch(
       `${BASE_URL}/updateCourse/${idUser}/${idCourse}`,
       {
@@ -71,5 +69,6 @@ export const updateCourse = async (
     return await response.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

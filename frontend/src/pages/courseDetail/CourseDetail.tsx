@@ -91,7 +91,7 @@ function CourseDetail() {
             </span>
           </div>
           <div className="flex flex-col gap-2 px-4 text-white">
-            <span>{course.studentsId.length} students</span>
+            <span>{course.studentsId?.length} students</span>
             <span>Created By {course.instructorId}</span>
             <span>Last Updated {course.lastUpdated}</span>
           </div>
