@@ -59,10 +59,15 @@ export const updateCourse = async (
   idCourse: string
 ) => {
   try {
-    const response = await fetch(`/updateCourse/${idUser}/${idCourse}`, {
-      method: "PUT",
-      body: formData,
-    });
+    console.log(formData.getAll("price"));
+
+    const response = await fetch(
+      `${BASE_URL}/updateCourse/${idUser}/${idCourse}`,
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
     return await response.json();
   } catch (error) {
     console.error(error);
