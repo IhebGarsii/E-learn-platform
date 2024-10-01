@@ -25,6 +25,8 @@ function UpdateCourse() {
     },
   });
   const submitCourse = async (data: cousers) => {
+    console.log(data, "update course");
+
     const formData = new FormData();
     formData.append("description", decpription);
 
@@ -39,17 +41,7 @@ function UpdateCourse() {
       formData.append("thumbnail", data.thumbnail[0]);
     }
 
-    if (data.tags) {
-      data.tags.forEach((tag) => formData.append("tags", tag));
-    }
-
-    if (data.headTags) {
-      data.headTags.forEach((tag) => formData.append("headTags", tag));
-    }
-
-    if (data.learnTarget) {
-      data.learnTarget.forEach((tag) => formData.append("learnTarget", tag));
-    }
+    console.log(formData.getAll("price"));
 
     formData.append("instructorId", localStorage.getItem("idUser")!);
 
@@ -57,8 +49,6 @@ function UpdateCourse() {
   };
 
   useEffect(() => {
- 
-
     setCourse(queryClient.getQueryData(["course", idCourse]));
 
     if (course) {
@@ -70,12 +60,16 @@ function UpdateCourse() {
 
   return (
     <div>
-      <CourseForm
-        handleDecriptionChange={handleDecriptionChange}
-        submitCourse={submitCourse}
-        update
-        course={course}
-      />
+      {course ? ( // Render CourseForm only when the course is available
+        <CourseForm
+          handleDecriptionChange={handleDecriptionChange}
+          submitCourse={submitCourse}
+          update
+          course={course}
+        />
+      ) : (
+        <p>Loading course data...</p>
+      )}
     </div>
   );
 }
