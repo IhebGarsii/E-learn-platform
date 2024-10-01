@@ -3,22 +3,40 @@ import { cousers } from "../../../types/course";
 import VideoUpload from "../../videoUpload/VideoUpload";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 type CourseFormProps = {
   submitCourse: (data: cousers) => void;
   handleVideoChange?: () => void;
   handleDecriptionChange: (NewDecpription: string) => void;
   update?: boolean;
+  course: cousers;
 };
 function CourseForm({
   submitCourse,
   handleVideoChange,
   handleDecriptionChange,
   update,
+  course,
 }: CourseFormProps) {
-  const { register, handleSubmit } = useForm<cousers>();
+  const { register, handleSubmit, setValue } = useForm<cousers>();
   const [descValue, setDescValue] = useState("");
+  useEffect(() => {
+    console.log("course update", course);
 
+    if (course) {
+      // Set the values using the keys of the Instructor interface
+      (Object.keys(course) as Array<keyof cousers>).forEach((key) => {
+        if (key in course) {
+          setValue(key, course[key as keyof cousers] as string);
+          /* setSkills([]) */
+          /*   if (key === "skills") {
+             setDescValue(course[key]);
+            console.log(course);
+          } */
+        }
+      });
+    }
+  }, [course, setValue]);
   return (
     <div className="w-[90%] min-h-screen mt-20 lg:w-[40%] mx-auto">
       <form

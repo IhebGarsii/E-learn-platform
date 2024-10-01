@@ -14,7 +14,7 @@ type DropdownState = {
 function CourseContent({ video }: CourseContentProps) {
   // Initialize dropdown state with the first index open
   const [dropdowns, setDropdowns] = useState<DropdownState>({ 0: true });
-  console.log(video, "vid");
+  
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({
       ...prev,
