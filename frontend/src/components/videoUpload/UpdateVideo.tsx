@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fullVideo, video, videoResponse } from "../../types/video";
+import { fullVideo} from "../../types/video";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdOutlineOndemandVideo } from "react-icons/md";
@@ -10,7 +10,7 @@ import { deleteVideo } from "../../api/videoAPI";
 function UpdateVideo() {
   const { idCourse } = useParams();
   const queryClient = useQueryClient();
-  const [video, setVideo] = useState<fullVideo>();
+  const [videos, setVideo] = useState<fullVideo>();
   let course: cousers;
 
   useEffect(() => {
@@ -19,23 +19,37 @@ function UpdateVideo() {
 
     setVideo(course.video);
 
-    if (video) {
-      console.log("Course found in cache:", video);
+    if (videos) {
+      console.log("Video found in cache:", videos);
     } else {
-      console.log("Course not found in cache, fetching...", video);
+      console.log("video not found in cache, fetching...", videos);
     }
   });
   const { mutate: mutateDelete } = useMutation({
-    mutationFn: (idVideo: string) => deleteVideo(idVideo),
+    mutationFn: ({
+      idVideos,
+      idSection,
+      idVideo,
+    }: {
+      idVideos: string;
+      idSection: string;
+      idVideo: string;
+    }) => deleteVideo(idVideos, idSection, idVideo),
   });
-  const handleDelete = (idVideo: string) => {
-    mutateDelete(idVideo);
+
+  const handleDelete = (
+    idVideos: string,
+    idSection: string,
+    idVideo: string
+  ) => {
+    // Pass all parameters as a single object
+    mutateDelete({ idVideos, idSection, idVideo });
   };
 
   return (
     <div className="border-2 border-gray-300 py-2  ">
-      {video &&
-        video.video.map((vid, index) => (
+      {videos &&
+        videos.video.map((vid, index) => (
           <div key={index}>
             <h1 className="flex items-center text-xl font-bold gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1">
               <img className="w-3" src={img} alt="Toggle dropdown" />
@@ -51,7 +65,11 @@ function UpdateVideo() {
                     <span> {} </span>
                     <MdOutlineOndemandVideo /> {video.videoName?.split(".")[0]}
                   </Link>
-                  <button onClick={() => handleDelete(video._id)}>delete</button>
+                  <button
+                    onClick={() => handleDelete(videos._id,vid._id , video._id)}
+                  >
+                    delete
+                  </button>
                 </div>
               ))}
             </ul>
