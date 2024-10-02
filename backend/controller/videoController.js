@@ -18,8 +18,6 @@ const deleteVideo = async (req, res) => {
 };
  */
 const deleteVideo = async (req, res) => {
-  console.log("worked");
-
   try {
     const { idVideos, idSection, idVideo } = req.params;
 
@@ -34,7 +32,7 @@ const deleteVideo = async (req, res) => {
     }
 
     // Find the specific section by id
-    const section = videos.find(
+    const section = videos.video.find(
       (section) => section._id.toString() === idSection
     );
     if (!section) {
