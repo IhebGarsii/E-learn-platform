@@ -4,16 +4,17 @@ const Schema = mongoose.Schema;
 const videoModel = new Schema({
   video: [
     {
-      sectionTitle: { type: String },
+      sectionTitle: { type: String, required: true },
       videoList: [
         {
           videoName: {
             type: String,
+            required: true,
           },
           comments: [
             {
               type: mongoose.Schema.Types.ObjectId,
-              ref: "commentModel", // Reference to a Course model
+              ref: "commentModel",
             },
           ],
         },
