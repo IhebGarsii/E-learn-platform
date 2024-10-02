@@ -16,6 +16,7 @@ export type fullVideo = {
 };
 type halfVideo = {
   sectionTitle: string;
+  _id: string;
   videoList: [
     {
       videoName: string;
