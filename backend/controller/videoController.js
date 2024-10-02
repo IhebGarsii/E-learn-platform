@@ -53,6 +53,8 @@ const addVideo = async (req, res) => {
         videoFile = file.originalname;
       });
     }
+    console.log(videoFile);
+
     const { idSection, idVideo, idVideos } = req.params;
     const videos = await videoCourse.findById(idVideos);
     if (!videos) {

@@ -26,11 +26,10 @@ export const addVideo = async (
   formData: FormData,
   idVideos: string,
   idSection: string,
-  idVideo: string
 ) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/addVideo/${idVideos}/${idSection}/${idVideo}`,
+      `${BASE_URL}/addVideo/${idVideos}/${idSection}`,
       {
         method: "PUT",
         body: formData,
