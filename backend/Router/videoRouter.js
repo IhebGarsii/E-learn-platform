@@ -34,10 +34,6 @@ const uploadFields = upload.fields([
   { name: "video", maxCount: 20 }, // Adjust maxCount based on your needs
 ]);
 videoRouter.delete("/deleteVideo/:idVideos/:idSection/:idVideo", deleteVideo);
-videoRouter.put(
-  "/addVideo/:idVideos/:idSection",
-  upload.single("video"),
-  addVideo
-);
+videoRouter.put("/addVideo/:idVideos/:idSection", uploadFields, addVideo);
 
 module.exports = videoRouter;

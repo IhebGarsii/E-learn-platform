@@ -44,16 +44,9 @@ const deleteVideo = async (req, res) => {
 };
 const addVideo = async (req, res) => {
   try {
-    let videoFile = "";
+    console.log("Files received:", req.files);
 
-    // Check if video files are present
-    if (req.files["video"]) {
-      req.files["video"].forEach((file) => {
-        // Extract filename and save to array
-        videoFile = file.originalname;
-      });
-    }
-    console.log(videoFile);
+    const videoFile = req.files;
 
     const { idSection, idVideo, idVideos } = req.params;
     const videos = await videoCourse.findById(idVideos);
@@ -70,6 +63,11 @@ const addVideo = async (req, res) => {
       videoName: videoFile,
     };
     videoSection.videoList.push();
-  } catch (error) {}
+    return res.statuts(204).send();
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json(error);
+  }
 };
 module.exports = { deleteVideo, addVideo };
