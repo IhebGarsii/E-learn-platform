@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const videoCourse = require("../model/videoCourse");
 
 const deleteVideo = async (req, res) => {
@@ -44,26 +45,32 @@ const deleteVideo = async (req, res) => {
 };
 const addVideo = async (req, res) => {
   try {
-    console.log("Files received:", req.files);
-
     const videoFile = req.files;
+    const { idSection, idVideos } = req.params;
+    console.log(idSection, idVideos);
 
-    const { idSection, idVideo, idVideos } = req.params;
     const videos = await videoCourse.findById(idVideos);
     if (!videos) {
       return res.status(404).json("Videos not found");
     }
+
     const videoSection = videos.video.find(
-      (section) => section._id === idSection
+      (section) => section._id.toString() === idSection
     );
+
     if (!videoSection) {
       return res.status(404).json("Section not found");
     }
-    const vid = {
-      videoName: videoFile,
+    console.log(videoFile.video[0].originalname, "rrrr");
+    
+    const newVideo = {
+      videoName: videoFile.video[0].originalname,
+      comments: [],
+      _id: new mongoose.Types.ObjectId(),
     };
-    videoSection.videoList.push();
-    return res.statuts(204).send();
+    videoSection.videoList.push(newVideo);
+    await videos.save();
+    return res.status(204).send();
   } catch (error) {
     console.log(error);
 
