@@ -1,22 +1,5 @@
 const videoCourse = require("../model/videoCourse");
-/* 
-const deleteVideo = async (req, res) => {
-  try {
-    const { idVideo, idVideos, idSection } = req.params;
-    if (!idVideo) {
-      return res.status(400).json("no id where found");
-    }
-    const video = await videoCourse.findByIdAndDelete(idVideo);
-    if (!video) {
-      return res.status(404).json("video not found");
-    }
-    return res.status(204).send();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
-  }
-};
- */
+
 const deleteVideo = async (req, res) => {
   try {
     const { idVideos, idSection, idVideo } = req.params;
@@ -59,5 +42,32 @@ const deleteVideo = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+const addVideo = async (req, res) => {
+  try {
+    let videoFile = "";
 
-module.exports = { deleteVideo };
+    // Check if video files are present
+    if (req.files["video"]) {
+      req.files["video"].forEach((file) => {
+        // Extract filename and save to array
+        videoFile = file.originalname;
+      });
+    }
+    const { idSection, idVideo, idVideos } = req.params;
+    const videos = await videoCourse.findById(idVideos);
+    if (!videos) {
+      return res.status(404).json("Videos not found");
+    }
+    const videoSection = videos.video.find(
+      (section) => section._id === idSection
+    );
+    if (!videoSection) {
+      return res.status(404).json("Section not found");
+    }
+    const vid = {
+      videoName: videoFile,
+    };
+    videoSection.videoList.push();
+  } catch (error) {}
+};
+module.exports = { deleteVideo, addVideo };

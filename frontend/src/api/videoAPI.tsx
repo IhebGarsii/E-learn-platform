@@ -6,8 +6,6 @@ export const deleteVideo = async (
   idVideo: string
 ) => {
   try {
-   
-
     const response = await fetch(
       `${BASE_URL}/deleteVideo/${idVideos}/${idSection}/${idVideo}`,
       {
@@ -16,6 +14,30 @@ export const deleteVideo = async (
     );
     if (!response.ok) {
       throw new Error(`error in deleting the video ,${response}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const addVideo = async (
+  formData: FormData,
+  idVideos: string,
+  idSection: string,
+  idVideo: string
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/addVideo/${idVideos}/${idSection}/${idVideo}`,
+      {
+        method: "PUT",
+        body: formData,
+      }
+    );
+    if (!response.ok) {
+      throw new Error("error");
     }
     return await response.json();
   } catch (error) {
