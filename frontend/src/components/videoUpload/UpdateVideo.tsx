@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import img from "../../assets/arrow-dwon.png";
 import { cousers } from "../../types/course";
+import { deleteVideo } from "../../api/videoAPI";
 
 function UpdateVideo() {
   const { idCourse } = useParams();
@@ -25,9 +26,11 @@ function UpdateVideo() {
     }
   });
   const { mutate: mutateDelete } = useMutation({
-    mutationFn: deleteVideo(idVideo)
+    mutationFn: (idVideo: string) => deleteVideo(idVideo),
   });
-  const handleDelete = (idVideo: string) => {};
+  const handleDelete = (idVideo: string) => {
+    mutateDelete(idVideo);
+  };
 
   return (
     <div className="border-2 border-gray-300 py-2  ">
@@ -48,7 +51,7 @@ function UpdateVideo() {
                     <span> {} </span>
                     <MdOutlineOndemandVideo /> {video.videoName?.split(".")[0]}
                   </Link>
-                  <button onClick={() => handleDelete(video_id)}>delete</button>
+                  <button onClick={() => handleDelete(video._id)}>delete</button>
                 </div>
               ))}
             </ul>
