@@ -21,7 +21,6 @@ function CourseForm({
   const { register, handleSubmit, setValue } = useForm<cousers>();
   const [descValue, setDescValue] = useState("");
   useEffect(() => {
-    console.log("course update", course);
 
     if (course) {
       // Set the values using the keys of the Instructor interface
@@ -45,14 +44,14 @@ function CourseForm({
       >
         <label htmlFor="title">Title</label>
         <input
-          {...register("title", { required: "Title is required" })}
+          {...register("title")}
           className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
           type="text"
           placeholder="Enter course title"
         />
         <label htmlFor="secondTitle">Second Title</label>
         <input
-          {...register("secondTitle", { required: "Second Title is required" })}
+          {...register("secondTitle")}
           className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
           type="text"
           placeholder="Enter course Second Title"

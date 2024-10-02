@@ -4,6 +4,7 @@ import { cousers } from "../../types/course";
 import { updateCourse } from "../../api/coursesAPI";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import UpdateVideo from "../../components/videoUpload/UpdateVideo";
 
 function UpdateCourse() {
   const { idCourse } = useParams();
@@ -44,9 +45,9 @@ function UpdateCourse() {
       }
     });
 
-    /*  if (data.thumbnail && data.thumbnail[0]) {
+    if (data.thumbnail && data.thumbnail[0]) {
       formData.append("thumbnail", data.thumbnail[0]);
-    } */
+    }
 
     console.log(formData.getAll("price"));
 
@@ -61,17 +62,20 @@ function UpdateCourse() {
     } else {
       console.log("Course not found in cache, fetching...");
     }
-  });
+  }, []);
 
   return (
     <div>
       {course ? ( // Render CourseForm only when the course is available
-        <CourseForm
-          handleDecriptionChange={handleDecriptionChange}
-          submitCourse={submitCourse}
-          update
-          course={course}
-        />
+        <>
+          <CourseForm
+            handleDecriptionChange={handleDecriptionChange}
+            submitCourse={submitCourse}
+            update
+            course={course}
+          />
+          <UpdateVideo />
+        </>
       ) : (
         <p>Loading course data...</p>
       )}

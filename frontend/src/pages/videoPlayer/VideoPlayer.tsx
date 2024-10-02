@@ -1,22 +1,38 @@
 import { useParams } from "react-router-dom";
 import Comment from "../../components/commentair/Comment";
 import { useCourseState } from "../../state/course";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getVideoComments } from "../../api/commentAPI";
 import CommentList from "../../components/commentList/CommentList";
 import { comment } from "../../types/comment";
+import { useEffect, useState } from "react";
+import { cousers } from "../../types/course";
 
 function VideoPlayer() {
-  const { idVideo, idVid } = useParams();
-  const { data: course } = useCourseState();
+  const { idVideo, idVid, idCourse } = useParams();
+  const queryClient = useQueryClient();
+  const [course, setCourse] = useState<cousers>();
 
-  const { data: video } = useQuery({
+  const { data: videoComents } = useQuery({
     queryKey: ["video"],
     queryFn: () => getVideoComments(course?.video._id!, idVid!),
     enabled: !!course?.video._id,
   });
-  if (!video) {
-    return <div>fddffddffd</div>;
+  useEffect(() => {
+    setCourse(queryClient.getQueryData(["course", idCourse]));
+
+    if (course) {
+      console.log("Course found in cache:", course);
+    } else {
+      console.log("Course not found in cache, fetching...");
+    }
+  }, []);
+  if (!videoComents) {
+    console.log(videoComents);
+
+    return <div className="h-screen bg-red-500">fddffddffd</div>;
+  } else {
+    console.log(videoComents);
   }
   return (
     <div className="mt-15   flex flex-col items-center gap-5 justify-center pt-14">
@@ -28,8 +44,8 @@ function VideoPlayer() {
       <div className="flex flex-col items-start w-[90%]   ">
         <Comment idVideo={idVideo!} idVid={idVid!} />
 
-        {video.comments &&
-          video.comments.map((comment: comment, index: number) => (
+        {videoComents.comments &&
+          videoComents.comments.map((comment: comment, index: number) => (
             <CommentList key={index} comment={comment} />
           ))}
       </div>

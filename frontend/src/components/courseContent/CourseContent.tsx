@@ -12,9 +12,11 @@ type DropdownState = {
 };
 
 function CourseContent({ video }: CourseContentProps) {
+  console.log(video, "vidddd");
+
   // Initialize dropdown state with the first index open
   const [dropdowns, setDropdowns] = useState<DropdownState>({ 0: true });
-  
+
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({
       ...prev,
@@ -43,7 +45,8 @@ function CourseContent({ video }: CourseContentProps) {
                       className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
                     >
                       <span> {} </span>
-                      <MdOutlineOndemandVideo /> {video.videoName?.split(".")[0]}
+                      <MdOutlineOndemandVideo />{" "}
+                      {video.videoName?.split(".")[0]}
                     </Link>
                   </div>
                 ))}
