@@ -98,9 +98,9 @@ function CourseDetail() {
         </div>
         <div className="shadow-md border mb-2 p-2 mt-2 box-sizing-border-box">
           <h1 className="text-lg font-bold">What you'll learn</h1>
-          <div className="md:grid md:grid-cols-2 gap-2">
+          <div className="md:grid md:grid-cols-2 gap-2 overflow-hidden ">
             {course.learnTarget.map((learn: string, index: number) => (
-              <p key={index} className="p-1 text-sm">
+              <p key={index} className="p-1 text-sm ">
                 &#10003; {learn}
               </p>
             ))}

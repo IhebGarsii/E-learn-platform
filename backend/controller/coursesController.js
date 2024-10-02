@@ -284,21 +284,25 @@ const updateCourse = async (req, res) => {
   try {
     console.log(req.body);
 
-    /*   const thumbnail = req.files["thumbnail"][0]; */
+    const thumbnail = req.files["thumbnail"][0];
+    console.log(thumbnail);
 
     const course = await coursesModel.findById(idCourse);
-    /* if (!(course.instructorId.toString() !== idUser)) {
+    if (course.instructorId.toString() !== idUser) {
+      console.log(course.instructorId.toString());
+      console.log(idUser);
+
       return res
-        .status(403)
+        .status(401)
         .json({ error: "You are not authorized to update this course." });
-    } */
+    }
     const updatedCourse = await coursesModel.findByIdAndUpdate(
       idCourse,
-      { ...req.body },
+      { ...req.body, thumbnail: thumbnail.filename },
       { new: true }
     );
 
-    res.status(202).json("Your Course Has Been Updated");
+    return res.status(200).json("Your Course Has Been Updated");
   } catch (error) {
     console.log(error);
 
