@@ -105,10 +105,12 @@ const AddCourse = async (req, res) => {
 
     // Convert sectionData to an array
     const sections = Object.values(sectionData);
-
-    // Handle thumbnail
-    const thumbnail = req.files["thumbnail"][0];
-    console.log("sections", sections);
+    let thumbnail;
+    if (req.files["thumbnail"] !== undefined) {
+      thumbnail = req.files["thumbnail"][0];
+    } else {
+      return res.status(400).json("you must provide a thumbnail");
+    }
 
     // Save video data with the new structure
     const savedVideo = await videoCourse.create({
@@ -281,11 +283,12 @@ const deleteCourse = async (req, res) => {
 };
 const updateCourse = async (req, res) => {
   const { idUser, idCourse } = req.params;
-  try {
-    console.log(req.body);
 
-    const thumbnail = req.files["thumbnail"][0];
-    console.log(thumbnail);
+  try {
+    let thumbnail;
+    if (req.files["thumbnail"] !== undefined) {
+      thumbnail = req.files["thumbnail"][0];
+    }
 
     const course = await coursesModel.findById(idCourse);
     if (course.instructorId.toString() !== idUser) {
@@ -298,11 +301,13 @@ const updateCourse = async (req, res) => {
     }
     const updatedCourse = await coursesModel.findByIdAndUpdate(
       idCourse,
-      { ...req.body, thumbnail: thumbnail.filename },
+      { ...req.body, thumbnail: thumbnail?.filename },
       { new: true }
     );
 
-    return res.status(200).json("Your Course Has Been Updated");
+    return res
+      .status(200)
+      .json({ msg: "Your Course Has Been Updated", updatedCourse });
   } catch (error) {
     console.log(error);
 

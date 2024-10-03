@@ -19,7 +19,10 @@ function UpdateCourse() {
     mutationFn: (formData: FormData) =>
       updateCourse(formData, localStorage.getItem("idUser")!, idCourse!),
     onSuccess: (data) => {
-      console.log(data);
+      console.log(
+        "updated course in  cashe",
+        queryClient.getQueryData(["course", idCourse])
+      );
     },
     onError: (error) => {
       console.log(error);
