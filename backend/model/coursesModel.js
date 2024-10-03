@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const coursesModel = new Schema({
   title: { type: String },
+  secondTitle: { type: String },
+
   description: { type: String },
   category: { type: String },
   difficultyLevel: { type: String },

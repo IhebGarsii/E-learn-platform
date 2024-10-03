@@ -12,7 +12,14 @@ const registerInstroctor = async (req, res) => {
     if (user.length > 0) {
       return res.status(300).json("email is used");
     }
-    const image = req.file.originalname;
+
+    let image;
+    if (req.file) {
+      image = req.file.originalname;
+    } else {
+      image = "defaultAvatar.jpg";
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
     const newUser = await userModel.create({
@@ -36,8 +43,9 @@ const updateUser = async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(req.body.password, salt);
-
-    user.image = req.file.originalname;
+    if (req.file) {
+      user.image = req.file.originalname;
+    }
     user.password = hash;
     await user.save();
     const token = createToken(user._id);
@@ -125,11 +133,11 @@ const updateUserInformation = async (req, res) => {
     if (!idUser) {
       return res.status(404).json("id Not with data");
     }
-      const user = await userModel.findByIdAndUpdate(
-        idUser, // The ID of the user to update
-        { $set: req.body }, // Update the fields based on request body
-        { new: true } // Return the updated document
-      );
+    const user = await userModel.findByIdAndUpdate(
+      idUser, // The ID of the user to update
+      { $set: req.body }, // Update the fields based on request body
+      { new: true } // Return the updated document
+    );
     return res.status(202).json(user);
   } catch (error) {
     console.log(error);
@@ -224,7 +232,6 @@ module.exports = {
   getStutent,
   deleteAcount,
   deleteAcountByAdmin,
-
   getUserById,
   updateUserInformation,
 };
