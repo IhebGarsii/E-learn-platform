@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { addCommentToVideo } from "../../api/commentAPI";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { comment } from "../../types/comment";
 import { useUserState } from "../../state/user";
 type commentProps = {
@@ -9,6 +13,8 @@ type commentProps = {
 };
 function Comment({ idVideo, idVid }: commentProps) {
   const [comment, setComment] = useState("");
+
+  const queryClient = useQueryClient();
 
   const { data: user } = useUserState();
 
@@ -21,6 +27,8 @@ function Comment({ idVideo, idVid }: commentProps) {
       commentText: comment,
       givenUser: localStorage.getItem("idUser")!,
     };
+    setComment("");
+
     mutateComment(commentToAdded);
   };
 
@@ -28,13 +36,14 @@ function Comment({ idVideo, idVid }: commentProps) {
     mutationFn: (data: comment) => addCommentToVideo(data),
     onSuccess: () => {
       console.log("comment added ");
+      queryClient.invalidateQueries({ queryKey: ["video"] });
     },
     onError: (error) => {
       console.log("error in adding the comment", error);
     },
   });
   return (
-    <div className="flex flex-col items-start gap-5  w-[50%]  ">
+    <div className="flex flex-col items-start gap-5  w-full  ">
       <textarea
         className="outline-blue-700 border-gray border bg-gray-100 h-20 w-full p-3  "
         value={comment}

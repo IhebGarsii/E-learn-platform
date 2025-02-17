@@ -19,17 +19,17 @@ function Filter({ onFilterChange, courses }: FilterProps) {
   const { register, handleSubmit, reset } = useForm<filter>({
     defaultValues: {
       duration: "",
-      priceRange: { minValue: 0, maxValue: 100 }, // Initialize with default values
+      priceRange: { minValue: 0, maxValue: 100 }, 
     },
   });
 
   useEffect(() => {
     if (selectedCategory.length > 0) {
       const selectedTags = firstTags.find(
-        ([category]) => category === selectedCategory[0] // Assuming single category selection
+        ([category]) => category === selectedCategory[0]
       );
       if (selectedTags) {
-        // Ensure tags are always an array of strings
+        
         setTags(Array.isArray(selectedTags[1]) ? selectedTags[1] : []);
       } else {
         setTags([]);

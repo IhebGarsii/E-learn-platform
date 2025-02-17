@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import Comment from "../../components/commentair/Comment";
-import { useCourseState } from "../../state/course";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getVideoComments } from "../../api/commentAPI";
 import CommentList from "../../components/commentList/CommentList";

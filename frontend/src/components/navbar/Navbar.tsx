@@ -59,28 +59,40 @@ function Navbar() {
           >
             <ul className="flex md:flex-row flex-col md:items-center md:gap-[4vw] mx-auto gap-8">
               <li>
-                <Link className="hover:text-gray-500" to="Courses">
+                <Link
+                  className="hover:text-blue-500 hover:font-bold"
+                  to="Courses"
+                >
                   Courses
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-gray-500" to="/solution">
+                <Link
+                  className="hover:text-blue-500 hover:font-bold"
+                  to="/solution"
+                >
                   Solution
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-gray-500" to="/resource">
+                <Link
+                  className="hover:text-blue-500 hover:font-bold"
+                  to="/resource"
+                >
                   Resource
                 </Link>
               </li>
               <li>
-                <Link className="hover:text-gray-500" to="/developers">
+                <Link
+                  className="hover:text-blue-500 hover:font-bold"
+                  to="/developers"
+                >
                   Developers
                 </Link>
               </li>
               <li>
                 <Link
-                  className="hover:text-gray-500 whitespace-nowrap"
+                  className="hover:text-blue-500 hover:font-bold whitespace-nowrap"
                   to="/pricing"
                 >
                   How To Use

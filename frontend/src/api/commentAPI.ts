@@ -35,3 +35,9 @@ export const getVideoComments = async (videoList: string, idVideo: string) => {
     throw error;
   }
 };
+
+export const addReplyAPI = async (data: comment) => {
+  try {
+    const response = await fetch(`${BASE_URL}/addReply`);
+  } catch (error) {}
+};
