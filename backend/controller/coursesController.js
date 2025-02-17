@@ -314,7 +314,11 @@ const updateCourse = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
-
+const addReplyComment = async (req, res) => {
+  try {
+    console.log(req.body);
+  } catch (error) {}
+};
 module.exports = {
   getAllCourses,
   getCourse,
@@ -324,4 +328,5 @@ module.exports = {
   rateCourse,
   addCommentToVideo,
   getComments,
+  addReplyComment,
 };

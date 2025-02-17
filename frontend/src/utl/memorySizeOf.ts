@@ -40,3 +40,4 @@ export function memorySizeOf(obj: object | null | undefined): string {
 
   return formatByteSize(sizeOf(obj));
 }
+   

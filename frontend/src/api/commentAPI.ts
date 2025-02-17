@@ -1,4 +1,5 @@
 import { comment } from "../types/comment";
+import { replyComment } from "../types/replyComment";
 
 const BASE_URL = "http://localhost:4000/courses";
 
@@ -36,8 +37,18 @@ export const getVideoComments = async (videoList: string, idVideo: string) => {
   }
 };
 
-export const addReplyAPI = async (data: comment) => {
+export const addReplyAPI = async (data: replyComment) => {
   try {
-    const response = await fetch(`${BASE_URL}/addReply`);
-  } catch (error) {}
+    const response = await fetch(`${BASE_URL}/addReply`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
 };
