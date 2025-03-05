@@ -1,6 +1,5 @@
 export type video = {
   _id: string;
-
   sectionTitle: string;
   videoList: File[];
 };

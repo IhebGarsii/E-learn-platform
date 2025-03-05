@@ -8,9 +8,7 @@ import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
 import DOMPurify from "dompurify";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/state";
-import { addToCartRedux } from "../../redux/cartSlice/cartSlice";
+
 import { addToCart } from "../../api/cartAPI";
 import { cousers } from "../../types/course";
 
@@ -28,10 +26,12 @@ function CourseDetail() {
     queryFn: () => getCourse(idCourse!),
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
   });
-  const queryClient = useQueryClient();
 
-  const dispatch = useDispatch<AppDispatch>();
-  const cartCourses = useSelector((state: RootState) => state.cart);
+  if (idCourse) {
+    localStorage.setItem("CourseId", idCourse);
+  }
+
+  const queryClient = useQueryClient();
 
   const { mutate: mutateCart } = useMutation({
     mutationFn: (data: string) =>
@@ -46,8 +46,6 @@ function CourseDetail() {
   });
   const handleAddToCart = () => {
     if (course) {
-      dispatch(addToCartRedux({ idCourse: course._id, price: course.price }));
-
       mutateCart(course._id);
     }
   };

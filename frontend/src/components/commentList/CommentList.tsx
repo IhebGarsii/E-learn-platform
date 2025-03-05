@@ -1,24 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addReplyAPI } from "../../api/commentAPI";
 import { useState } from "react";
-import { comment } from "../../types/comment";
 import { formatedDate } from "../../utl/formatedDate";
 import { replyComment } from "../../types/replyComment";
 
 function CommentList({ comment }: any) {
-  console.log("ffffffffffffff");
-  console.log(comment);
-
-  console.log("ffffffffffffff");
+  const queryClient = useQueryClient();
 
   const [reply, setReply] = useState("");
-  const [returnedReply, setReturnedReply] = useState<replyComment>();
 
   const formattedDate = formatedDate(comment.date);
   const { mutate: mutateReply } = useMutation({
     mutationFn: (data: replyComment) => addReplyAPI(data),
     onSuccess: (data) => {
-      setReturnedReply(data);
+      queryClient.invalidateQueries({ queryKey: ["video"] });
+      setReply("");
     },
   });
   const addReply = () => {
@@ -47,7 +43,7 @@ function CommentList({ comment }: any) {
       </div>
       <p className=""> {comment.commentText} </p>
       {true &&
-        comment.reply.map((reply:any) => (
+        comment.reply.map((reply: any) => (
           <>
             <div className="flex items-center gap-3 pl-5 w-fit">
               <img
@@ -70,7 +66,7 @@ function CommentList({ comment }: any) {
             setReply(e.target.value)
           }
           className="outline-blue-700 border-gray border bg-gray-100 h-10 w-full p-1  "
-          placeholder="Write a comment..."
+          placeholder="Write a Reply..."
           value={reply}
         ></textarea>
         <button onClick={addReply}>Add Reply</button>
