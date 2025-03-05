@@ -1,8 +1,8 @@
 import { instructor } from "./instructor";
 
 export type replyComment = {
-  givenUser: string | instructor;
-  commenReplyText: string;
+  givenUser: instructor | string;
+  commentReplyText: string;
   date?: number;
   commentID: string;
 };

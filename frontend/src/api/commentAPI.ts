@@ -39,7 +39,7 @@ export const getVideoComments = async (videoList: string, idVideo: string) => {
 
 export const addReplyAPI = async (data: replyComment) => {
   try {
-    const response = await fetch(`${BASE_URL}/addReply`, {
+    const response = await fetch(`${BASE_URL}/addReplyComment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

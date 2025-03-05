@@ -6,10 +6,13 @@ const replyCommentModel = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",
   },
-  commenReplyText: {
+  commentReplyText: {
     type: String,
   },
   date: { type: Date, default: Date.now },
- 
+  commnetID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "commentModel",
+  },
 });
 module.exports = mongoose.model("replyCommentModel", replyCommentModel);

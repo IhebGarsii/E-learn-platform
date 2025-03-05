@@ -3,4 +3,8 @@ Screenshot make real time update with react query
 
 *****************
 add reply button
+add scroll to hide replys
+
+
+
 fix courses image add a fixed width and hieght

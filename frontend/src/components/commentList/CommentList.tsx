@@ -6,19 +6,28 @@ import { formatedDate } from "../../utl/formatedDate";
 import { replyComment } from "../../types/replyComment";
 
 function CommentList({ comment }: any) {
+  console.log("ffffffffffffff");
+  console.log(comment);
+
+  console.log("ffffffffffffff");
+
   const [reply, setReply] = useState("");
- 
+  const [returnedReply, setReturnedReply] = useState<replyComment>();
+
   const formattedDate = formatedDate(comment.date);
   const { mutate: mutateReply } = useMutation({
     mutationFn: (data: replyComment) => addReplyAPI(data),
-    onSuccess: () => console.log("reply added"),
+    onSuccess: (data) => {
+      setReturnedReply(data);
+    },
   });
   const addReply = () => {
     const data = {
-      commentID:comment._id,
-      commenReplyText: comment,
+      commentID: comment._id,
+      commentReplyText: reply,
       givenUser: localStorage.getItem("idUser")!,
     };
+
     mutateReply(data);
   };
   return (
@@ -37,20 +46,24 @@ function CommentList({ comment }: any) {
         <span className="font-light text-sm w-max ">{formattedDate}</span>
       </div>
       <p className=""> {comment.commentText} </p>
-      {true && (
-        <div className="flex items-center gap-3 w-fit">
-          <img
-            className="w-10 h-10 rounded-full"
-            src={`http://localhost:4000/uploads/users/${comment.givenUser.image}`}
-            alt=""
-          />
-          <div className="font-bold  flex gap-2 ">
-            <span>{comment.givenUser.firstName}</span>
-            <span> {comment.givenUser.lastName}</span>
-          </div>
-          <span className="font-light text-sm w-max ">{formattedDate}</span>
-        </div>
-      )}
+      {true &&
+        comment.reply.map((reply:any) => (
+          <>
+            <div className="flex items-center gap-3 pl-5 w-fit">
+              <img
+                className="w-10 h-10 rounded-full"
+                src={`http://localhost:4000/uploads/users/${reply.givenUser.image}`}
+                alt=""
+              />
+              <div className="font-bold  flex gap-2 ">
+                <span>{reply.givenUser.firstName}</span>
+                <span> {reply.givenUser.lastName}</span>
+              </div>
+              <span className="font-light text-sm w-max ">{formattedDate}</span>
+            </div>
+            <p className="pl-10"> {reply.commentReplyText} </p>
+          </>
+        ))}
       <div className="pl-5 w-full ">
         <textarea
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

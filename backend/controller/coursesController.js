@@ -4,6 +4,7 @@ const videoCourse = require("../model/videoCourse");
 const userModel = require("../model/userModel");
 
 const mongoose = require("mongoose");
+const replyModel = require("../model/replyModel");
 const getAllCourses = async (req, res) => {
   try {
     const courses = await coursesModel.find().populate("instructorId");
@@ -158,12 +159,21 @@ const getComments = async (req, res) => {
     const videoEntry = await videoCourse
       .findOne({ _id: videoListId })
       .populate({
-        path: "video.videoList.comments", // Path to populate comments
-        populate: {
-          path: "givenUser", // Path to populate user in comments
-          model: "userModel", // Model to populate from
-        },
-        model: "commentModel", // Model to populate from
+        path: "video.videoList.comments",
+        model: "commentModel",
+        populate: [
+          {
+            path: "givenUser",
+            model: "userModel", // Ensure it references the correct user model
+          },
+          {
+            path: "reply",
+            populate: {
+              path: "givenUser",
+              model: "userModel", // This should be the user model, not replyModel
+            },
+          },
+        ],
       })
       .exec();
 
@@ -316,8 +326,31 @@ const updateCourse = async (req, res) => {
 };
 const addReplyComment = async (req, res) => {
   try {
+    const { commentID, commentReplyText, givenUser } = req.body;
     console.log(req.body);
-  } catch (error) {}
+
+    const comment = await commentsModel.findById(commentID);
+    if (!comment) {
+      return res.status(404).json("comnt not found");
+    }
+    const reply = await replyModel.create({
+      commentReplyText,
+      givenUser,
+      commentID,
+    });
+    if (!reply) {
+      return res.status(401).json("reply not created");
+    }
+    comment.reply.push(reply._id);
+    reply.save();
+    comment.save();
+
+    return res.status(201).json(reply);
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json(error);
+  }
 };
 module.exports = {
   getAllCourses,
