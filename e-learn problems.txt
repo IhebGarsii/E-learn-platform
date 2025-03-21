@@ -8,4 +8,4 @@ add scroll to hide replys
 
 
 
-fix courses image add a fixed width and hieght
+fix courses image add a fixed width and hieght *** doing

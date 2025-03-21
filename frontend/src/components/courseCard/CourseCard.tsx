@@ -3,21 +3,23 @@ import { cousers } from "../../types/course";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addToCart } from "../../api/cartAPI";
 import { useCartState } from "../../state/cart";
-type courseCardProps = {
+
+type CourseCardProps = {
   course: cousers;
 };
-function CourseCard({ course }: courseCardProps) {
+
+function CourseCard({ course }: CourseCardProps) {
   if (!course._id) {
     return <div>No course data available</div>;
   }
+
   const queryClient = useQueryClient();
   const { setData } = useCartState();
-  // Ensure avgRate and avgRate.rate are valid numbers
+
   const rate = course.avgRate?.rate || 0;
   const formattedRate = typeof rate === "number" ? rate.toFixed(1) : "0.0";
-
-  // Calculate the number of filled stars
   const numFilledStars = Math.round(rate);
+
   const { mutate: mutateCart } = useMutation({
     mutationFn: (data: string) =>
       addToCart(data, localStorage.getItem("idUser")!),
@@ -25,28 +27,29 @@ function CourseCard({ course }: courseCardProps) {
       console.log(error);
     },
     onSuccess: (data) => {
-      /* queryClient.invalidateQueries({ queryKey: ["cart"] }); */
       setData(data);
     },
   });
+
   const handleAddToCart = () => {
     if (course) {
       mutateCart(course._id);
     }
   };
+
   return (
-    <div className="w-full   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link className="rounded-md" to={`/Course/${course._id}`}>
         <img
-          className="p-2  w-full  rounded-xl    "
+          className="p-2 w-full h-48 object-contain rounded-xl"
           src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
           alt="Course thumbnail"
         />
       </Link>
-      <div className="px-5 pb-5 ">
+      <div className="px-5 pb-5">
         <Link to="/detail">
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            {/* Add the course title or name here */}
+            {course.title}
           </h5>
         </Link>
         <div className="flex items-center mt-2.5 mb-5">
@@ -74,7 +77,7 @@ function CourseCard({ course }: courseCardProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
-            {course.price}
+            ${course.price}
           </span>
           <button
             onClick={handleAddToCart}
