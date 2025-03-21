@@ -121,15 +121,15 @@ function Navbar() {
                       alt=""
                     />
                     <div className="relative flex group">
-                      <Link
-                        to={`cart/${user?._id}`}
-                        className="relative mr-2 text-xl cursor-pointer"
+                      <div
+                       
+                        className="relative mr-2 text-xl "
                       >
                         <FaCartShopping />
                         <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-4 bottom-4">
                           {cart?.quantity || 0}
                         </span>
-                      </Link>
+                      </div>
                       {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
                       {cart && (
                         <div className="absolute md:top-1 md:right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">

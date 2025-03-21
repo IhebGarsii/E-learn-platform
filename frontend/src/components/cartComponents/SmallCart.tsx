@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { cartSaved } from "../../types/cart";
+import { useUserState } from "../../state/user";
 
 type smallCartProp = {
   cart: cartSaved;
 };
 
 function SmallCart({ cart }: smallCartProp) {
+  const { data: user } = useUserState();
   if (!cart) {
     return <div className="mt-20">your cart is empty</div>;
   }
@@ -38,10 +40,16 @@ function SmallCart({ cart }: smallCartProp) {
           </Link>
         ))}
       </div>
-      <div className=" absolute top-full right-0 h-16 flex items-center p-5   w-full bg-white border shadow-2xl ">
+      <div className=" absolute top-full right-0 h-16 flex items-center p-5 justify-between  w-full bg-white border shadow-2xl ">
         <h1 className=" px-5  font-semibold text-xl">
           total: {cart?.totalPrice}$
         </h1>
+        <Link
+          to={`cart/${user?._id}`}
+          className="cursor-pointer hover:text-blue-500 hover:font-bold "
+        >
+          View Cart
+        </Link>
       </div>
     </>
   );
