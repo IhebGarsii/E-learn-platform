@@ -15,6 +15,7 @@ const addToCart = async (req, res) => {
         path: "courses.studentsId",
         model: "userModel",
       });
+    // if new cart has to be created
     if (!cartt) {
       console.log("!cartt");
       const cart = await cartModel.create({
@@ -34,8 +35,15 @@ const addToCart = async (req, res) => {
     cartt.totalPrice += course.price;
     cartt.courses.push(idCourse);
     await cartt.save();
-    console.log("cartt", cartt);
-    return res.status(201).json(cartt);
+    const cartt2 = await cartModel
+      .findOne({ idUser })
+      .populate("courses")
+      .populate({
+        path: "courses.studentsId",
+        model: "userModel",
+      });
+ 
+    return res.status(201).json(cartt2);
   } catch (error) {
     console.log(error);
     return res.status(500).error;

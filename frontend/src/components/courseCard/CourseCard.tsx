@@ -38,7 +38,7 @@ function CourseCard({ course }: CourseCardProps) {
   };
 
   return (
-    <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link className="rounded-md" to={`/Course/${course._id}`}>
         <img
           className="p-2 w-full h-48 object-contain rounded-xl"
