@@ -1,6 +1,7 @@
 const { sign } = require("jsonwebtoken");
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
+const downloadUserImage = require("../utl/downloadUserImage");
 
 const createToken = (id) => {
   return sign({ id }, process.env.SECRET, { expiresIn: "3d" });
@@ -37,27 +38,6 @@ const registerInstroctor = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  try {
-    const user = await userModel.findByIdAndUpdate(req.body._id, req.body);
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(req.body.password, salt);
-    if (req.file) {
-      user.image = req.file.originalname;
-    }
-    user.password = hash;
-    await user.save();
-    const token = createToken(user._id);
-    if (user) {
-      return res.status(201).json({ user, token });
-    }
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: error.message });
-  }
-};
-
 const login = async (req, res) => {
   try {
     if (req.body.google) {
@@ -65,7 +45,29 @@ const login = async (req, res) => {
       const user = await userModel.findOne({ email });
 
       if (user === null || user.length === 0) {
-        return res.status(404).json("User Not Found please regester");
+        const newUser = req.body.user;
+
+        const randomPassword = Math.random().toString(36).slice(-8);
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(randomPassword, salt);
+        const filename = `${Date.now()}-${newUser.sub}.jpg`;
+        try {
+          savedImage = await downloadUserImage(newUser.picture, filename);
+          console.log("Image downloaded successfully:", savedImage);
+        } catch (downloadErr) {
+          console.warn("Image download failed. Using default image.");
+        }
+        const user = await userModel.create({
+          firstName: newUser.given_name,
+          lastName: newUser.family_name,
+          email: newUser.email,
+          password: hash,
+          image: newUser.picture,
+        });
+        const token = createToken(user._id);
+        console.log("New user created:", user);
+
+        return res.status(200).json({ user, token });
       }
 
       const token = createToken(user._id);
@@ -91,7 +93,26 @@ const login = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+const updateUser = async (req, res) => {
+  try {
+    const user = await userModel.findByIdAndUpdate(req.body._id, req.body);
 
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(req.body.password, salt);
+    if (req.file) {
+      user.image = req.file.originalname;
+    }
+    user.password = hash;
+    await user.save();
+    const token = createToken(user._id);
+    if (user) {
+      return res.status(201).json({ user, token });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
 const registerStudent = async (req, res) => {};
 
 const getAllStutent = async (req, res) => {

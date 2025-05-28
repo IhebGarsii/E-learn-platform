@@ -17,7 +17,7 @@ function Navbar() {
     queryFn: () => getUserById(idUser),
     enabled: !!idUser,
   });
-
+  
   const { data: cart } = useQuery({
     queryKey: ["cart"],
     queryFn: () => getUserCart(idUser),

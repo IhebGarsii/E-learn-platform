@@ -23,6 +23,7 @@ export const signin = async (data: googleLogin) => {
   }
 };
 
+
 export const signup = async (formData: FormData) => {
   try {
     console.log(formData.getAll("password"));

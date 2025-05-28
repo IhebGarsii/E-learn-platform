@@ -14,9 +14,9 @@ function CartRow({ course, onRemove }: cartRowProps) {
     >
       <main className="flex justify-between lg:-w-full  ">
         <div className="flex gap-2  ">
-          <Link to={`/course/${course._id}`}>
+          <Link to={`/course/${course._id}`} className="w-fit">
             <img
-              className="min-w-16  h-14 lg:w-40 lg:h-24"
+              className="w-fit h-14  lg:h-24"
               src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
               alt=""
             />
@@ -51,16 +51,14 @@ function CartRow({ course, onRemove }: cartRowProps) {
               <h2 className="whitespace-nowrap text-xs">
                 {course.duration} Total Hours
               </h2>
-           
+
               <h2 className="whitespace-nowrap text-xs">
                 {course.difficultyLevel} Difficulty Level
               </h2>
             </nav>
           </div>
         </div>
-        <div className="font-black text-blue-900 text-md ">
-          ${course.price}
-        </div>
+        <div className="font-black text-blue-900 text-md ">${course.price}</div>
       </main>
       <div className="flex gap-3 lg:flex-col ">
         <button

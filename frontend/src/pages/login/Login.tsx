@@ -26,6 +26,7 @@ function Login() {
     mutationFn: (data: googleLogin) => signin(data),
     onSuccess: (data: loginResponse) => {
       setData(data.user);
+      console.log("Login Success:", data.user);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUser", data.user._id);
@@ -46,10 +47,11 @@ function Login() {
     try {
       // Decode the JWT token
       const user = jwtDecode<instructor>(credentialResponse.credential ?? "");
+      console.log("user length", user);
 
       // Extract email from the decoded token
-      const data = { email: user.email, google: true };
-      console.log("Google Login Data:", data);
+      const data = { email: user.email, user, google: true };
+
       mutateLogin(data);
     } catch (error) {
       console.error("Google Login Error:", error);
