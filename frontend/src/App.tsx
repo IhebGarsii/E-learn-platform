@@ -3,6 +3,7 @@ import Navbar from "./components/navbar/Navbar";
 import SideBar from "./components/sideBar/SideBar";
 import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Welcome from "./pages/welcome/Welcom";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         }}
       />
       <Navbar />
+      <Welcome />
       <SideBar />
     </BrowserRouter>
   );

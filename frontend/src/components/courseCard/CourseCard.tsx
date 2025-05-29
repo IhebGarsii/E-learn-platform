@@ -38,7 +38,7 @@ function CourseCard({ course }: CourseCardProps) {
   };
 
   return (
-    <div className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full bg-white border border-gray-200 rounded-lg shadow">
       <Link className="rounded-md" to={`/Course/${course._id}`}>
         <img
           className="p-2 w-full h-48 object-contain rounded-xl"
@@ -48,7 +48,7 @@ function CourseCard({ course }: CourseCardProps) {
       </Link>
       <div className="px-5 pb-5">
         <Link to="/detail">
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900">
             {course.title}
           </h5>
         </Link>
@@ -58,9 +58,7 @@ function CourseCard({ course }: CourseCardProps) {
               <svg
                 key={index}
                 className={`w-4 h-4 ${
-                  index < numFilledStars
-                    ? "text-yellow-300"
-                    : "text-gray-200 dark:text-gray-600"
+                  index < numFilledStars ? "text-yellow-300" : "text-gray-200"
                 }`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,17 +69,17 @@ function CourseCard({ course }: CourseCardProps) {
               </svg>
             ))}
           </div>
-          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
+          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded ms-3">
             {formattedRate}
           </span>
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+          <span className="text-3xl font-bold text-gray-900">
             ${course.price}
           </span>
           <button
             onClick={handleAddToCart}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Add to cart
           </button>
