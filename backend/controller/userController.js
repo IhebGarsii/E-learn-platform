@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const { downloadGoogleImage } = require("../utl/downloadUserImage");
 const path = require("path");
 
-
 const createToken = (id) => {
   return sign({ id }, process.env.SECRET, { expiresIn: "3d" });
 };
@@ -43,7 +42,7 @@ const registerInstroctor = async (req, res) => {
 const login = async (req, res) => {
   try {
     if (req.body.google) {
-      const { email } = req.body;
+      const { email, role } = req.body;
       const user = await userModel.findOne({ email });
 
       if (user === null || user.length === 0) {
@@ -63,13 +62,14 @@ const login = async (req, res) => {
           console.warn("Image download failed. Using default image.");
           console.error("Download error:", downloadErr); // <- log full error
         }
-        
+
         const user = await userModel.create({
           firstName: newUser.given_name,
           lastName: newUser.family_name,
           email: newUser.email,
           password: hash,
           image: newUser.picture,
+          role,
         });
         const token = createToken(user._id);
         console.log("New user created:", user);

@@ -31,7 +31,7 @@ function App() {
         }}
       />
       <Navbar />
-      <Welcome />
+    
       <SideBar />
     </BrowserRouter>
   );

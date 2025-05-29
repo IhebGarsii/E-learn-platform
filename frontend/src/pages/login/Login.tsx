@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 import { useMutation } from "@tanstack/react-query";
 import { signin } from "../../api/userAPI";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 
 import { useUserState } from "../../state/user";
 import { instructor } from "../../types/instructor";
@@ -18,6 +18,8 @@ type loginResponse = {
 
 function Login() {
   const navigate = useNavigate();
+  const { role } = useParams();
+  console.log("Role from params:", role);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +52,7 @@ function Login() {
       console.log("user length", user);
 
       // Extract email from the decoded token
-      const data = { email: user.email, user, google: true };
+      const data = { email: user.email, user,role, google: true };
 
       mutateLogin(data);
     } catch (error) {

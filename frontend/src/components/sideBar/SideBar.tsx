@@ -12,6 +12,7 @@ import UpdateBasic from "../profileComponents/UpdateBasic";
 import PublicProfile from "../profileComponents/PublicProfile";
 import AddProject from "../../pages/InstructorDashboard/AddProject";
 import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
+import Welcome from "../../pages/welcome/Welcom";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -85,7 +86,7 @@ function SideBar() {
       <div className="min-h-screen  overflow-hidden w-fit flex-1">
         <Routes>
           <Route path="/Courses" element={<Courses />} />
-          <Route path="login" element={<Login />} />
+          <Route path="login/:role" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="coursesDarshboard" element={<AddCourse />} />
           <Route path="/addProject" element={<AddProject />} />
@@ -102,6 +103,7 @@ function SideBar() {
             element={<PublicProfile />}
           />
           <Route path="updateCourse/:idCourse" element={<UpdateCourse />} />
+          <Route path="/" element={<Welcome />} />
         </Routes>
       </div>
     </div>

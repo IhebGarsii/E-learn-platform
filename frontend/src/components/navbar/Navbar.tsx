@@ -17,7 +17,7 @@ function Navbar() {
     queryFn: () => getUserById(idUser),
     enabled: !!idUser,
   });
-  
+
   const { data: cart } = useQuery({
     queryKey: ["cart"],
     queryFn: () => getUserCart(idUser),
@@ -38,7 +38,7 @@ function Navbar() {
 
   const logout = () => {
     localStorage.clear();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -107,8 +107,11 @@ function Navbar() {
                   <div className="flex flex-row-reverse items-center w-50 gap-6">
                     <img
                       className="w-10 h-10 rounded-full"
-                      src={user?.image.startsWith("http") ? `${user?.image}` :
-                        `http://localhost:4000/uploads/users/${user?.image}`}
+                      src={
+                        user?.image.startsWith("http")
+                          ? `${user?.image}`
+                          : `http://localhost:4000/uploads/users/${user?.image}`
+                      }
                       alt={user?.image}
                     />
                     <h3 className="flex items-center gap-2">
@@ -122,10 +125,7 @@ function Navbar() {
                       alt=""
                     />
                     <div className="relative flex group">
-                      <div
-                       
-                        className="relative mr-2 text-xl "
-                      >
+                      <div className="relative mr-2 text-xl ">
                         <FaCartShopping />
                         <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-4 bottom-4">
                           {cart?.quantity || 0}
