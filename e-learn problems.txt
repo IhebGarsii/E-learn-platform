@@ -8,5 +8,6 @@ add scroll to hide replys
 
 ***********NOW**********
 adding welcome page where guest see first if he is a student of a instructor where he can choose and log in he can go as guset with limited actions
+Image download failed. Using default image. fixed
 
 fix courses image add a fixed width and hieght *** doing

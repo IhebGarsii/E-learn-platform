@@ -1,7 +1,9 @@
 const { sign } = require("jsonwebtoken");
 const userModel = require("../model/userModel");
 const bcrypt = require("bcrypt");
-const downloadUserImage = require("../utl/downloadUserImage");
+const { downloadGoogleImage } = require("../utl/downloadUserImage");
+const path = require("path");
+
 
 const createToken = (id) => {
   return sign({ id }, process.env.SECRET, { expiresIn: "3d" });
@@ -50,13 +52,18 @@ const login = async (req, res) => {
         const randomPassword = Math.random().toString(36).slice(-8);
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(randomPassword, salt);
-        const filename = `${Date.now()}-${newUser.sub}.jpg`;
+        const imageUrl = newUser.picture;
+        const decodedUrl = decodeURIComponent(imageUrl);
+        const originalName = path.basename(decodedUrl); // "Untitled design (1).png"
+        const uniqueName = `${Date.now()}-${originalName}`;
         try {
-          savedImage = await downloadUserImage(newUser.picture, filename);
+          savedImage = await downloadGoogleImage(newUser.picture, uniqueName);
           console.log("Image downloaded successfully:", savedImage);
         } catch (downloadErr) {
           console.warn("Image download failed. Using default image.");
+          console.error("Download error:", downloadErr); // <- log full error
         }
+        
         const user = await userModel.create({
           firstName: newUser.given_name,
           lastName: newUser.family_name,
