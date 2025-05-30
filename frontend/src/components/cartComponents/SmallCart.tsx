@@ -18,10 +18,10 @@ function SmallCart({ cart }: smallCartProp) {
           <Link
             to={`/course/${course._id}`}
             key={course._id}
-            className="flex items-start py-2 gap-3 border-b-2 border-gray-500 "
+            className="flex items-center py-2 gap-3 border-b-2 border-gray-500 "
           >
             <img
-              className="w-18 h-16 mt-3"
+              className="w-28 h-16 mt-3"
               src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
               alt=""
             />

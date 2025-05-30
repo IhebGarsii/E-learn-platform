@@ -10,7 +10,7 @@ export type instructor = {
   image: string;
   lastName: string;
   password: string;
-  roles: string[];
+  role: string[];
   updatedAt: Date;
   avgRate: rate;
   aboutMe: string;

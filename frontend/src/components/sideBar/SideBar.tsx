@@ -16,7 +16,10 @@ import Welcome from "../../pages/welcome/Welcom";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
-  const role = localStorage.getItem("roles") === "INSTRUCTOR";
+  const role = localStorage.getItem("roles") == "instructor";
+  console.log("Role from localStorage:", role); 
+  
+  
   const Menus = [
     { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
     { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },
@@ -35,7 +38,7 @@ function SideBar() {
 
   return (
     <div className="flex  ">
-      {role && (
+      {role  && (
         <div
           className={` ${
             open ? "w-72" : "w-20 "

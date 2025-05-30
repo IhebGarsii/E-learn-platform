@@ -17,8 +17,8 @@ const userModel = new Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "instructor", "student","guest"], // Enum ensures the role is one of the specified values
-    default: "student", // Default role is 'student'
+    enum: ["admin", "instructor", "student", "guest"], // Enum ensures the role is one of the specified values
+    default: "guest", // Default role is 'student'
   },
   firstName: {
     type: String,

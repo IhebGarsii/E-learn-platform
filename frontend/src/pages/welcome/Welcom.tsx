@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Welcome() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const onSelect = (role: string) => {
     setRole(role);
+    if (role == "guest") {
+      navigate("Courses");
+      return
+    }
     navigate(`/login/${role}`);
   };
 

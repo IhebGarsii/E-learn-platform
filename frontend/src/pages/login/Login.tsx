@@ -35,7 +35,7 @@ function Login() {
       localStorage.setItem("firstName", data.user.firstName);
       localStorage.setItem("lastName", data.user.lastName);
       localStorage.setItem("profileImage", data.user.image);
-      localStorage.setItem("roles", JSON.stringify(data.user.roles));
+      localStorage.setItem("roles", JSON.stringify(data.user.role));
 
       navigate("/courses");
     },
