@@ -6,6 +6,7 @@ import ProjectCard from "../projectComponents/ProjectCard";
 import { useState } from "react";
 import ProjectDetail from "../projectComponents/ProjectDetail";
 import DOMPurify from "dompurify";
+import PublicProfileCourseCard from "./PublicProfileCourseCard";
 
 function PublicProfile() {
   const { data: user } = useUserState();
@@ -14,7 +15,9 @@ function PublicProfile() {
   const onClickDetail = (display: boolean) => {
     setProjectDetail(display);
   };
-
+  const handelCloseProject = () => {
+    setProjectDetail(false);
+  };
   const sanitizedHtml = DOMPurify.sanitize(user?.aboutMe || "");
   return (
     <div className="mt-14 p-3 flex flex-col gap-10  w-[90%]  lg:w-[80%] mx-auto ">
@@ -58,46 +61,7 @@ function PublicProfile() {
         />
         <nav className="grid grid-cols-1 gap-2 mt-4 md:grid-cols-2">
           {user?.courses.map((course) => (
-            <Fragment key={course._id}>
-              <div className="flex  border border-gray-400 my-2 p-1 rounded-md relative ">
-                <img
-                  className="w-20 h-20 md:w-40 md:h-40 rounded-md mb-2"
-                  src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
-                  alt=""
-                />
-
-                <div className="flex flex-col justify-around ml-2">
-                  <Link
-                    to={`/Course/${course._id}`}
-                    className="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors duration-150"
-                  >
-                    {course.title}
-                  </Link>
-                  <div className="flex flex-col ">
-                    <nav className="flex  ">
-                      {course.headTags.map((tag, key) => (
-                        <span
-                          key={key}
-                          className="border-2 border-gray-900 rounded-xl w-fit p-1 m-1"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </nav>
-                    <nav className="flex ">
-                      {course.tags.map((tag, key) => (
-                        <span
-                          key={key}
-                          className="border-2 border-gray-900 rounded-xl w-fit p-1 m-1"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            </Fragment>
+            <PublicProfileCourseCard course={course} key={course._id} />
           ))}
         </nav>
         <div className="relative">
@@ -117,7 +81,8 @@ function PublicProfile() {
             )
           )}
           {projectDetail && (
-            <div className="bg-red-900 w-screen h-screen absolute top-5">
+            <div className="bg-red-900 w-[50%] h-[50%] absolute top-5">
+              <button onClick={()=>handelCloseProject()}>close</button>
               <ProjectDetail />
             </div>
           )}
