@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import img from "../../assets/arrow-dwon.png";
@@ -10,7 +10,32 @@ import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
 
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMenu, setProfileMenu] = useState(false);
   const idUser = localStorage.getItem("idUser")!;
+  const profileRef = useRef<HTMLDivElement | null>(null);
+  const profileButtonRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        profileMenu &&
+        profileRef.current &&
+        !profileRef.current.contains(target) &&
+        profileButtonRef.current &&
+        !profileButtonRef.current.contains(target)
+      ) {
+        setProfileMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profileMenu]);
 
   const { data: user } = useQuery({
     queryKey: ["user"],
@@ -24,8 +49,6 @@ function Navbar() {
     enabled: !!idUser,
   });
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [profileMenu, setProfileMenu] = useState(false);
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
 
@@ -37,6 +60,7 @@ function Navbar() {
   };
 
   const logout = () => {
+    setProfileMenu(!profileMenu);
     localStorage.clear();
     navigate("/");
   };
@@ -120,6 +144,7 @@ function Navbar() {
                     </h3>
                     <img
                       onClick={handelProfile}
+                      ref={profileButtonRef}
                       className="w-4 h-5 cursor-pointer"
                       src={img}
                       alt=""
@@ -140,7 +165,10 @@ function Navbar() {
                     </div>
                   </div>
                   {profileMenu && (
-                    <div className="absolute z-10 bg-gray-300 p-2 h-fit">
+                    <div
+                      ref={profileRef}
+                      className="absolute z-10 bg-gray-300 p-2 h-fit"
+                    >
                       <ul className="flex flex-col gap-1">
                         <li
                           onClick={logout}
@@ -152,11 +180,19 @@ function Navbar() {
                         <>
                           {user && (
                             <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
-                              <Link to={`/profile/${user._id}`}>Profile</Link>
+                              <Link
+                                onClick={handelProfile}
+                                to={`/profile/${user._id}`}
+                              >
+                                Profile
+                              </Link>
                             </li>
                           )}
                         </>
-                        <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
+                        <li
+                          onClick={handelProfile}
+                          className="hover:bg-blue-500 hover:text-white cursor-pointer"
+                        >
                           Notification
                         </li>
                       </ul>

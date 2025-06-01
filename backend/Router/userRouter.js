@@ -14,8 +14,9 @@ const {
   deleteAcountByAdmin,
   getUserById,
   updateUser,
+  manageRate
 } = require("../controller/userController");
-const userRouer = express.Router();
+const userRouter = express.Router();
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
@@ -30,16 +31,17 @@ const upload = multer({
   }),
 });
 
-userRouer.post("/register", upload.single("image"), registerInstroctor);
-userRouer.put("/updateUser", upload.single("image"), updateUser);
-userRouer.put("/updateUserInformation/:idUser", updateUserInformation);
-userRouer.post("/login", login);
-userRouer.get("/getStutent", getStutent);
-userRouer.get("/getUserById/:idUser", getUserById);
-userRouer.get("/getAllInstroctor", getAllInstroctor);
-userRouer.get("/getAllStutent", getAllStutent);
-userRouer.get("/getInstroctor", getInstroctor);
-userRouer.delete("/deleteAcount/:idUser", deleteAcount);
-userRouer.delete("/deleteAcountByAdmin/:idUser/:idBlock", deleteAcountByAdmin);
+userRouter.post("/register", upload.single("image"), registerInstroctor);
+userRouter.put("/updateUser", upload.single("image"), updateUser);
+userRouter.put("/updateUserInformation/:idUser", updateUserInformation);
+userRouter.post("/login", login);
+userRouter.get("/getStutent", getStutent);
+userRouter.get("/getUserById/:idUser", getUserById);
+userRouter.get("/getAllInstroctor", getAllInstroctor);
+userRouter.get("/getAllStutent", getAllStutent);
+userRouter.get("/getInstroctor", getInstroctor);
+userRouter.delete("/deleteAcount/:idUser", deleteAcount);
+userRouter.delete("/deleteAcountByAdmin/:idUser/:idBlock", deleteAcountByAdmin);
+userRouter.put("/manageRate/:idUser", manageRate);
 
-module.exports = userRouer;
+module.exports = userRouter;

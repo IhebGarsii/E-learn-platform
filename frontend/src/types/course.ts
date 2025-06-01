@@ -28,4 +28,5 @@ export type cousers = {
 export type rate = {
   rate: number;
   nbRate: number;
+  displayRate: number;
 };

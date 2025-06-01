@@ -28,7 +28,11 @@ function Profile() {
       <section className="flex flex-col justify-center items-center gap-3">
         <img
           className=" md:w-40 w-28 md:h-40 h-28 max-w-xs rounded-full"
-          src={`http://localhost:4000/uploads/users/${user?.image}`}
+          src={
+            user?.image.startsWith("https")
+              ? user?.image
+              : `http://localhost:4000/uploads/users/${user?.image}`
+          }
           alt="User profile"
         />
         <nav className="flex flex-col gap-2 font-bold">

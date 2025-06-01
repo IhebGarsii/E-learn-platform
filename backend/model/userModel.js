@@ -55,15 +55,20 @@ const userModel = new Schema({
   avgRate: {
     rate: { type: Number, default: 0 },
     nbRate: { type: Number, default: 0 },
+    displayRate: { type: Number, default: 0 },
   },
-  following: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel",
-  },
-  followers: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel",
-  },
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+    },
+  ],
   aboutMe: {
     type: String,
   },

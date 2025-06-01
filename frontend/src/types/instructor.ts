@@ -22,4 +22,6 @@ export type instructor = {
   skills: string[];
   degree: string;
   certifications: certification;
+  followers: number[];
+  following: number[];
 };
