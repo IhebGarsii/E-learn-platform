@@ -1,7 +1,8 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { createProject } = require("../controller/projectController");
+const { createProject ,getProject} = require("../controller/projectController");
+const { get } = require("http");
 const projectRouter = express.Router();
 const upload = multer({
   storage: multer.diskStorage({
@@ -21,5 +22,6 @@ projectRouter.post(
   upload.fields([{ name: "images" }]),
   createProject
 );
+projectRouter.get('/getProject/:projectId',getProject)
 
 module.exports = projectRouter;

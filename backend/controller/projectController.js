@@ -22,5 +22,16 @@ const createProject = async (req, res) => {
     return res.status(500).json(error);
   }
 };
-
-module.exports = { createProject };
+const getProject = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const project = await projectModel.findById(projectId);
+    if (!project) {
+      return res.status(404).json("Project Not Found");
+    }
+    return res.status(200).json(project);
+  } catch (error) {
+    return res.stats(500).json(error);
+  }
+};
+module.exports = { createProject, getProject };

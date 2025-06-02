@@ -69,7 +69,7 @@ function PublicProfile() {
             typeof proj !== "string" ? (
               <>
                 <ProjectCard
-                  onClick={onClickDetail}
+                  onClick={() => onClickDetail(!projectDetail)}
                   project={proj}
                   key={proj._id}
                 />
@@ -82,7 +82,7 @@ function PublicProfile() {
           )}
           {projectDetail && (
             <div className="bg-red-900 w-[50%] h-[50%] absolute top-5">
-              <button onClick={()=>handelCloseProject()}>close</button>
+              <button onClick={() => handelCloseProject()}>close</button>
               <ProjectDetail />
             </div>
           )}

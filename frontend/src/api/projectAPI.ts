@@ -16,3 +16,16 @@ export const createProjectAPI = async (formData: FormData) => {
     throw error;
   }
 };
+export const getProject = async (idProject: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/getProject/${idProject}`, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error("error");
+    }
+    return await response.json();
+  } catch (error) {
+    return error;
+  }
+};

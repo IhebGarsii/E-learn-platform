@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { project } from "../../types/project";
-import ProjectDetail from "./ProjectDetail";
+
 
 type ProjectCardProps = {
   project: project;
@@ -10,6 +10,7 @@ type ProjectCardProps = {
 function ProjectCard({ project, key, onClick }: ProjectCardProps) {
   const [display, setDisplay] = useState(false);
   const handleClick = () => {
+    localStorage.setItem("projectId", project._id);
     setDisplay(!display);
     onClick(display);
   };

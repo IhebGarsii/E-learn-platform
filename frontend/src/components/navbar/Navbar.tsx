@@ -131,11 +131,7 @@ function Navbar() {
                   <div className="flex flex-row-reverse items-center w-50 gap-6">
                     <img
                       className="w-10 h-10 rounded-full"
-                      src={
-                        user?.image.startsWith("http")
-                          ? `${user?.image}`
-                          : `http://localhost:4000/uploads/users/${user?.image}`
-                      }
+                      src={`http://localhost:4000/uploads/users/${user?.image}`}
                       alt={user?.image}
                     />
                     <h3 className="flex items-center gap-2">

@@ -68,7 +68,7 @@ const login = async (req, res) => {
           lastName: newUser.family_name,
           email: newUser.email,
           password: hash,
-          image: newUser.picture,
+          image: savedImage,
           role,
         });
         const token = createToken(user._id);

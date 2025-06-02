@@ -12,5 +12,6 @@ Image download failed. Using default image. *** fixed
 
 fix courses image add a fixed width and hieght *** fixed
 finish public profile
-fix project detail apear after two clicks on see more and 
+fix project detail apear after two clicks on see more and  fixed
 add close button to close the project finished
+pass project data to project detail
