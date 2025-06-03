@@ -5,4 +5,7 @@ export type project = {
   tags: string[];
   headTags: string[];
   title: string;
+  liveDemoLink: string;
+  visibility: string;
+  githubLink: string;
 };

@@ -54,7 +54,7 @@ function AddProject() {
 
   return (
     <form
-      className="mt-16 h-screen flex flex-col p-2 gap-9"
+      className="mt-16 h-ful flex flex-col p-2 gap-5"
       onSubmit={handleSubmit(createProject)}
     >
       {/* Title Field */}
@@ -66,22 +66,23 @@ function AddProject() {
         {...register("title")}
         type="text"
         placeholder="Enter project title"
-        className="border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
       />
 
       {/* Description Field */}
       <label htmlFor="description" className="font-semibold text-gray-700">
         Project Description
       </label>
-      <ReactQuill
-        id="description"
-        className="h-[50%] border-2 border-blue-500 overflow-hidden"
-        theme="snow"
-        placeholder="Enter Description"
-        value={descValue}
-        onChange={setDescValue}
-      />
-
+      <div>
+        <ReactQuill
+          id="description"
+          className=" h-ful" // Set height here
+          theme="snow"
+          placeholder="Enter Description"
+          value={descValue}
+          onChange={setDescValue}
+        />
+      </div>
       {/* Image Upload */}
       <label htmlFor="images" className="font-semibold text-gray-700">
         Upload Images
@@ -91,8 +92,45 @@ function AddProject() {
         {...register("images")}
         multiple
         type="file"
-        className="border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
       />
+
+      {/* GitHub Link */}
+      <label htmlFor="githubLink" className="font-semibold text-gray-700">
+        GitHub Link
+      </label>
+      <input
+        id="githubLink"
+        {...register("githubLink")}
+        type="url"
+        placeholder="https://github.com/your-repo"
+        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+      />
+
+      {/* Live Demo Link */}
+      <label htmlFor="liveDemoLink" className="font-semibold text-gray-700">
+        Live Demo Link
+      </label>
+      <input
+        id="liveDemoLink"
+        {...register("liveDemoLink")}
+        type="url"
+        placeholder="https://your-project-live-demo.com"
+        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+      />
+
+      {/* Visibility */}
+      <label htmlFor="visibility" className="font-semibold text-gray-700">
+        Visibility
+      </label>
+      <select
+        id="visibility"
+        {...register("visibility")}
+        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+      >
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
 
       {/* Tags */}
       <nav className="flex flex-col">
