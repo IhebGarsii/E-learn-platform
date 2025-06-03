@@ -21,7 +21,7 @@ function PublicProfile() {
   const sanitizedHtml = DOMPurify.sanitize(user?.aboutMe || "");
   return (
     <div className="mt-14 p-3 flex flex-col gap-10  w-[90%]  lg:w-[80%] mx-auto ">
-      <section className="flex gap-3 items-center bg-gray-100 p-3 rounded-md shadow-md">
+      <section className="flex gap-3  max-w-full items-center bg-gray-100 p-3 rounded-md shadow-md">
         <img
           className="w-25 h-25 md:w-40   md:h-40  max-w-xs rounded-full"
           src={
@@ -40,14 +40,14 @@ function PublicProfile() {
             <h2>follower: {user?.followers.length}</h2>
             <h2>following: {user?.following.length} </h2>
           </div>
-          <div className=" flex items-center ">
+          <div className=" flex flex-wrap items-center  ">
             <Rating
-              className="text-xs "
+              className="text-xs  "
               style={{ maxWidth: 250, width: 100 }}
               value={user?.avgRate.displayRate ?? 0}
               readOnly
             />
-            <span className="whitespace-nowrap">
+            <span className="whitespace ">
               ({user?.avgRate.displayRate ?? 0} ratings)
             </span>
           </div>
@@ -64,7 +64,7 @@ function PublicProfile() {
             <PublicProfileCourseCard course={course} key={course._id} />
           ))}
         </nav>
-        <div className="relative">
+        <div className="relative items-center flex flex-col gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 ">
           {user?.projects.map((proj) =>
             typeof proj !== "string" ? (
               <>

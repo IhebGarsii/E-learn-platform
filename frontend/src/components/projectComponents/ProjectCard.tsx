@@ -16,7 +16,7 @@ function ProjectCard({ project, key, onClick }: ProjectCardProps) {
   };
   return (
     /* From Uiverse.io by Javierrocadev */
-    <div className="w-60 h-60 bg-gray-50 p-3  flex flex-col gap-1 rounded-2xl relative">
+    <div className="w-[90%] sm:w-full h-60 bg-gray-50 p-3   flex flex-col gap-1 rounded-2xl relative">
       <img
         className="h-40 bg-gray-700 rounded-xl"
         src={`http://localhost:4000/uploads/projects/${project.images[0]}`}
@@ -24,8 +24,8 @@ function ProjectCard({ project, key, onClick }: ProjectCardProps) {
       />
       <div className="flex flex-col gap-4">
         <div className="flex flex-row justify-between">
-          <div className="flex flex-col">
-            <span className="text-xs  w-[60%] truncate ... font-bold">
+          <div className="flex flex-col w-[90%]">
+            <span className="text-xs  w-[95%] truncate ... font-bold">
               {project.title}
             </span>
           </div>
