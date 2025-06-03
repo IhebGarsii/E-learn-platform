@@ -21,7 +21,7 @@ function SignUp() {
       localStorage.setItem("firstName", data.newUser.firstName);
       localStorage.setItem("lastName", data.newUser.lastName);
       localStorage.setItem("profileImage", data.newUser.image);
-      localStorage.setItem("roles", JSON.stringify(data.newUser.roles));
+      localStorage.setItem("roles", data.newUser.role);
       navigate("/home");
     },
     onError: (error: Error) => {

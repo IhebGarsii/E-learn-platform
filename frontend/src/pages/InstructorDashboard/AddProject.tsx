@@ -54,33 +54,60 @@ function AddProject() {
 
   return (
     <form
-      className="mt-16 h-screen flex flex-col p-2   gap-9"
+      className="mt-16 h-screen flex flex-col p-2 gap-9"
       onSubmit={handleSubmit(createProject)}
     >
+      {/* Title Field */}
+      <label htmlFor="title" className="font-semibold text-gray-700">
+        Project Title
+      </label>
       <input
+        id="title"
         {...register("title")}
         type="text"
-        className=" border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        placeholder="Enter project title"
+        className="border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
       />
+
+      {/* Description Field */}
+      <label htmlFor="description" className="font-semibold text-gray-700">
+        Project Description
+      </label>
       <ReactQuill
-        className=" h-[50%]  border-2 border-blue-500 overflow-hidden "
+        id="description"
+        className="h-[50%] border-2 border-blue-500 overflow-hidden"
         theme="snow"
         placeholder="Enter Description"
         value={descValue}
         onChange={setDescValue}
       />
+
+      {/* Image Upload */}
+      <label htmlFor="images" className="font-semibold text-gray-700">
+        Upload Images
+      </label>
       <input
+        id="images"
         {...register("images")}
         multiple
         type="file"
-        className=" border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        className="border border-gray-50 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
       />
+
+      {/* Tags */}
       <nav className="flex flex-col">
-        <label htmlFor="tags">Tags</label>
+        <label htmlFor="tags" className="font-semibold text-gray-700">
+          Tags
+        </label>
         <TagInput tags={tags} onChange={handleTagsChange} />
-        <label htmlFor="headTags">Header Tags</label>
+
+        <label htmlFor="headTags" className="font-semibold text-gray-700 mt-4">
+          Header Tags
+        </label>
         <TagInput tags={headTags} onChange={handleHeadTagsChange} />
       </nav>
+
+      {/* Submit Button */}
       <button
         type="submit"
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"

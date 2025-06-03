@@ -35,7 +35,7 @@ function Login() {
       localStorage.setItem("firstName", data.user.firstName);
       localStorage.setItem("lastName", data.user.lastName);
       localStorage.setItem("profileImage", data.user.image);
-      localStorage.setItem("roles", JSON.stringify(data.user.role));
+      localStorage.setItem("roles", data.user.role);
 
       navigate("/courses");
     },
@@ -52,7 +52,7 @@ function Login() {
       console.log("user length", user);
 
       // Extract email from the decoded token
-      const data = { email: user.email, user,role, google: true };
+      const data = { email: user.email, user, role, google: true };
 
       mutateLogin(data);
     } catch (error) {
