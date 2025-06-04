@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { getProject } from "../../api/projectAPI";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { getProject, LikeProject } from "../../api/projectAPI";
 import DOMPurify from "dompurify";
 import { FaHeart } from "react-icons/fa";
 
@@ -8,6 +8,7 @@ interface ProjectDetailProps {
 }
 
 function ProjectDetail({ handleClose }: ProjectDetailProps) {
+  const queryClient = new QueryClient();
   const { data: project } = useQuery({
     queryFn: () => getProject(localStorage.getItem("projectId")!),
     queryKey: ["project"],
@@ -15,10 +16,16 @@ function ProjectDetail({ handleClose }: ProjectDetailProps) {
   });
 
   const sanitizedHtml = DOMPurify.sanitize(project?.description || "");
+  const { mutate: likeProject } = useMutation({
+    mutationFn: (projectId: string) => LikeProject(projectId),
+    onSuccess: (data) => {
+      console.log("Project liked successfully:", data);
 
-  const handleLike = () => {
-    // TODO: Add mutation to like the project
-    console.log("Liked project:", project?._id);
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+    },
+  });
+  const handleLike = (projectId: string) => {
+    likeProject(projectId);
   };
 
   return (
@@ -27,12 +34,12 @@ function ProjectDetail({ handleClose }: ProjectDetailProps) {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-800">{project?.title}</h1>
         <button
-          onClick={handleLike}
+          onClick={() => handleLike(project?._id)}
           className="text-red-600 hover:text-red-700 text-xl flex items-center gap-1"
           title="Like this project"
         >
           <FaHeart />
-          <span>{project?.likes?.length || 0}</span>
+          <span>{project?.likes || 0}</span>
         </button>
       </div>
 

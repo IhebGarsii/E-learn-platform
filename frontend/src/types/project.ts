@@ -6,6 +6,7 @@ export type project = {
   headTags: string[];
   title: string;
   liveDemoLink: string;
+  likes: Number;
   visibility: string;
   githubLink: string;
 };

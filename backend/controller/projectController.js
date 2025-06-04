@@ -31,7 +31,25 @@ const getProject = async (req, res) => {
     }
     return res.status(200).json(project);
   } catch (error) {
-    return res.stats(500).json(error);
+    return res.status(500).json(error);
   }
 };
-module.exports = { createProject, getProject };
+const likeProject = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const project = await projectModel.findById(projectId);
+    if (!project) {
+      return res.status(404).json("Project Not Found");
+    }
+    console.log(project);
+    
+    project.likes = project.likes + 1;
+    await project.save();
+    return res.status(200).json(project);
+  } catch (error) {
+    console.log(error);
+    
+    return res.status(500).json(error);
+  }
+};
+module.exports = { createProject, getProject, likeProject };

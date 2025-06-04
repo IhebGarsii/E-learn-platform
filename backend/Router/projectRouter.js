@@ -1,8 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { createProject ,getProject} = require("../controller/projectController");
-const { get } = require("http");
+const { createProject ,getProject,likeProject} = require("../controller/projectController");
 const projectRouter = express.Router();
 const upload = multer({
   storage: multer.diskStorage({
@@ -23,5 +22,6 @@ projectRouter.post(
   createProject
 );
 projectRouter.get('/getProject/:projectId',getProject)
+projectRouter.put('/likeProject/:projectId', likeProject)
 
 module.exports = projectRouter;

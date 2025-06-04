@@ -29,3 +29,19 @@ export const getProject = async (idProject: string) => {
     return error;
   }
 };
+export const LikeProject = async (projectId: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/likeProject/${projectId}`, {
+      method: "PUT",
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error); 
+    return error;
+    
+  }
+};

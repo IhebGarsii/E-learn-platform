@@ -16,3 +16,4 @@ fix project detail apear after two clicks on see more and  fixed
 add close button to close the project finished
 pass project data to project detail finished
 design the project detail window
+when click on tag i want to go to its searsch or some thing

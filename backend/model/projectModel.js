@@ -13,7 +13,7 @@ const projectModel = new Schema({
   title: { type: String },
   githubLink: { type: String },
   liveDemoLink: { type: String },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
+  likes: { type: Number },
   visibility: {
     type: String,
     enum: ["public", "private"],
