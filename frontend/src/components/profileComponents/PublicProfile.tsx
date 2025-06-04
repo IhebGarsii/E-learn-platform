@@ -82,13 +82,7 @@ function PublicProfile() {
           {projectDetail && (
             <div className="fixed inset-0 bg-gray-200 bg-opacity-90 flex items-center justify-center z-50 overflow-y-auto">
               <div className="relative bg-white p-4 rounded-md max-w-[90%] max-h-[90%] overflow-y-auto">
-                <button
-                  className="absolute top-2 right-2 p-2 text-red-600 text-3xl"
-                  onClick={handelCloseProject}
-                >
-                  <IoClose />
-                </button>
-                <ProjectDetail />
+                <ProjectDetail handleClose={handelCloseProject} />
               </div>
             </div>
           )}
