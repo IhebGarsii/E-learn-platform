@@ -1,12 +1,11 @@
-import { Link } from "react-router-dom";
 import { useUserState } from "../../state/user";
 import { Rating } from "@smastrom/react-rating";
-import { Fragment } from "react/jsx-runtime";
 import ProjectCard from "../projectComponents/ProjectCard";
 import { useState } from "react";
 import ProjectDetail from "../projectComponents/ProjectDetail";
 import DOMPurify from "dompurify";
 import PublicProfileCourseCard from "./PublicProfileCourseCard";
+import { IoClose } from "react-icons/io5";
 
 function PublicProfile() {
   const { data: user } = useUserState();
@@ -20,7 +19,7 @@ function PublicProfile() {
   };
   const sanitizedHtml = DOMPurify.sanitize(user?.aboutMe || "");
   return (
-    <div className="mt-14 p-3 flex flex-col gap-10  w-[90%]  lg:w-[80%] mx-auto ">
+    <div className="mt-14 p-3  flex flex-col gap-10  w-[90%]  lg:w-[80%] mx-auto ">
       <section className="flex gap-3  max-w-full items-center bg-gray-100 p-3 rounded-md shadow-md">
         <img
           className="w-25 h-25 md:w-40   md:h-40  max-w-xs rounded-full"
@@ -53,7 +52,7 @@ function PublicProfile() {
           </div>
         </main>
       </section>
-      <section>
+      <section className="h-full">
         <h1 className="text-xl pb-2 font-semibold">About Me:</h1>
         <div
           className="text-sm h-fit"
@@ -64,7 +63,7 @@ function PublicProfile() {
             <PublicProfileCourseCard course={course} key={course._id} />
           ))}
         </nav>
-        <div className="relative items-center flex flex-col gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className="relative items-center h-full flex flex-col gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 ">
           {user?.projects.map((proj) =>
             typeof proj !== "string" ? (
               <>
@@ -81,9 +80,16 @@ function PublicProfile() {
             )
           )}
           {projectDetail && (
-            <div className="bg-red-900 w-[50%] h-[50%] absolute top-5">
-              <button onClick={() => handelCloseProject()}>close</button>
-              <ProjectDetail />
+            <div className="fixed inset-0 bg-gray-200 bg-opacity-90 flex items-center justify-center z-50 overflow-y-auto">
+              <div className="relative bg-white p-4 rounded-md max-w-[90%] max-h-[90%] overflow-y-auto">
+                <button
+                  className="absolute top-2 right-2 p-2 text-red-600 text-3xl"
+                  onClick={handelCloseProject}
+                >
+                  <IoClose />
+                </button>
+                <ProjectDetail />
+              </div>
             </div>
           )}
         </div>

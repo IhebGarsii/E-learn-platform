@@ -15,7 +15,7 @@ function ProjectCard({ project, key, onClick }: ProjectCardProps) {
     onClick(display);
   };
   return (
-    /* From Uiverse.io by Javierrocadev */
+   
     <div className="w-[90%] sm:w-full h-60 bg-gray-50 p-3   flex flex-col gap-1 rounded-2xl relative">
       <img
         className="h-40 bg-gray-700 rounded-xl"
