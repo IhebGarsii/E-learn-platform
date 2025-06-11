@@ -17,4 +17,4 @@ add close button to close the project finished
 pass project data to project detail finished
 design the project detail window
 when click on tag i want to go to its searsch or some thing
-it dont refresh the like aut
+it dont refresh the like auto
