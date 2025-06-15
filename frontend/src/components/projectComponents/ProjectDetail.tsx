@@ -2,6 +2,7 @@ import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { getProject, LikeProject } from "../../api/projectAPI";
 import DOMPurify from "dompurify";
 import { FaHeart } from "react-icons/fa";
+import { useProjectState } from "../../state/project";
 
 interface ProjectDetailProps {
   handleClose: () => void;
@@ -9,6 +10,7 @@ interface ProjectDetailProps {
 
 function ProjectDetail({ handleClose }: ProjectDetailProps) {
   const queryClient = new QueryClient();
+  const { setData } = useProjectState();
   const { data: project } = useQuery({
     queryFn: () => getProject(localStorage.getItem("projectId")!),
     queryKey: ["project"],
@@ -20,8 +22,8 @@ function ProjectDetail({ handleClose }: ProjectDetailProps) {
     mutationFn: (projectId: string) => LikeProject(projectId),
     onSuccess: (data) => {
       console.log("Project liked successfully:", data);
-
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      setData(data);
+      /* queryClient.invalidateQueries({ queryKey: ["project"] }); */
     },
   });
   const handleLike = (projectId: string) => {
