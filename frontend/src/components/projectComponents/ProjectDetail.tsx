@@ -9,7 +9,7 @@ interface ProjectDetailProps {
 }
 
 function ProjectDetail({ handleClose }: ProjectDetailProps) {
-  const queryClient = new QueryClient();
+  
   const { setData } = useProjectState();
   const { data: project } = useQuery({
     queryFn: () => getProject(localStorage.getItem("projectId")!),
