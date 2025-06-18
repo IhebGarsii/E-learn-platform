@@ -72,3 +72,16 @@ export const updateCourse = async (
     throw error;
   }
 };
+export const searchProducts = async (term: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}?search=${encodeURIComponent(term)}`
+    );
+    if (!response.ok) {
+      throw new Error("error");
+    }
+    return response.json();
+  } catch (error) {
+    throw error;
+  }
+};

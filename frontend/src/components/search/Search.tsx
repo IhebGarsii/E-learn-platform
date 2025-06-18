@@ -1,27 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { useDebounce } from "../../utl/debounce";
 
-function Search() {
+type SearchProps = {
+  onSearch: (term: string) => void;
+};
+
+const Search = ({ onSearch }: SearchProps) => {
   const [term, setTerm] = useState("");
 
-  const debouncedSearchTerm = useDebounce(term);
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["search"],
-    queryFn: () => searchProducts(debouncedSearchTerm),
-    enabled: !!debouncedSearchTerm,
-  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTerm(value);
+    onSearch(value);
+  };
   return (
     <div className="flex mt-14 items-center mx-auto border w-[90%] md:w-[90%] lg:w-[49%]  pr-3 gap-2 bg-white border-gray-500/30 h-[46px] rounded-[5px] overflow-hidden">
       <input
         className="w-full h-full pl-5 outline-none placeholder-gray-500 text-sm"
         placeholder="Search for products"
         type="text"
-        onChange={(e) => setTerm(e.target.value)}
+        value={term}
+        onChange={handleChange}
       />
       <svg
         fill="#6B7280"
@@ -71,6 +69,6 @@ function Search() {
       </svg>
     </div>
   );
-}
+};
 
 export default Search;
