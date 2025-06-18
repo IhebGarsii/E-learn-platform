@@ -14,10 +14,10 @@ function Footer() {
           <h1>4eme etage</h1>
           <h1>Tunisia</h1>
         </div>
-        <div className=" flex gap-9">
+        <div className="flex gap-9">
           <span>
             <h1>Phone number</h1>
-            <h1>216+ 53218684</h1>
+            <h1>216+53218684</h1>
           </span>
           <span>
             <h1>Email</h1>
