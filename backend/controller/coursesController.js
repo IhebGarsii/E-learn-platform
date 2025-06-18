@@ -352,6 +352,28 @@ const addReplyComment = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+const getSearchedCourses = async (req, res) => {
+  try {
+    const search = req.query.search;
+    console.log("coursesdsssssssssssssssss");
+
+    const query = search
+      ? {
+          $or: [
+            { title: { $regex: search, $options: "i" } },
+            { tags: { $regex: search, $options: "i" } },
+            { headTags: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const courses = await coursesModel.find(query);
+
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 module.exports = {
   getAllCourses,
   getCourse,
@@ -362,4 +384,5 @@ module.exports = {
   addCommentToVideo,
   getComments,
   addReplyComment,
+  getSearchedCourses,
 };

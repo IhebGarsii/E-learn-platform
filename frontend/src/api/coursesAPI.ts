@@ -75,7 +75,7 @@ export const updateCourse = async (
 export const searchProducts = async (term: string) => {
   try {
     const response = await fetch(
-      `${BASE_URL}?search=${encodeURIComponent(term)}`
+      `${BASE_URL}/getCourses?search=${encodeURIComponent(term)}`
     );
     if (!response.ok) {
       throw new Error("error");

@@ -10,6 +10,7 @@ const {
   addCommentToVideo,
   getComments,
   addReplyComment,
+  getSearchedCourses,
 } = require("../controller/coursesController");
 const multer = require("multer");
 const path = require("path");
@@ -47,10 +48,11 @@ coursesRouter.post("/addCourse", uploadFields, AddCourse);
 
 coursesRouter.get("/getAllCourses", getAllCourses);
 coursesRouter.get("/getCourse/:idCourse", getCourse);
-coursesRouter.post("/addCommentToVideo", addCommentToVideo); 
-coursesRouter.post("/addReplyComment", addReplyComment); 
+coursesRouter.post("/addCommentToVideo", addCommentToVideo);
+coursesRouter.post("/addReplyComment", addReplyComment);
 coursesRouter.get("/getVideoComments/:videoList/:idVideo", getComments);
 coursesRouter.delete("/deleteCourse/:idUser/:idCourse", deleteCourse);
+coursesRouter.get("/getCourses", getSearchedCourses);
 coursesRouter.put(
   "/updateCourse/:idUser/:idCourse",
   uploadFields,
