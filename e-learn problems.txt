@@ -15,7 +15,10 @@ fix project detail apear after two clicks on see more and *** fixed
 add close button to close the project *** finished
 pass project data to project detail *** finished
 design the project detail window *** finished
+finish public profile *** finished
 
 
-finish public profile
+
 when click on tag i want to go to its searsch or some thing
+add toast around the platform
+add a footer
