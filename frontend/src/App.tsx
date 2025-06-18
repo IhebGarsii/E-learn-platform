@@ -4,6 +4,7 @@ import SideBar from "./components/sideBar/SideBar";
 import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Welcome from "./pages/welcome/Welcom";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
@@ -31,8 +32,9 @@ function App() {
         }}
       />
       <Navbar />
-    
+
       <SideBar />
+      <Footer />
     </BrowserRouter>
   );
 }
