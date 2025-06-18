@@ -9,7 +9,6 @@ interface ProjectDetailProps {
 }
 
 function ProjectDetail({ handleClose }: ProjectDetailProps) {
-  
   const { setData } = useProjectState();
   const { data: project } = useQuery({
     queryFn: () => getProject(localStorage.getItem("projectId")!),
@@ -18,6 +17,11 @@ function ProjectDetail({ handleClose }: ProjectDetailProps) {
   });
 
   const sanitizedHtml = DOMPurify.sanitize(project?.description || "");
+
+  const ownedProject = () => {
+    return project?.instructorId == localStorage.getItem("userId");
+  };
+
   const { mutate: likeProject } = useMutation({
     mutationFn: (projectId: string) => LikeProject(projectId),
     onSuccess: (data) => {
@@ -37,6 +41,7 @@ function ProjectDetail({ handleClose }: ProjectDetailProps) {
         <h1 className="text-2xl font-bold text-gray-800">{project?.title}</h1>
         <button
           onClick={() => handleLike(project?._id)}
+          disabled={ownedProject()}
           className="text-red-600 hover:text-red-700 text-xl flex items-center gap-1"
           title="Like this project"
         >

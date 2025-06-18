@@ -9,4 +9,5 @@ export type project = {
   likes: Number;
   visibility: string;
   githubLink: string;
+  instructorId: string;
 };
