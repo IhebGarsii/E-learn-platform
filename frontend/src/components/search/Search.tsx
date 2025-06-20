@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useStore } from "../../hooks/zustand";
 
 type SearchProps = {
   onSearch: (term: string) => void;
@@ -6,7 +7,7 @@ type SearchProps = {
 
 const Search = ({ onSearch }: SearchProps) => {
   const [term, setTerm] = useState("");
-
+  const tag = useStore((state) => state.tagSearch);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTerm(value);
@@ -16,7 +17,7 @@ const Search = ({ onSearch }: SearchProps) => {
     <div className="flex mt-14 items-center mx-auto border w-[90%] md:w-[90%] lg:w-[49%]  pr-3 gap-2 bg-white border-gray-500/30 h-[46px] rounded-[5px] overflow-hidden">
       <input
         className="w-full h-full pl-5 outline-none placeholder-gray-500 text-sm"
-        placeholder="Search for products"
+        placeholder={tag.length > 0 ? tag : "Search by tags"}
         type="text"
         value={term}
         onChange={handleChange}

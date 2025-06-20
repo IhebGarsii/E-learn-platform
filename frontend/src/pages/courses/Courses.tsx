@@ -6,11 +6,13 @@ import Filter from "../../components/filter/Filter";
 import { cousers } from "../../types/course";
 import Search from "../../components/search/Search";
 import { useDebounce } from "../../utl/debounce";
+import { useStore } from "../../hooks/zustand";
 
 function Courses() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm);
   const [filter, setFilter] = useState<cousers[]>([]);
+  const tagSearch = useStore((state) => state.tagSearch);
+  const setTagSearch = useStore((state) => state.setTagSearch);
+  const debouncedSearchTerm = useDebounce(tagSearch);
 
   const {
     data: allCourses,
@@ -46,7 +48,7 @@ function Courses() {
 
   return (
     <div className="">
-      <Search onSearch={setSearchTerm} />
+      <Search onSearch={setTagSearch} />
 
       <div className="flex flex-col justify-center sm:flex-row pr-10 w-full items-start gap-5">
         <div className="border-4 h-fit m-5 lg:sticky w-full sm:w-fit top-0 sm:top-5">

@@ -18,8 +18,8 @@ function CourseDetail() {
   const navigate = useNavigate();
   const [desc, setDesc] = useState(false);
 
-  const tag = useStore((state) => state.tag);
-  const setTag = useStore((state)=> state.setTag);
+  const tag = useStore((state) => state.tagSearch);
+  const setTag = useStore((state) => state.setTagSearch);
   console.log(tag, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
   const {
@@ -74,7 +74,10 @@ function CourseDetail() {
   if (!course) return <div>No course found.</div>;
 
   const sanitizedHtml = DOMPurify.sanitize(course.description || "");
-
+  const searchTag = (tag: string) => {
+    setTag(tag);
+    navigate("/courses");
+  };
   return (
     <div className="flex min-h-full gap-0 flex-col lg:w-[90%] md:mt-9 md:flex-row lg:justify-start  md:items-start mt-12  mx-auto md:gap-10 items-center">
       <div className="flex-1  flex flex-col w-full md:max-w-[70%]  p-4">
@@ -179,7 +182,7 @@ function CourseDetail() {
             {course.tags.map((tag: string, index: number) => (
               <span
                 key={index}
-                onClick={() => setTag(tag)}
+                onClick={() => searchTag(tag)}
                 className="flex items-center cursor-pointer justify-center rounded-lg font-semibold w-fit min-h-10 bg-white border-2 border-black px-1"
               >
                 {tag}
