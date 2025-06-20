@@ -17,10 +17,9 @@ pass project data to project detail *** finished
 design the project detail window *** finished
 finish public profile *** finished
 add a footer *** finished
-
-
-when click on tag i want to go to its searsch or some thing
+when click on tag i want to go to its searsch or some thing *** finished
 
 
 add toast around the platform
 in course detail the footer is above the right
+in course detail wide page cant see the tags
