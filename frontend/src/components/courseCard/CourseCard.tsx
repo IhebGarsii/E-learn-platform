@@ -39,7 +39,10 @@ function CourseCard({ course }: CourseCardProps) {
 
   return (
     <div className="w-full bg-white border border-gray-200 rounded-lg shadow">
-      <Link className="rounded-md overflow-hidden w-full" to={`/Course/${course._id}`}>
+      <Link
+        className="rounded-md overflow-hidden w-full"
+        to={`/Course/${course._id}`}
+      >
         <img
           className="p-2 w-full h-48  rounded-xl"
           src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
@@ -47,7 +50,7 @@ function CourseCard({ course }: CourseCardProps) {
         />
       </Link>
       <div className="px-5 pb-5">
-        <Link to="/detail">
+        <Link to={`/Course/${course._id}`}>
           <h5 className="text-xl font-semibold tracking-tight text-gray-900">
             {course.title}
           </h5>

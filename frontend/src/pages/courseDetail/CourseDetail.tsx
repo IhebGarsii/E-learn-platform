@@ -11,11 +11,16 @@ import DOMPurify from "dompurify";
 
 import { addToCart } from "../../api/cartAPI";
 import { cousers } from "../../types/course";
+import { useStore } from "../../hooks/zustand";
 
 function CourseDetail() {
   const { idCourse } = useParams();
   const navigate = useNavigate();
   const [desc, setDesc] = useState(false);
+
+  const tag = useStore((state) => state.tag);
+  const setTag = useStore((state)=> state.setTag);
+  console.log(tag, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
   const {
     data: course,
@@ -174,7 +179,8 @@ function CourseDetail() {
             {course.tags.map((tag: string, index: number) => (
               <span
                 key={index}
-                className="flex items-center justify-center rounded-lg font-semibold w-fit min-h-10 bg-white border-2 border-black px-1"
+                onClick={() => setTag(tag)}
+                className="flex items-center cursor-pointer justify-center rounded-lg font-semibold w-fit min-h-10 bg-white border-2 border-black px-1"
               >
                 {tag}
               </span>

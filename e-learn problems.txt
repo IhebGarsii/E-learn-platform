@@ -19,7 +19,8 @@ finish public profile *** finished
 add a footer *** finished
 
 
-
 when click on tag i want to go to its searsch or some thing
+
+
 add toast around the platform
 in course detail the footer is above the right
