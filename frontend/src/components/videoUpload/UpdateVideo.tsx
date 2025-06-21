@@ -88,7 +88,7 @@ function UpdateVideo() {
           <div key={index}>
             <h1 className="flex items-center text-xl font-bold gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1">
               <img className="w-3" src={img} alt="Toggle dropdown" />
-              <span>{vid.sectionTitle}</span>{" "}
+              <span>{vid.sectionTitle}</span>
               <button onClick={() => setAddingVideo(!addingVideo)}>
                 Add Video to This Section
               </button>
