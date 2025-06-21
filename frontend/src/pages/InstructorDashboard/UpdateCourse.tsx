@@ -74,7 +74,7 @@ function UpdateCourse() {
           <CourseForm
             handleDecriptionChange={handleDecriptionChange}
             submitCourse={submitCourse}
-            update
+            update={true}
             course={course}
           />
           <UpdateVideo />

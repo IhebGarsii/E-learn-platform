@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const videoCourse = require("../model/videoCourse");
-
+const coursesModel = require("../model/coursesModel");
 const deleteVideo = async (req, res) => {
   try {
     const { idVideos, idSection, idVideo } = req.params;
@@ -37,7 +37,13 @@ const deleteVideo = async (req, res) => {
     // Save the course after deletion
     await videos.save();
 
-    return res.status(204).send(); // No content after successful deletion
+    const course = await coursesModel
+      .findOne({ video: idVideos })
+      .populate("video");
+
+    console.log("Course after deletion", course);
+
+    return res.status(202).json(course); // No content after successful deletion
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
@@ -62,7 +68,7 @@ const addVideo = async (req, res) => {
       return res.status(404).json("Section not found");
     }
     console.log(videoFile.video[0].originalname, "rrrr");
-    
+
     const newVideo = {
       videoName: videoFile.video[0].originalname,
       comments: [],

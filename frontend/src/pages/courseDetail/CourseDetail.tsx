@@ -4,10 +4,11 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { DeleteCourse, getCourse } from "../../api/coursesAPI";
-import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
+import { FaVideo, FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
 import DOMPurify from "dompurify";
+import { MdDelete } from "react-icons/md";
 
 import { addToCart } from "../../api/cartAPI";
 import { cousers } from "../../types/course";
@@ -101,6 +102,22 @@ function CourseDetail() {
             <span>Created By {course.instructorId}</span>
             <span>Last Updated {course.lastUpdated}</span>
           </div>
+          {isInstructor && (
+            <div className="flex justify-between items-center gap-4 mt-10">
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded"
+                onClick={() => handleDelete(course)}
+              >
+                <MdDelete />
+              </button>
+              <Link
+                to={`/updateCourse/${idCourse}`}
+                className="bg-blue-600 text-white px-4 py-2 justify-center rounded"
+              >
+                <FaRegEdit />
+              </Link>
+            </div>
+          )}
         </div>
 
         <div className="shadow-md border p-4 mt-4 rounded-md bg-white">
@@ -186,23 +203,6 @@ function CourseDetail() {
             </span>
           ))}
         </div>
-
-        {isInstructor && (
-          <div className="flex justify-between items-center gap-4 mt-10">
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded"
-              onClick={() => handleDelete(course)}
-            >
-              Delete
-            </button>
-            <Link
-              to={`/updateCourse/${idCourse}`}
-              className="bg-blue-600 text-white px-4 py-2 rounded"
-            >
-              Edit
-            </Link>
-          </div>
-        )}
       </div>
 
       <div className="fixed bottom-0 bg-white w-full md:hidden flex justify-between px-4 py-3 shadow-md border-t">

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { fullVideo } from "../../types/video";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MdOutlineOndemandVideo } from "react-icons/md";
+import { MdDelete, MdOutlineOndemandVideo } from "react-icons/md";
 import img from "../../assets/arrow-dwon.png";
 import { cousers } from "../../types/course";
 import { addVideo, deleteVideo } from "../../api/videoAPI";
+import { useCourseState } from "../../state/course";
 
 function UpdateVideo() {
   const { idCourse } = useParams();
@@ -14,18 +15,20 @@ function UpdateVideo() {
   const [addingVideo, setAddingVideo] = useState(true); //change this to true after testing
   const [videoFile, setVideoFile] = useState<File>();
   let course: cousers;
+  const { setData } = useCourseState();
 
   useEffect(() => {
     course = queryClient.getQueryData(["course", idCourse])!;
 
     setVideo(course.video);
+    console.log(course.video);
 
     if (videos) {
       console.log("Video found in cache:", videos);
     } else {
       console.log("video not found in cache, fetching...", videos);
     }
-  });
+  }, []);
   const { mutate: mutateDelete } = useMutation({
     mutationFn: ({
       idVideos,
@@ -36,6 +39,12 @@ function UpdateVideo() {
       idSection: string;
       idVideo: string;
     }) => deleteVideo(idVideos, idSection, idVideo),
+    onSuccess: (data) => {
+      console.log("Video deleted successfully:", data);
+
+      setData(data);
+      setVideo(data.video);
+    },
   });
 
   const handleDelete = (
@@ -101,18 +110,18 @@ function UpdateVideo() {
             </h1>
             <ul>
               {vid.videoList.map((video, vidIndex) => (
-                <div className="flex" key={vidIndex}>
+                <div className="flex justify-between p-1 " key={vidIndex}>
                   <Link
                     to={`/Course/${idCourse}/${video._id}/${video.videoName}`}
                     className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
                   >
-                    <span> {} </span>
                     <MdOutlineOndemandVideo /> {video.videoName?.split(".")[0]}
                   </Link>
                   <button
+                    className="bg-red-600 text-white px-4 py-2 justify-center rounded"
                     onClick={() => handleDelete(videos._id, vid._id, video._id)}
                   >
-                    delete
+                    <MdDelete />
                   </button>
                 </div>
               ))}

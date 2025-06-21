@@ -153,7 +153,7 @@ function CourseForm({
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
         >
-          Add Course
+          {update ?  ("Update Course") : "Create Course"}
         </button>
       </form>
       {update && <VideoUpload onChange={handleVideoChange!} />}
