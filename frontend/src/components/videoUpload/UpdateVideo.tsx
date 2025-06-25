@@ -8,7 +8,7 @@ import { cousers } from "../../types/course";
 import { addVideo, deleteVideo } from "../../api/videoAPI";
 import { useCourseState } from "../../state/course";
 
-function UpdateVideo() {
+function UpdateVideo() 
   const { idCourse } = useParams();
   const queryClient = useQueryClient();
   const [videos, setVideo] = useState<fullVideo>();
