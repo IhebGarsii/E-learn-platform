@@ -18,7 +18,7 @@ function UpdateVideo() {
   const { setData } = useCourseState();
 
   useEffect(() => {
-    course = queryClient.getQueryData(["course", idCourse])!;
+    course = queryClient.getQueryData(["course", idCurse])!;
 
     setVideo(course.video);
     console.log(course.video);
