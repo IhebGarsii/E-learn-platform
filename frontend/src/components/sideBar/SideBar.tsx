@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Courses from "../../pages/courses/Courses";
 import Login from "../../pages/login/Login";
@@ -35,7 +35,9 @@ function SideBar() {
     },
     { title: "Setting", src: "Setting", link: "/coursesDarshboard" },
   ];
+  useEffect(()=>{
 
+  },[localStorage.getItem('roles')])
   return (
     <div className="flex  ">
       {role  && (

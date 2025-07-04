@@ -45,13 +45,10 @@ function Login() {
   });
 
   const handleGoogleLogin = (credentialResponse: CredentialResponse) => {
-    // Use CredentialResponse type
     try {
-      // Decode the JWT token
       const user = jwtDecode<instructor>(credentialResponse.credential ?? "");
       console.log("user length", user);
 
-      // Extract email from the decoded token
       const data = { email: user.email, user, role, google: true };
 
       mutateLogin(data);

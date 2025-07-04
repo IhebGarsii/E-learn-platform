@@ -45,6 +45,7 @@ const login = async (req, res) => {
       const { email, role } = req.body;
       const user = await userModel.findOne({ email });
 
+      // if user does not exist in the data base we create a new user
       if (user === null || user.length === 0) {
         const newUser = req.body.user;
 
@@ -282,3 +283,7 @@ module.exports = {
   updateUserInformation,
   manageRate,
 };
+
+
+
+
