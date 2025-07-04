@@ -16,15 +16,22 @@ import Welcome from "../../pages/welcome/Welcom";
 import { useUserState } from "../../state/user";
 
 function SideBar() {
+  
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<string>("");
   const { data: user } = useUserState();
 
   useEffect(() => {
-    if (user?.role) {
-      setRole(user?.role);
+    console.log("User changed:", user);
+
+    if (user === null) {
+      console.log("User is null — logged out");
+      setRole("");
+    } else if (user?.role) {
+      setRole(user.role);
     }
   }, [user]);
+  
 
   const isInstructor = role === "instructor";
   const Menus = [

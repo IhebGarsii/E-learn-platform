@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import img from "../../assets/arrow-dwon.png";
 import useLoginUser from "../../utl/useLoginUser.js";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
@@ -17,6 +17,7 @@ function Navbar() {
   const profileRef = useRef<HTMLDivElement | null>(null);
   const profileButtonRef = useRef<HTMLImageElement | null>(null);
   const { resetData } = useUserState();
+  const queryClient = useQueryClient();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -63,7 +64,8 @@ function Navbar() {
   const logout = () => {
     setProfileMenu(false);
     localStorage.clear(); // clears role, token, etc.
-    resetData(); // invalidates user query
+    queryClient.removeQueries({ queryKey: ["user"] });
+
     navigate("/");
   };
   return (
