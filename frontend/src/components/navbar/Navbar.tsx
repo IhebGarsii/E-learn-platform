@@ -8,6 +8,7 @@ import { getUserById } from "../../api/userAPI";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
+import { useUserState } from "../../state/user.js";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,7 +16,7 @@ function Navbar() {
   const idUser = localStorage.getItem("idUser")!;
   const profileRef = useRef<HTMLDivElement | null>(null);
   const profileButtonRef = useRef<HTMLImageElement | null>(null);
-
+  const { resetData } = useUserState();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -60,11 +61,11 @@ function Navbar() {
   };
 
   const logout = () => {
-    setProfileMenu(!profileMenu);
-    localStorage.clear();
+    setProfileMenu(false);
+    localStorage.clear(); // clears role, token, etc.
+    resetData(); // invalidates user query
     navigate("/");
   };
-
   return (
     <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
       <header className="bg-white ">

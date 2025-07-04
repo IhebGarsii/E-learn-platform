@@ -17,18 +17,15 @@ export function createGlobalState<T>(
       refetchIntervalInBackground: false,
     });
 
-   function setData(partialData: Partial<T>) {
-     queryClient.setQueryData([queryKey], (oldData: T | undefined) => ({
-       ...oldData,
-       ...partialData,
-     }));
-   }
+    function setData(partialData: Partial<T>) {
+      queryClient.setQueryData([queryKey], (oldData: T | undefined) => ({
+        ...oldData,
+        ...partialData,
+      }));
+    }
 
     function resetData() {
       queryClient.invalidateQueries({
-        queryKey: [queryKey],
-      });
-      queryClient.refetchQueries({
         queryKey: [queryKey],
       });
     }

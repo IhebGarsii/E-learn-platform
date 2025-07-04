@@ -13,28 +13,19 @@ import PublicProfile from "../profileComponents/PublicProfile";
 import AddProject from "../../pages/InstructorDashboard/AddProject";
 import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
 import Welcome from "../../pages/welcome/Welcom";
+import { useUserState } from "../../state/user";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState(localStorage.getItem("roles"));
+  const [role, setRole] = useState<string>("");
+  const { data: user } = useUserState();
 
   useEffect(() => {
-    const handleRoleChange = () => {
-      const updatedRole = localStorage.getItem("roles");
-      setRole(updatedRole);
-    };
+    if (user?.role) {
+      setRole(user?.role);
+    }
+  }, [user]);
 
-    window.addEventListener("roleChange", handleRoleChange);
-
-    // optional: also handle manual localStorage changes (multi-tab)
-    window.addEventListener("storage", handleRoleChange);
-
-    return () => {
-      window.removeEventListener("roleChange", handleRoleChange);
-      window.removeEventListener("storage", handleRoleChange);
-    };
-  }, []);
-  
   const isInstructor = role === "instructor";
   const Menus = [
     { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
@@ -51,7 +42,7 @@ function SideBar() {
     },
     { title: "Setting", src: "Setting", link: "/coursesDarshboard" },
   ];
-  
+
   return (
     <div className="flex  ">
       {isInstructor && (
