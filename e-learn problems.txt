@@ -23,3 +23,4 @@ deleting video doesnt update instantly *** fixed turns out
 add toast around the platform
 in course detail the footer is above the right
 in course detail wide page cant see the tags
+rework filter

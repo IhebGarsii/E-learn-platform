@@ -16,10 +16,26 @@ import Welcome from "../../pages/welcome/Welcom";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
-  const role = localStorage.getItem("roles") == "instructor";
-  console.log("Role from localStorage:", role); 
+  const [role, setRole] = useState(localStorage.getItem("roles"));
+
+  useEffect(() => {
+    const handleRoleChange = () => {
+      const updatedRole = localStorage.getItem("roles");
+      setRole(updatedRole);
+    };
+
+    window.addEventListener("roleChange", handleRoleChange);
+
+    // optional: also handle manual localStorage changes (multi-tab)
+    window.addEventListener("storage", handleRoleChange);
+
+    return () => {
+      window.removeEventListener("roleChange", handleRoleChange);
+      window.removeEventListener("storage", handleRoleChange);
+    };
+  }, []);
   
-  
+  const isInstructor = role === "instructor";
   const Menus = [
     { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
     { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },
@@ -35,12 +51,10 @@ function SideBar() {
     },
     { title: "Setting", src: "Setting", link: "/coursesDarshboard" },
   ];
-  useEffect(()=>{
-
-  },[localStorage.getItem('roles')])
+  
   return (
     <div className="flex  ">
-      {role  && (
+      {isInstructor && (
         <div
           className={` ${
             open ? "w-72" : "w-20 "
