@@ -12,7 +12,7 @@ function Welcome() {
       navigate("Courses");
       return
     }
-    navigate(`/login/${role}`);
+    navigate(`/signup/${role}`);
   };
 
   return (

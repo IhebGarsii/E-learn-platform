@@ -39,7 +39,7 @@ const registerInstroctor = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+/* const login = async (req, res) => {
   try {
     if (req.body.google) {
       const { email, role } = req.body;
@@ -76,6 +76,41 @@ const login = async (req, res) => {
         console.log("New user created:", user);
 
         return res.status(200).json({ user, token });
+      }
+
+      const token = createToken(user._id);
+      return res.status(200).json({ user, token });
+    } else {
+      const { email, password } = req.body;
+      const user = await userModel.findOne({ email });
+
+      await user.save();
+      if (!user) {
+        return res.status(404).json("Email or Password Incorrectt");
+      }
+
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
+        return res.status(404).json("Email or Password Incorrect");
+      }
+      token = createToken(user._id);
+      return res.status(200).json({ user, token });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+}; */
+const login = async (req, res) => {
+  try {
+    if (req.body.google) {
+      const { email } = req.body;
+      const user = await userModel.findOne({ email });
+
+      // if user does not exist in the data base we create a new user
+      if (user === null || user.length === 0) {
+        return res.status(404).json("User does'nt Exist");
       }
 
       const token = createToken(user._id);
@@ -283,7 +318,3 @@ module.exports = {
   updateUserInformation,
   manageRate,
 };
-
-
-
-

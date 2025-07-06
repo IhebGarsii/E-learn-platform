@@ -102,8 +102,8 @@ function SideBar() {
       <div className="min-h-screen  overflow-hidden w-fit flex-1">
         <Routes>
           <Route path="/Courses" element={<Courses />} />
-          <Route path="login/:role" element={<Login />} />
-          <Route path="signup" element={<SignUp />} />
+          <Route path="login/" element={<Login />} />
+          <Route path="signup/:role" element={<SignUp />} />
           <Route path="coursesDarshboard" element={<AddCourse />} />
           <Route path="/addProject" element={<AddProject />} />
           <Route path="/Course/:idCourse" element={<CourseDetail />} />

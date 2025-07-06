@@ -1,5 +1,5 @@
 import { signup } from "../../api/userAPI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { instructor } from "../../types/instructor";
 import toast from "react-hot-toast";
@@ -10,6 +10,8 @@ type signupData = {
 };
 function SignUp() {
   const navigate = useNavigate();
+    const { role } = useParams();
+  
 
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => signup(formData),

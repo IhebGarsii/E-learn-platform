@@ -19,8 +19,6 @@ type loginResponse = {
 
 function Login() {
   const navigate = useNavigate();
-  const { role } = useParams();
-  console.log("Role from params:", role);
   const setRole = useStore((state) => state.setRole);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +35,7 @@ function Login() {
       localStorage.setItem("lastName", data.user.lastName);
       localStorage.setItem("profileImage", data.user.image);
       localStorage.setItem("roles", data.user.role);
-      setRole(role!);
+      setRole(data.user.role);
       navigate("/courses");
     },
     onError: (error: Error) => {
@@ -50,7 +48,7 @@ function Login() {
       const user = jwtDecode<instructor>(credentialResponse.credential ?? "");
       console.log("user length", user);
 
-      const data = { email: user.email, user, role, google: true };
+      const data = { email: user.email, user, google: true };
 
       mutateLogin(data);
     } catch (error) {
