@@ -8,7 +8,6 @@ import { getUserById } from "../../api/userAPI";
 import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
-import { useUserState } from "../../state/user.js";
 import { useStore } from "../../hooks/zustand.js";
 
 function Navbar() {

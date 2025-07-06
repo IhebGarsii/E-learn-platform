@@ -32,7 +32,6 @@ function SideBar() {
     }
   }, [user]);
 
-  const isInstructor = role === "instructor";
   const Menus = [
     { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
     { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },

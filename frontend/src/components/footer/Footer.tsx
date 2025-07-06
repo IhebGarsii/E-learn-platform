@@ -3,8 +3,8 @@ import companyLogo from "../../assets/pencil.png";
 
 function Footer() {
   return (
-    <div className="flex bg-footer-black w-full  justify-around p-5 text-white">
-      <section className="flex flex-col gap-2">
+    <div className="lg:flex grid grid-cols-2 gap-9   bg-footer-black w-full mx-auto lg:justify-around p-5 text-white">
+      <section className="flex  flex-col gap-2">
         <div className="flex items-center gap-2">
           <img src={companyLogo} className="w-6 h-6" alt="" />
           <h1>Iheb Course</h1>
@@ -14,7 +14,7 @@ function Footer() {
           <h1>4eme etage</h1>
           <h1>Tunisia</h1>
         </div>
-        <div className="flex gap-9">
+        <div className=" lg:flex gap-9">
           <span>
             <h1>Phone number</h1>
             <h1>216+53218684</h1>
