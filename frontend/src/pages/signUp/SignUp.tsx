@@ -4,27 +4,27 @@ import { useMutation } from "@tanstack/react-query";
 import { instructor } from "../../types/instructor";
 import toast from "react-hot-toast";
 import UserForms from "../../components/forms/userForms/UserForms";
+import { useUserState } from "../../state/user";
 type signupData = {
   token: string;
   newUser: instructor;
 };
 function SignUp() {
   const navigate = useNavigate();
-    const { role } = useParams();
-  
-
+  const { role } = useParams();
+  const { setData } = useUserState();
   const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => signup(formData),
     onSuccess: (data: signupData) => {
       console.log(data);
-
+      setData(data.newUser);
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUser", data.newUser._id);
       localStorage.setItem("firstName", data.newUser.firstName);
       localStorage.setItem("lastName", data.newUser.lastName);
       localStorage.setItem("profileImage", data.newUser.image);
       localStorage.setItem("roles", data.newUser.role);
-      navigate("/home");
+      navigate("/Courses");
     },
     onError: (error: Error) => {
       console.error("Signup failed:", error);
@@ -39,6 +39,7 @@ function SignUp() {
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
     formData.append("image", data.image[0]);
+    formData.append("role", role!);
     mutate(formData);
   };
 

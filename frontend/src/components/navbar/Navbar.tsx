@@ -17,7 +17,6 @@ function Navbar() {
   const idUser = localStorage.getItem("idUser")!;
   const profileRef = useRef<HTMLDivElement | null>(null);
   const profileButtonRef = useRef<HTMLImageElement | null>(null);
-  const { resetData } = useUserState();
   const queryClient = useQueryClient();
   const setRole = useStore((state) => state.setRole);
 

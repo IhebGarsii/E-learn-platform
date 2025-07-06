@@ -12,7 +12,6 @@ import { googleLogin } from "../../types/googleLogin";
 import { useStore } from "../../hooks/zustand";
 
 type loginResponse = {
-  ok: boolean;
   token: string;
   user: instructor;
 };
