@@ -14,13 +14,13 @@ import AddProject from "../../pages/InstructorDashboard/AddProject";
 import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
 import Welcome from "../../pages/welcome/Welcom";
 import { useUserState } from "../../state/user";
+import { useStore } from "../../hooks/zustand";
 
 function SideBar() {
-  
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<string>("");
   const { data: user } = useUserState();
-
+  const rolee = useStore((state) => state.role);
   useEffect(() => {
     console.log("User changed:", user);
 
@@ -31,7 +31,6 @@ function SideBar() {
       setRole(user.role);
     }
   }, [user]);
-  
 
   const isInstructor = role === "instructor";
   const Menus = [
@@ -52,7 +51,7 @@ function SideBar() {
 
   return (
     <div className="flex  ">
-      {isInstructor && (
+      {rolee && (
         <div
           className={` ${
             open ? "w-72" : "w-20 "

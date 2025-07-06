@@ -9,6 +9,7 @@ import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
 import { useUserState } from "../../state/user.js";
+import { useStore } from "../../hooks/zustand.js";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,6 +19,8 @@ function Navbar() {
   const profileButtonRef = useRef<HTMLImageElement | null>(null);
   const { resetData } = useUserState();
   const queryClient = useQueryClient();
+  const setRole = useStore((state) => state.setRole);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -65,7 +68,7 @@ function Navbar() {
     setProfileMenu(false);
     localStorage.clear(); // clears role, token, etc.
     queryClient.removeQueries({ queryKey: ["user"] });
-
+    setRole('')
     navigate("/");
   };
   return (

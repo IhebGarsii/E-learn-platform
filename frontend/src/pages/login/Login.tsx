@@ -9,6 +9,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import { useUserState } from "../../state/user";
 import { instructor } from "../../types/instructor";
 import { googleLogin } from "../../types/googleLogin";
+import { useStore } from "../../hooks/zustand";
 
 type loginResponse = {
   ok: boolean;
@@ -20,7 +21,7 @@ function Login() {
   const navigate = useNavigate();
   const { role } = useParams();
   console.log("Role from params:", role);
-
+  const setRole = useStore((state) => state.setRole);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setData } = useUserState();
@@ -36,7 +37,7 @@ function Login() {
       localStorage.setItem("lastName", data.user.lastName);
       localStorage.setItem("profileImage", data.user.image);
       localStorage.setItem("roles", data.user.role);
-
+      setRole(role!);
       navigate("/courses");
     },
     onError: (error: Error) => {
