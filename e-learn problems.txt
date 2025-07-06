@@ -23,7 +23,7 @@ in course detail the footer is above the right  *** fixed
 in course detail wide page cant see the tags *** fixed
 
 
-
+category when i reload wont show all hieght
 add toast around the platform
 rework filter
 change the login design

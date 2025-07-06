@@ -13,13 +13,15 @@ type FilterProps = {
 function Filter({ onFilterChange, courses }: FilterProps) {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(100);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([
+    "Web Development",
+  ]);
   const [tags, setTags] = useState<string[]>([]);
 
   const { register, handleSubmit, reset } = useForm<filter>({
     defaultValues: {
       duration: "",
-      priceRange: { minValue: 0, maxValue: 100 }, 
+      priceRange: { minValue: 0, maxValue: 100 },
     },
   });
 
@@ -29,7 +31,6 @@ function Filter({ onFilterChange, courses }: FilterProps) {
         ([category]) => category === selectedCategory[0]
       );
       if (selectedTags) {
-        
         setTags(Array.isArray(selectedTags[1]) ? selectedTags[1] : []);
       } else {
         setTags([]);
@@ -88,19 +89,19 @@ function Filter({ onFilterChange, courses }: FilterProps) {
     >
       <div className="flex flex-col space-y-2">
         <label htmlFor="duration" className="font-medium">
-          Duration
+          Course Duration
         </label>
         <input
           type="text"
           id="duration"
           className="p-2 border rounded"
-          placeholder="Duration"
+          placeholder="Course Duration"
           {...register("duration")}
         />
       </div>
       <div className="flex flex-col space-y-2">
         <label htmlFor="price" className="font-medium">
-          PRICE a day
+          Price
         </label>
         <MultiRangeSlider
           min={0}
@@ -120,14 +121,14 @@ function Filter({ onFilterChange, courses }: FilterProps) {
         <h2 className="font-medium">CATEGORY</h2>
         <select
           multiple
+          value=''
           onChange={(e) =>
             setSelectedCategory(
               Array.from(e.target.selectedOptions, (option) => option.value)
             )
           }
-          className="p-2 border rounded"
+          className="p-2 border rounded h-40 overflow-y-scroll"
         >
-          <option className="h-fit" value="">Select Category</option>
           {firstTags.map(([category]) => (
             // Ensure that `category` is always a string
             <option
