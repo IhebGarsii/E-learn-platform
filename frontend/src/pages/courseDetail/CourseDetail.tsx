@@ -81,7 +81,7 @@ function CourseDetail() {
   const isInstructor = localStorage.getItem("roles") == "instructor";
   return (
     <div className="flex min-h-full flex-col gap-6 lg:w-[90%] md:mt-9 md:flex-row lg:justify-start md:items-start mt-12 mx-auto items-center md:gap-10">
-      <div className="flex-1 w-full md:max-w-[70%] flex flex-col p-4">
+    {  <div className="flex-1 w-full md:min-w-[70%] flex flex-col p-4">
         <div className="bg-[#2C3539] rounded-lg p-6">
           <h1 className="text-4xl text-white font-bold">{course.title}</h1>
           <h2 className="text-2xl text-white">{course.secondTitle}</h2>
@@ -152,8 +152,8 @@ function CourseDetail() {
           </button>
         </div>
       </div>
-
-      <div className="flex-1 lg:h-fit overflow-scroll bg-red-500 outline outline-black md:fixed md:right-0 md:w-[25%] shadow-md border rounded-md p-4 bg-white mb-32">
+}
+      <div className="flex-1 lg:h-fit   md:w-[20%] shadow-md border rounded-md p-4 bg-white mb-32">
         <video className="w-full h-52 rounded-md" controls>
           <source
             src="https://www.youtube.com/watch?v=fQTsENCG7YU"

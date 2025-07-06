@@ -127,7 +127,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
           }
           className="p-2 border rounded"
         >
-          <option value="">Select Category</option>
+          <option className="h-fit" value="">Select Category</option>
           {firstTags.map(([category]) => (
             // Ensure that `category` is always a string
             <option
