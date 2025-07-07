@@ -12,16 +12,14 @@ type FilterProps = {
 
 function Filter({ onFilterChange, courses }: FilterProps) {
   const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(100);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([
-    "Web Development",
-  ]);
+  const [maxValue, setMaxValue] = useState(300);
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
 
   const { register, handleSubmit, reset } = useForm<filter>({
     defaultValues: {
       duration: 0,
-      priceRange: { minValue: 0, maxValue: 100 },
+      priceRange: { minValue: 0, maxValue: 300 },
     },
   });
 
@@ -61,7 +59,12 @@ function Filter({ onFilterChange, courses }: FilterProps) {
       // Check price range
       const isWithinPriceRange =
         course.price >= minValue && course.price <= maxValue;
-      const isWithinDuration = course.duration + 5 - data.duration == 20;
+      let isWithinDuration = true;
+      if (data.duration != 0) {
+        isWithinDuration = Math.abs(data.duration - course.duration) <= 5;
+        console.log(isWithinDuration);
+      }
+
       // Check if course headTags match selected categories
       const isMatchingHeadTags =
         selectedCategory.length === 0 ||
