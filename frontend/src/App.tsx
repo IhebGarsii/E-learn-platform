@@ -8,25 +8,9 @@ import { useEffect } from "react";
 import { useUserState } from "./state/user";
 import socket from "./socket";
 
+
 function App() {
-  const { data: user } = useUserState();
-  
-  useEffect(() => {
-    if (user?._id) {
-      socket.emit("user-connected", user._id); // Send ID on mount or reconnect
-    }
-
-    // Optional: handle auto re-emit on reconnect
-    socket.on("connect", () => {
-      if (user?._id) {
-        socket.emit("user-connected", user._id); // re-send after reload
-      }
-    });
-
-    return () => {
-      socket.off("connect");
-    };
-  }, [user]);
+ 
   return (
     <BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
