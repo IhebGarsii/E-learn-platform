@@ -20,7 +20,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
 
   const { register, handleSubmit, reset } = useForm<filter>({
     defaultValues: {
-      duration: "",
+      duration: 0,
       priceRange: { minValue: 0, maxValue: 100 },
     },
   });
@@ -42,7 +42,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
 
   const resetFilter = () => {
     reset({
-      duration: "",
+      duration: 0,
       priceRange: { minValue: 0, maxValue: 100 },
     });
     setSelectedCategory([]);
@@ -61,7 +61,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
       // Check price range
       const isWithinPriceRange =
         course.price >= minValue && course.price <= maxValue;
-
+      const isWithinDuration = course.duration + 5 - data.duration == 20;
       // Check if course headTags match selected categories
       const isMatchingHeadTags =
         selectedCategory.length === 0 ||
@@ -75,7 +75,12 @@ function Filter({ onFilterChange, courses }: FilterProps) {
         selectedTags.length === 0 ||
         selectedTags.some((tag) => course.tags.includes(tag)); // Ensure at least one tag matches
 
-      return isWithinPriceRange && isMatchingHeadTags && isMatchingTags;
+      return (
+        isWithinPriceRange &&
+        isMatchingHeadTags &&
+        isMatchingTags &&
+        isWithinDuration
+      );
     });
 
     console.log("Filtered Courses:", filteredCourses);
@@ -92,7 +97,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
           Course Duration
         </label>
         <input
-          type="text"
+          type="number"
           id="duration"
           className="p-2 border rounded"
           placeholder="Course Duration"
@@ -121,7 +126,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
         <h2 className="font-medium">CATEGORY</h2>
         <select
           multiple
-          value=''
+          value=""
           onChange={(e) =>
             setSelectedCategory(
               Array.from(e.target.selectedOptions, (option) => option.value)

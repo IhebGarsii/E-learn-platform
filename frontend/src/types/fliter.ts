@@ -1,8 +1,8 @@
 export type filter = {
-  duration: string;
+  duration: number;
   priceRange: {
     minValue: number;
     maxValue: number;
   };
-  [key: string]: boolean | string | { minValue: number; maxValue: number }; // To handle dynamic tags
+  [key: string]: boolean | number | { minValue: number; maxValue: number }; // To handle dynamic tags
 };

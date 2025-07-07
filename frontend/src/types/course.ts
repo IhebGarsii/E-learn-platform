@@ -5,7 +5,7 @@ export type cousers = {
   articles: string;
   description: string;
   downloadNb: string;
-  duration: string;
+  duration: number;
   format: string;
   headTags: string[];
   instructorId: instructor | string;
