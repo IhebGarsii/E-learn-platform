@@ -97,9 +97,9 @@ function Navbar() {
               <li>
                 <Link
                   className="hover:text-blue-500 hover:font-bold"
-                  to="/solution"
+                  to="/instructorsList"
                 >
-                  Solution
+                  Instructors List
                 </Link>
               </li>
               <li>

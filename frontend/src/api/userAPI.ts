@@ -23,7 +23,6 @@ export const signin = async (data: googleLogin) => {
   }
 };
 
-
 export const signup = async (formData: FormData) => {
   try {
     console.log(formData.getAll("password"));
@@ -92,6 +91,26 @@ export const getUserById = async (idUser: string) => {
 
 export const followUser = async () => {
   try {
-    
   } catch (error) {}
+};
+
+export const getOnlineUsers = async (idList: string[]) => {
+  try {
+    console.log(idList,'idList');
+
+    const response = await fetch(`${BASE_URL}/getOnlineUsers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idList }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 };

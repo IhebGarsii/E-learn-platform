@@ -303,6 +303,22 @@ const deleteAcountByAdmin = async (req, res) => {
     return res.status(500).json(error.message);
   }
 };
+const getOnlineUsers = async (req, res) => {
+  try {
+    const { idList } = req.body;
+    console.log(idList, "idList");
+
+    if (!Array.isArray(idList)) {
+      return res.status(400).json({ message: "ids must be an array" });
+    }
+
+    const users = await userModel.find({ _id: { $in: idList } }); // select only needed fields
+    return res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 module.exports = {
   updateUser,
   registerInstroctor,
@@ -317,4 +333,5 @@ module.exports = {
   getUserById,
   updateUserInformation,
   manageRate,
+  getOnlineUsers,
 };

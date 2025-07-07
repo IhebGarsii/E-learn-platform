@@ -15,6 +15,7 @@ import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
 import Welcome from "../../pages/welcome/Welcom";
 import { useUserState } from "../../state/user";
 import { useStore } from "../../hooks/zustand";
+import InstructorsList from "../../pages/instructorsList/InstructorsList";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -119,6 +120,7 @@ function SideBar() {
           />
           <Route path="updateCourse/:idCourse" element={<UpdateCourse />} />
           <Route path="/" element={<Welcome />} />
+          <Route path="/instructorsList" element={<InstructorsList />} />
         </Routes>
       </div>
     </div>

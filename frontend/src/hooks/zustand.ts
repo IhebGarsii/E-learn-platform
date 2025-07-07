@@ -4,6 +4,8 @@ type Store = {
   setTagSearch: (tag: string) => void;
   role: string;
   setRole: (role: string) => void;
+  onlineUsersId: string[];
+  setOnlineUsersId: (onlineUsersId: string[]) => void;
 };
 export const useStore = create<Store>((set) => ({
   bears: 0,
@@ -11,4 +13,6 @@ export const useStore = create<Store>((set) => ({
   setTagSearch: (tagSearch) => set({ tagSearch }),
   role: "",
   setRole: (role) => set({ role }),
+  onlineUsersId: [],
+  setOnlineUsersId: (onlineUsersId) => set({ onlineUsersId }),
 }));
