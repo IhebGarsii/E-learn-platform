@@ -2,8 +2,8 @@ import { useState } from "react";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google"; // Use CredentialResponse from @react-oauth/google
 import { jwtDecode } from "jwt-decode";
 
-import { useMutation } from "@tanstack/react-query";
-import { signin } from "../../api/userAPI";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserById, signin } from "../../api/userAPI";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useUserState } from "../../state/user";
@@ -17,8 +17,9 @@ type loginResponse = {
 };
 
 function Login() {
-  console.log('login');
-  
+  console.log("login");
+  const queryClient = useQueryClient();
+
   const navigate = useNavigate();
   const setRole = useStore((state) => state.setRole);
   const [email, setEmail] = useState("");
@@ -37,6 +38,7 @@ function Login() {
       localStorage.setItem("profileImage", data.user.image);
       localStorage.setItem("roles", data.user.role);
       setRole(data.user.role);
+      queryClient.setQueryData(["user"], data.user);
       navigate("/courses");
     },
     onError: (error: Error) => {

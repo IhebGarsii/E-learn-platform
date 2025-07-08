@@ -30,6 +30,11 @@ function CourseDetail() {
     queryKey: ["course", idCourse], // Include idCourse in the queryKey
     queryFn: () => getCourse(idCourse!),
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
   });
 
   if (idCourse) {

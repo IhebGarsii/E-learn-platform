@@ -55,11 +55,21 @@ function Navbar() {
     queryKey: ["cart"],
     queryFn: () => getUserCart(userId),
     enabled: !!userId,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
   });
   const { data: user } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", userId],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
   });
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
@@ -223,9 +233,7 @@ function Navbar() {
                   </Link>
                 )}
               </div>
-            )  
-              
-            }
+            )}
 
             <CiMenuBurger
               onClick={onToggleMenu}
