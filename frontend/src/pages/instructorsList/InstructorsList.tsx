@@ -7,58 +7,52 @@ import { instructor } from "../../types/instructor";
 import { useUserState } from "../../state/user";
 
 function InstructorsList() {
-  const onlineUsersId = useStore((state) => state.onlineUsersId);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
+  const onlineUsersId = useStore((state) => state.onlineUsersId);
   const { data: user } = useUserState();
+  console.log("Socket connected?", socket.connected); // should be true
 
   useEffect(() => {
-    if (user?._id) {
-      socket.emit("user-connected", user._id); // Send ID on mount or reconnect
-    }
+    if (!socket.connected) return;
 
-    // Optional: handle auto re-emit on reconnect
-    socket.on("connect", () => {
-      if (user?._id) {
-        socket.emit("user-connected", user._id); // re-send after reload
-      }
-    });
-
-    return () => {
-      socket.off("connect");
-    };
-  }, [user]);
-  useEffect(() => {
     socket.on("update-online-users", (users) => {
       setOnlineUsersId(users);
-      console.log("eeeeeeeeeeeee", users);
+      console.log("📡 update-online-users", users);
     });
 
     return () => {
       socket.off("update-online-users");
     };
-  });
+  }, []);
+  
+  // ✅ Listen for online user list updates
+
+  // ✅ Fetch user data for online user IDs
   const { data: onlineUsers } = useQuery({
-    queryKey: ["onlineUsers"],
-    queryFn: () => getOnlineUsers(onlineUsersId ? onlineUsersId : []),
+    queryKey: ["onlineUsers", onlineUsersId],
+    queryFn: () => getOnlineUsers(onlineUsersId),
     enabled: onlineUsersId.length > 0,
   });
+
   return (
     <div className="bg-red-200 h-screen mt-10">
-      <h3>Online Users</h3>
-      <ul>
+      <h3 className="text-xl font-semibold p-4">Online Users</h3>
+      <ul className="space-y-4 px-4">
         {onlineUsers?.map((user: instructor) => (
-          <li key={user._id}>
-            <div className="flex items-center gap-2">
+          <li key={user._id} className="bg-white p-3 rounded shadow-md">
+            <div className="flex items-center gap-4">
               <img
                 src={`http://localhost:4000/uploads/users/${user?.image}`}
                 alt={user.firstName}
                 className="w-10 h-10 rounded-full"
               />
-              <span>
-                {user.firstName} {user.lastName}
-              </span>
+              <div>
+                <p className="font-medium">
+                  {user.firstName} {user.lastName}
+                </p>
+                <p className="text-sm text-gray-500">{user.email}</p>
+              </div>
             </div>
-            <span className="text-sm text-gray-500">{user.email}</span>
           </li>
         ))}
       </ul>

@@ -17,6 +17,8 @@ type loginResponse = {
 };
 
 function Login() {
+  console.log('login');
+  
   const navigate = useNavigate();
   const setRole = useStore((state) => state.setRole);
   const [email, setEmail] = useState("");

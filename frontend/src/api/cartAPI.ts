@@ -12,7 +12,7 @@ export const addToCart = async (idCourse: string, idUser: string) => {
     throw error;
   }
 };
-export const getUserCart = async (idUser: string) => {
+export const getUserCart = async (idUser: string |null) => {
   try {
     const response = await fetch(`${BASE_URL}/getUserCart/${idUser}`);
     if (!response.ok) {

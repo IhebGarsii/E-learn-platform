@@ -81,7 +81,7 @@ export const updateUserInformation = async (
     throw error;
   }
 };
-export const getUserById = async (idUser: string) => {
+export const getUserById = async (idUser: string | null) => {
   const user = await fetch(`${BASE_URL}/getUserById/${idUser}`);
   if (!user.ok) {
     throw new Error("error");
@@ -96,7 +96,7 @@ export const followUser = async () => {
 
 export const getOnlineUsers = async (idList: string[]) => {
   try {
-    console.log(idList,'idList');
+    console.log(idList, "idList");
 
     const response = await fetch(`${BASE_URL}/getOnlineUsers`, {
       method: "POST",

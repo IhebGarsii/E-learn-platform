@@ -38,25 +38,36 @@ const io = new Server(server, {
 let onlineUsers = new Map(); // Or use Redis for scalability
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  console.log("🔌 User connected:", socket.id);
 
   socket.on("user-connected", (userId) => {
+    console.log("📥 user-connected:", userId);
+
     onlineUsers.set(userId, socket.id);
-    console.log(`${userId} is online`);
-    io.emit("update-online-users", Array.from(onlineUsers.keys()));
+    const onlineList = Array.from(onlineUsers.keys());
+
+    console.log("🟢 Emitting update-online-users:", onlineList);
+    io.emit("update-online-users", onlineList);
   });
 
   socket.on("disconnect", () => {
     for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
         onlineUsers.delete(userId);
-        console.log(`${userId} is offline`);
+        console.log("❌ User disconnected:", userId);
         break;
       }
     }
-    io.emit("update-online-users", Array.from(onlineUsers.keys()));
+
+    const updatedList = Array.from(onlineUsers.keys());
+    console.log(
+      "🟠 Emitting update-online-users after disconnect:",
+      updatedList
+    );
+    io.emit("update-online-users", updatedList);
   });
 });
+
 
 server.listen("4000", () => console.log("Connected To Port 4000"));
 mongoose

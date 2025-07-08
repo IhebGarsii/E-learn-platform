@@ -10,17 +10,26 @@ import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
 import { useStore } from "../../hooks/zustand.js";
 import { useUserState } from "../../state/user.js";
+import socket from "../../socket.js";
 
 function Navbar() {
+  console.log("navbar");
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  const idUser = localStorage.getItem("idUser")!;
   const profileRef = useRef<HTMLDivElement | null>(null);
   const profileButtonRef = useRef<HTMLImageElement | null>(null);
   const queryClient = useQueryClient();
   const setRole = useStore((state) => state.setRole);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
+  const onlineUsersId = useStore((state) => state.onlineUsersId);
   const { resetData } = useUserState();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem("idUser"));
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -42,18 +51,16 @@ function Navbar() {
     };
   }, [profileMenu]);
 
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => getUserById(idUser),
-    enabled: !!idUser,
-  });
-
   const { data: cart } = useQuery({
     queryKey: ["cart"],
-    queryFn: () => getUserCart(idUser),
-    enabled: !!idUser,
+    queryFn: () => getUserCart(userId),
+    enabled: !!userId,
   });
-
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+  });
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
 
@@ -70,6 +77,8 @@ function Navbar() {
     queryClient.removeQueries({ queryKey: ["user"] });
     setRole("");
     setOnlineUsersId([]);
+    socket.disconnect();
+
     queryClient.removeQueries({ queryKey: ["onlineUsers"] });
 
     navigate("/");
@@ -134,85 +143,90 @@ function Navbar() {
             </ul>
           </div>
           <div className="flex items-center gap-6 min-w-fit">
-            <div className="relative">
-              {logedin ? (
-                <>
-                  <div className="flex flex-row-reverse items-center w-50 gap-6">
-                    <img
-                      className="w-10 h-10 rounded-full"
-                      src={`http://localhost:4000/uploads/users/${user?.image}`}
-                      alt={user?.image}
-                    />
-                    <h3 className="flex items-center gap-2">
-                      <span>{user?.firstName}</span>
-                      <span>{user?.lastName}</span>
-                    </h3>
-                    <img
-                      onClick={handelProfile}
-                      ref={profileButtonRef}
-                      className="w-4 h-5 cursor-pointer"
-                      src={img}
-                      alt=""
-                    />
-                    <div className="relative flex group">
-                      <div className="relative mr-2 text-xl ">
-                        <FaCartShopping />
-                        <span className="bg-blue-500 text-white text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-4 bottom-4">
-                          {cart?.quantity || 0}
-                        </span>
-                      </div>
-                      {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
-                      {cart && (
-                        <div className="absolute md:top-1 md:right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">
-                          <SmallCart cart={cart} />
+            {user && (
+              <div className="relative">
+                {logedin ? (
+                  <>
+                    <div className="flex flex-row-reverse items-center w-50 gap-6">
+                      <img
+                        className="w-10 h-10 rounded-full"
+                        src={`http://localhost:4000/uploads/users/${user?.image}`}
+                        alt={user?.image}
+                      />
+                      <h3 className="flex items-center gap-2">
+                        <span>{user?.firstName}</span>
+                        <span>{user?.lastName}</span>
+                      </h3>
+                      <img
+                        onClick={handelProfile}
+                        ref={profileButtonRef}
+                        className="w-4 h-5 cursor-pointer"
+                        src={img}
+                        alt=""
+                      />
+                      <div className="relative flex group">
+                        <div className="relative mr-2 text-xl cursor-pointer ">
+                          <FaCartShopping />
+                          <span className="bg-blue-500 text-white cursor-pointer text-xs font-semibold mr-2 px-2 py-0 rounded absolute left-4 bottom-4">
+                            {cart?.quantity || 0}
+                          </span>
                         </div>
-                      )}
+                        {/* SmallCart component, shown on hover over either the cart icon or the SmallCart itself */}
+                        {cart && (
+                          <div className="absolute md:top-1 md:right-0 hidden pt-10 w-fit group-hover:block hover:block z-10">
+                            <SmallCart cart={cart} />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  {profileMenu && (
-                    <div
-                      ref={profileRef}
-                      className="absolute z-10 bg-gray-300 p-2 h-fit"
-                    >
-                      <ul className="flex flex-col gap-1">
-                        <li
-                          onClick={logout}
-                          className="hover:bg-blue-500 hover:text-white cursor-pointer"
-                        >
-                          Logout
-                        </li>
+                    {profileMenu && (
+                      <div
+                        ref={profileRef}
+                        className="absolute z-10 bg-gray-300 p-2 h-fit"
+                      >
+                        <ul className="flex flex-col gap-1">
+                          <li
+                            onClick={logout}
+                            className="hover:bg-blue-500 hover:text-white cursor-pointer"
+                          >
+                            Logout
+                          </li>
 
-                        <>
-                          {user && (
-                            <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
-                              <Link
-                                onClick={handelProfile}
-                                to={`/profile/${user._id}`}
-                              >
-                                Profile
-                              </Link>
-                            </li>
-                          )}
-                        </>
-                        <li
-                          onClick={handelProfile}
-                          className="hover:bg-blue-500 hover:text-white cursor-pointer"
-                        >
-                          Notification
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  to="/signup"
-                  className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec] whitespace-nowrap"
-                >
-                  Sign up
-                </Link>
-              )}
-            </div>
+                          <>
+                            {user && (
+                              <li className="hover:bg-blue-500 hover:text-white cursor-pointer">
+                                <Link
+                                  onClick={handelProfile}
+                                  to={`/profile/${user._id}`}
+                                >
+                                  Profile
+                                </Link>
+                              </li>
+                            )}
+                          </>
+                          <li
+                            onClick={handelProfile}
+                            className="hover:bg-blue-500 hover:text-white cursor-pointer"
+                          >
+                            Notification
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to="/signup"
+                    className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec] whitespace-nowrap"
+                  >
+                    Sign up
+                  </Link>
+                )}
+              </div>
+            )  
+              
+            }
+
             <CiMenuBurger
               onClick={onToggleMenu}
               className="text-3xl cursor-pointer md:hidden"
