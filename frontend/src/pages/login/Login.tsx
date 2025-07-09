@@ -19,6 +19,7 @@ type loginResponse = {
 function Login() {
   console.log("login");
   const queryClient = useQueryClient();
+  const setUserId = useStore((state) => state.setUserId);
 
   const navigate = useNavigate();
   const setRole = useStore((state) => state.setRole);
@@ -29,7 +30,6 @@ function Login() {
     mutationFn: (data: googleLogin) => signin(data),
     onSuccess: (data: loginResponse) => {
       setData(data.user);
-      console.log("Login Success:", data.user);
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("idUser", data.user._id);
@@ -38,6 +38,7 @@ function Login() {
       localStorage.setItem("profileImage", data.user.image);
       localStorage.setItem("roles", data.user.role);
       setRole(data.user.role);
+      setUserId(data.user._id);
       queryClient.setQueryData(["user"], data.user);
       navigate("/courses");
     },
@@ -49,7 +50,6 @@ function Login() {
   const handleGoogleLogin = (credentialResponse: CredentialResponse) => {
     try {
       const user = jwtDecode<instructor>(credentialResponse.credential ?? "");
-      console.log("user length", user);
 
       const data = { email: user.email, user, google: true };
 
@@ -61,7 +61,7 @@ function Login() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Submit - LocalStorage Before:", localStorage);
+
     mutateLogin({ email, password, google: false });
   };
 

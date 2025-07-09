@@ -6,6 +6,8 @@ type Store = {
   setRole: (role: string) => void;
   onlineUsersId: string[];
   setOnlineUsersId: (onlineUsersId: string[]) => void;
+  userId: string;
+  setUserId: (userId: string) => void;
 };
 export const useStore = create<Store>((set) => ({
   bears: 0,
@@ -15,4 +17,6 @@ export const useStore = create<Store>((set) => ({
   setRole: (role) => set({ role }),
   onlineUsersId: [],
   setOnlineUsersId: (onlineUsersId) => set({ onlineUsersId }),
+  userId: "",
+  setUserId: (userId) => set({ userId }),
 }));

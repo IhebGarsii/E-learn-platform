@@ -20,7 +20,6 @@ function CourseDetail() {
   const [desc, setDesc] = useState(false);
   const tag = useStore((state) => state.tagSearch);
   const setTag = useStore((state) => state.setTagSearch);
-  console.log(tag, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
   const {
     data: course,
@@ -30,11 +29,7 @@ function CourseDetail() {
     queryKey: ["course", idCourse], // Include idCourse in the queryKey
     queryFn: () => getCourse(idCourse!),
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
-    refetchInterval: false,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchIntervalInBackground: false,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   if (idCourse) {
@@ -183,8 +178,7 @@ function CourseDetail() {
           <h1 className="font-semibold mb-2">This course includes:</h1>
           <ul className="flex flex-col gap-2 text-sm">
             <li className="flex items-center gap-2">
-              <FaVideo /> {course.duration} hours
-              on-demand video
+              <FaVideo /> {course.duration} hours on-demand video
             </li>
             <li className="flex items-center gap-2">
               <MdArticle /> {course.articles} articles

@@ -22,6 +22,7 @@ function Courses() {
   } = useQuery({
     queryKey: ["courses"],
     queryFn: getAllCourses,
+    staleTime: 1000 * 60, // 5 minutes
   });
 
   const { data: searchResults, isFetching: searching } = useQuery({

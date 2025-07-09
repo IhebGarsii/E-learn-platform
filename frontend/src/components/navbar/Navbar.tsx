@@ -15,6 +15,9 @@ import socket from "../../socket.js";
 function Navbar() {
   console.log("navbar");
 
+  useEffect(() => {
+    setUserId(localStorage.getItem("idUser"));
+  }, []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
@@ -23,12 +26,8 @@ function Navbar() {
   const setRole = useStore((state) => state.setRole);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
-  const { resetData } = useUserState();
-  const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    setUserId(localStorage.getItem("idUser"));
-  }, []);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,7 +61,7 @@ function Navbar() {
     refetchIntervalInBackground: false,
   });
   const { data: user } = useQuery({
-    queryKey: ["user", userId],
+    queryKey: ["user"],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
     refetchInterval: false,

@@ -9,22 +9,29 @@ import { useUserState } from "../../state/user";
 function InstructorsList() {
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
-  const { data: user } = useUserState();
-  console.log("Socket connected?", socket.connected); // should be true
-
   useEffect(() => {
-    if (!socket.connected) return;
-
-    socket.on("update-online-users", (users) => {
+    if (socket.connected) {
+      console.log("Socket already connected:", socket.id);
+    } else {
+      socket.on("connect", () => {
+        console.log("Socket connected later:", socket.id);
+      });
+    }
+    
+    const onUpdate = (users: string[]) => {
+      console.log("ee");
       setOnlineUsersId(users);
       console.log("📡 update-online-users", users);
-    });
+    };
+
+    socket.on("update-online-users", onUpdate);
 
     return () => {
-      socket.off("update-online-users");
+      socket.off("connect");
+      socket.off("update-online-users", onUpdate);
     };
   }, []);
-  
+
   // ✅ Listen for online user list updates
 
   // ✅ Fetch user data for online user IDs

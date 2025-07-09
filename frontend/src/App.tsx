@@ -4,30 +4,32 @@ import SideBar from "./components/sideBar/SideBar";
 import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Footer from "./components/footer/Footer";
-import { useEffect, useState } from "react";
-import { useUserState } from "./state/user";
+import { useEffect } from "react";
 import socket from "./socket";
+import { useStore } from "./hooks/zustand";
 
 function App() {
-  const { data: user } = useUserState();
+  // You can get user data from cache directly
+  const user = useStore((state) => state.userId);
   useEffect(() => {
-    if (user?._id) {
-      console.log("👤 Emitting user-connected:", user._id);
-      socket.emit("user-connected", user._id);
-    }
+    console.log("DI");
 
-    socket.on("connect", () => {
-      if (user?._id) {
-        console.log("🔁 Re-emitting user-connected on reconnect:", user._id);
-        socket.emit("user-connected", user._id);
-      }
-    });
+    if (!user) return;
+
+    console.log("👤 Emitting user-connected:", user);
+    socket.emit("user-connected", user);
+
+    const handleConnect = () => {
+      console.log("🔁 Re-emitting user-connected on reconnect:", user);
+      socket.emit("user-connected", user);
+    };
+
+    socket.on("connect", handleConnect);
 
     return () => {
-      socket.off("connect");
+      socket.off("connect", handleConnect);
     };
   }, [user]);
-
   return (
     <BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -39,5 +41,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

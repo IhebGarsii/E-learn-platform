@@ -23,13 +23,13 @@ function SideBar() {
   const { data: user } = useUserState();
   const rolee = useStore((state) => state.role);
   useEffect(() => {
-    console.log("User changed:", user);
 
     if (user === null) {
-      console.log("User is null — logged out");
       setRole("");
     } else if (user?.role) {
       setRole(user.role);
+      console.log("ROLE",user.role);
+
     }
   }, [user]);
 
