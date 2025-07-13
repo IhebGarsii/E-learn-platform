@@ -9,24 +9,21 @@ import { useUserState } from "../../state/user";
 function InstructorsList() {
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
+ 
+  
   useEffect(() => {
-    if (socket.connected) {
-      console.log("Socket already connected:", socket.id);
-    } else {
-      socket.on("connect", () => {
-        console.log("Socket connected later:", socket.id);
-      });
-    }
-    
-    const onUpdate = (users: string[]) => {
+    const onUpdate = (onlineList: string[]) => {
       console.log("ee");
-      setOnlineUsersId(users);
-      console.log("📡 update-online-users", users);
+      setOnlineUsersId(onlineList);
+      console.log("📡 update-online-users", onlineList);
     };
-
+    
     socket.on("update-online-users", onUpdate);
+    console.log("sssssssssssssssssssssssssss");
 
     return () => {
+      console.log("🛑 Unsubscribing from update-online-users");
+      
       socket.off("connect");
       socket.off("update-online-users", onUpdate);
     };

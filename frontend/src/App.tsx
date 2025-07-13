@@ -7,13 +7,22 @@ import Footer from "./components/footer/Footer";
 import { useEffect } from "react";
 import socket from "./socket";
 import { useStore } from "./hooks/zustand";
+import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "./api/userAPI";
 
 function App() {
   // You can get user data from cache directly
   const user = useStore((state) => state.userId);
-  useEffect(() => {
-    console.log("DI");
 
+  const { data: userr } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUserById(localStorage.getItem("userId") || ""),
+  });
+  useEffect(() => {
+    useStore.setState({ userId: userr?._id });
+  }, [userr]);
+
+  useEffect(() => {
     if (!user) return;
 
     console.log("👤 Emitting user-connected:", user);
