@@ -7,6 +7,7 @@ import { cousers } from "../../types/course";
 import Search from "../../components/search/Search";
 import { useDebounce } from "../../utl/debounce";
 import { useStore } from "../../hooks/zustand";
+import SkeletonCard from "../../components/skeletons/SkeletonCard";
 
 function Courses() {
   const [filter, setFilter] = useState<cousers[]>([]);
@@ -19,10 +20,11 @@ function Courses() {
     isLoading,
     isError,
     error,
+    isFetching,
   } = useQuery({
     queryKey: ["courses"],
     queryFn: getAllCourses,
-    staleTime: 1000 * 60, // 5 minutes
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const { data: searchResults, isFetching: searching } = useQuery({
@@ -31,7 +33,6 @@ function Courses() {
     enabled: !!debouncedSearchTerm,
   });
 
-  // Set data to filter either from search or all
   useEffect(() => {
     if (debouncedSearchTerm && searchResults) {
       setFilter(searchResults);
@@ -44,11 +45,10 @@ function Courses() {
     setFilter(filteredCourses);
   };
 
-  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="">
+    <div>
       <Search onSearch={setTagSearch} />
 
       <div className="flex flex-col justify-center sm:flex-row pr-10 w-full items-start gap-5">
@@ -57,18 +57,16 @@ function Courses() {
         </div>
 
         <div className="grid grid-cols-1 m-5 lg:grid-cols-2 xl:grid-cols-3 items-center justify-center w-full gap-2">
-          {searching && <p>Searching...</p>}
-          {filter && filter.length > 0 ? (
-            filter.map((course) => (
-              <CourseCard key={course._id} course={course} />
-            ))
-          ) : (
-            <div>No course data available</div>
-          )}
+          {(isLoading || searching) && <SkeletonCard card={20} />}
+
+          {!isLoading && !searching && filter && filter.length > 0
+            ? filter.map((course) => (
+                <CourseCard key={course._id} course={course} />
+              ))
+            : !isLoading && !searching && <div>No course data available</div>}
         </div>
       </div>
     </div>
   );
 }
-
 export default Courses;

@@ -9,7 +9,8 @@ import socket from "./socket";
 import { useStore } from "./hooks/zustand";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "./api/userAPI";
-
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 function App() {
   // You can get user data from cache directly
   const user = useStore((state) => state.userId);
@@ -41,12 +42,14 @@ function App() {
   }, [user]);
   return (
     <BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Toaster />
+      <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
 
-      <Navbar />
-      <SideBar />
-      <Footer />
+        <Navbar />
+        <SideBar />
+        <Footer />
+      </SkeletonTheme>
     </BrowserRouter>
   );
 }

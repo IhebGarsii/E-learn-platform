@@ -11,6 +11,7 @@ import SmallCart from "../cartComponents/SmallCart.js";
 import { useStore } from "../../hooks/zustand.js";
 import { useUserState } from "../../state/user.js";
 import socket from "../../socket.js";
+import Skeleton from "react-loading-skeleton";
 
 function Navbar() {
   console.log("navbar");
@@ -60,7 +61,7 @@ function Navbar() {
     refetchOnReconnect: false,
     refetchIntervalInBackground: false,
   });
-  const { data: user } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
@@ -152,7 +153,7 @@ function Navbar() {
             </ul>
           </div>
           <div className="flex items-center gap-6 min-w-fit">
-            {user && (
+            {user ? (
               <div className="relative">
                 {logedin ? (
                   <>
@@ -232,6 +233,13 @@ function Navbar() {
                   </Link>
                 )}
               </div>
+            ) : (
+              isLoading && (
+                <>
+                  <Skeleton circle width={100} height={100} />
+                  <Skeleton count={2} />
+                </>
+              )
             )}
 
             <CiMenuBurger
