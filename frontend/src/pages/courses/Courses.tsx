@@ -26,7 +26,7 @@ function Courses() {
       queryKey: ["courses", page],
       queryFn: () => getAllCourses(page),
       placeholderData: keepPreviousData,
-      staleTime: 1000 * 5,
+      staleTime: 1000 * 5 * 60, // 5 minutes
     });
 
   const { data: searchResults, isFetching: searching } = useQuery({
