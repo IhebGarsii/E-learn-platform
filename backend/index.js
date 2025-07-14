@@ -35,7 +35,7 @@ const io = new Server(server, {
   },
 });
 
-let onlineUsers = new Map(); // Or use Redis for scalability
+/* let onlineUsers = new Map(); // Or use Redis for scalability
 
 io.on("connection", (socket) => {
   console.log("🔌 User connected:", socket.id);
@@ -68,8 +68,8 @@ io.on("connection", (socket) => {
     io.emit("update-online-users", updatedList);
   });
 });
-
-server.listen("4000", () => console.log("Connected To Port 4000"));
+ */
+app.listen("4000", () => console.log("Connected To Port 4000"));
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to DATABASE"))

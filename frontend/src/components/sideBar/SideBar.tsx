@@ -16,27 +16,33 @@ import Welcome from "../../pages/welcome/Welcom";
 import { useUserState } from "../../state/user";
 import { useStore } from "../../hooks/zustand";
 import InstructorsList from "../../pages/instructorsList/InstructorsList";
+import InstructorCoursesList from "../../pages/InstructorDashboard/InstructorCoursesList";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<string>("");
   const { data: user } = useUserState();
   const rolee = useStore((state) => state.role);
-  useEffect(() => {
+  console.log(rolee, "eeeeeeeeeeeeeeeeeeee");
 
+  useEffect(() => {
     if (user === null) {
       setRole("");
     } else if (user?.role) {
       setRole(user.role);
-      console.log("ROLE",user.role);
-
+      console.log("ROLE", user.role);
     }
   }, [user]);
 
   const Menus = [
     { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
     { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },
-    { title: "Accounts", src: "User", gap: true, link: "/coursesDarshboard" },
+    {
+      title: "Accounts",
+      src: "User",
+      gap: true,
+      link: "/instructorCourseList",
+    },
     { title: "Schedule ", src: "Calendar", link: "/coursesDarshboard" },
     { title: "Search", src: "Search", link: "/coursesDarshboard" },
     { title: "Analytics", src: "Chart", link: "/coursesDarshboard" },
@@ -121,6 +127,10 @@ function SideBar() {
           <Route path="updateCourse/:idCourse" element={<UpdateCourse />} />
           <Route path="/" element={<Welcome />} />
           <Route path="/instructorsList" element={<InstructorsList />} />
+          <Route
+            path="/instructorCourseList"
+            element={<InstructorCoursesList />}
+          />
         </Routes>
       </div>
     </div>

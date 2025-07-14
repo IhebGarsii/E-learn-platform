@@ -1,8 +1,12 @@
 const BASE_URL = "http://localhost:4000/courses";
 
 export const getAllCourses = async (page = 0) => {
-  const response = await fetch(`${BASE_URL}/getAllCourses?page=${page}`);
-  return await response.json(); // Should return { courses: [...], hasMore: true/false }
+  try {
+    const response = await fetch(`${BASE_URL}/getAllCourses?page=${page}`);
+    return await response.json(); // Should return { courses: [...], hasMore: true/false }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getCourse = async (idCourse: string) => {
@@ -77,5 +81,23 @@ export const searchProducts = async (term: string) => {
     return response.json();
   } catch (error) {
     throw error;
+  }
+};
+
+export const getInstructorCourses = async (userId: string) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/getInstructorCourses/${userId}`,
+      {
+        method: "GET",
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`${response}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 };

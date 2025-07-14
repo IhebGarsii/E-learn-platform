@@ -10,7 +10,7 @@ import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
 import { useStore } from "../../hooks/zustand.js";
 import { useUserState } from "../../state/user.js";
-import socket from "../../socket.js";
+
 import Skeleton from "react-loading-skeleton";
 
 function Navbar() {
@@ -87,7 +87,7 @@ function Navbar() {
     queryClient.removeQueries({ queryKey: ["user"] });
     setRole("");
     setOnlineUsersId([]);
-    socket.disconnect();
+    /* socket.disconnect(); */
 
     queryClient.removeQueries({ queryKey: ["onlineUsers"] });
 
@@ -234,12 +234,12 @@ function Navbar() {
                 )}
               </div>
             ) : (
-              isLoading && (
-                <>
-                  <Skeleton circle width={100} height={100} />
-                  <Skeleton count={2} />
-                </>
-              )
+              <div className="flex items-center gap-2">
+                <Skeleton width={50} height={20} />
+                <Skeleton width={50} height={20} />
+
+                <Skeleton circle width={50} height={50} />
+              </div>
             )}
 
             <CiMenuBurger

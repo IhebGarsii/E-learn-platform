@@ -22,9 +22,10 @@ deleting video doesnt update instantly *** fixed
 in course detail the footer is above the right  *** fixed
 in course detail wide page cant see the tags *** fixed
 category when i reload wont show all hieght *** fixed
+rework filter   *** finished
+
 
 online users cant seem to work 
 add toast around the platform
-rework filter
 change the login design
 when i got first page in courses again it refetch again

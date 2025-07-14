@@ -9,9 +9,8 @@ import { useUserState } from "../../state/user";
 function InstructorsList() {
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
- 
-  
-  useEffect(() => {
+
+  /* useEffect(() => {
     const onUpdate = (onlineList: string[]) => {
       console.log("ee");
       setOnlineUsersId(onlineList);
@@ -36,13 +35,13 @@ function InstructorsList() {
     queryKey: ["onlineUsers", onlineUsersId],
     queryFn: () => getOnlineUsers(onlineUsersId),
     enabled: onlineUsersId.length > 0,
-  });
+  }); */
 
   return (
     <div className="bg-red-200 h-screen mt-10">
       <h3 className="text-xl font-semibold p-4">Online Users</h3>
       <ul className="space-y-4 px-4">
-        {onlineUsers?.map((user: instructor) => (
+        {/* {onlineUsers?.map((user: instructor) => (
           <li key={user._id} className="bg-white p-3 rounded shadow-md">
             <div className="flex items-center gap-4">
               <img
@@ -58,7 +57,7 @@ function InstructorsList() {
               </div>
             </div>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );

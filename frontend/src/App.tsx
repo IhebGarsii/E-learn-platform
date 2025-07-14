@@ -5,7 +5,6 @@ import { Toaster } from "react-hot-toast";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Footer from "./components/footer/Footer";
 import { useEffect } from "react";
-import socket from "./socket";
 import { useStore } from "./hooks/zustand";
 import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "./api/userAPI";
@@ -14,11 +13,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 function App() {
   // You can get user data from cache directly
   const user = useStore((state) => state.userId);
- 
-
-
+  const setRole = useStore((state) => state.setRole);
+  useEffect(() => {
+    setRole(localStorage.getItem("roles")!);
+  }, []);
   // ***** this sometimes cause infint call for getUserById *****
-/*   const { data: userr } = useQuery({
+  /*   const { data: userr } = useQuery({
     queryKey: ["user"],
     queryFn: () => getUserById(localStorage.getItem("userId") || ""),
   });
@@ -26,7 +26,8 @@ function App() {
     useStore.setState({ userId: userr?._id });
   }, [userr]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
+   
     if (!user) return;
 
     console.log("👤 Emitting user-connected:", user);
@@ -42,7 +43,7 @@ function App() {
     return () => {
       socket.off("connect", handleConnect);
     };
-  }, [user]);
+  }, [user]); */
   return (
     <BrowserRouter>
       <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">

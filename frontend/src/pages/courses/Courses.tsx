@@ -73,7 +73,7 @@ function Courses() {
           {(isLoading || searching) && <SkeletonCard card={20} />}
 
           {!isLoading && !searching && filter && filter.length > 0
-            ? filter.map((course) => (
+            ? filter.map((course: cousers) => (
                 <CourseCard key={course._id} course={course} />
               ))
             : !isLoading && !searching && <div>No course data available</div>}

@@ -8,7 +8,7 @@ const replyModel = require("../model/replyModel");
 const getAllCourses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
     const skip = page * limit;
 
     const courses = await coursesModel
@@ -385,6 +385,22 @@ const getSearchedCourses = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+const getInstructorCourses = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log(userId, "ssssssssssss");
+
+    const courses = await coursesModel.find({ instructorId: userId });
+    if (courses.length == 0) {
+      return res.status(404).json("No courses where found");
+    }
+    console.log(courses, "sssssssss");
+    return res.status(200).json(courses);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 module.exports = {
   getAllCourses,
   getCourse,
@@ -396,4 +412,5 @@ module.exports = {
   getComments,
   addReplyComment,
   getSearchedCourses,
+  getInstructorCourses,
 };
