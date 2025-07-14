@@ -22,7 +22,8 @@ function InstructorCoursesList() {
     return <Skeleton count={5} />;
   }
   return (
-    <div>
+    <div className="flex flex-col gap-4 mt-16 p-4">
+      <h1>My Courses</h1>
       {courses?.map((course: cousers) => (
         <InstructorCourseCard course={course} />
       ))}

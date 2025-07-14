@@ -6,15 +6,15 @@ type InstructorCourseCardProp = {
 };
 function InstructorCourseCard({ course }: InstructorCourseCardProp) {
   return (
-    <div>
+    <div className="flex flex-coll gap-10">
       <img
-      className=""
+        className=" rounded object-cover"
         src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
-        width={70}
-        height={70}
-
+        width={80}
+        height={50}
         alt=""
       />
+      <h1> {course.title} </h1>
     </div>
   );
 }
