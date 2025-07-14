@@ -14,14 +14,17 @@ import "react-loading-skeleton/dist/skeleton.css";
 function App() {
   // You can get user data from cache directly
   const user = useStore((state) => state.userId);
+ 
 
-  const { data: userr } = useQuery({
+
+  // ***** this sometimes cause infint call for getUserById *****
+/*   const { data: userr } = useQuery({
     queryKey: ["user"],
     queryFn: () => getUserById(localStorage.getItem("userId") || ""),
   });
   useEffect(() => {
     useStore.setState({ userId: userr?._id });
-  }, [userr]);
+  }, [userr]); */
 
   useEffect(() => {
     if (!user) return;

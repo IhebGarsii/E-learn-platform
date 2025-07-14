@@ -7,15 +7,26 @@ const mongoose = require("mongoose");
 const replyModel = require("../model/replyModel");
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await coursesModel.find().populate("instructorId");
-    res.status(200).json(courses);
+    const page = parseInt(req.query.page) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = page * limit;
+
+    const courses = await coursesModel
+      .find()
+      .skip(skip)
+      .limit(limit)
+      .populate("instructorId");
+
+    const totalCourses = await coursesModel.countDocuments();
+    const hasMore = skip + courses.length < totalCourses;
+
+    res.status(200).json({ courses, hasMore });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      error: error.message,
-    });
+    console.error(error);
+    return res.status(500).json({ error: error.message });
   }
 };
+
 const getCourse = async (req, res) => {
   try {
     const { idCourse } = req.params;

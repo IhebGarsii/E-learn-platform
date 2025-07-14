@@ -1,14 +1,8 @@
 const BASE_URL = "http://localhost:4000/courses";
 
-export const getAllCourses = async () => {
-  try {
-    const response = await fetch(`${BASE_URL}/getAllCourses`, {
-      method: "GET",
-    });
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
+export const getAllCourses = async (page = 0) => {
+  const response = await fetch(`${BASE_URL}/getAllCourses?page=${page}`);
+  return await response.json(); // Should return { courses: [...], hasMore: true/false }
 };
 
 export const getCourse = async (idCourse: string) => {
