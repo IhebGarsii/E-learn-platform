@@ -273,10 +273,9 @@ const addCommentToVideo = async (req, res) => {
 };
 
 const deleteCourse = async (req, res) => {
-  const { idCourse } = req.params;
+  const { idCourse, idUser } = req.params;
 
   try {
-    let idUser = "dfdf";
     const coursre = await coursesModel.findById(idCourse);
 
     if (coursre.studentsId.length > 0) {
@@ -287,7 +286,8 @@ const deleteCourse = async (req, res) => {
         );
     }
 
-    if (!(coursre.instructorId === idUser)) {
+    console.log(coursre.instructorId.equals(idUser));
+    if (!coursre.instructorId.equals(idUser)) {
       console.log("You Don't Have The Permition For This Action");
 
       return res
@@ -320,6 +320,8 @@ const updateCourse = async (req, res) => {
         .status(401)
         .json({ error: "You are not authorized to update this course." });
     }
+    console.log("descprition", req.body.description);
+
     const updatedCourse = await coursesModel.findByIdAndUpdate(
       idCourse,
       { ...req.body, thumbnail: thumbnail?.filename },
@@ -392,7 +394,7 @@ const getInstructorCourses = async (req, res) => {
 
     const courses = await coursesModel.find({ instructorId: userId });
     if (courses.length == 0) {
-      return res.status(404).json("No courses where found");
+      return res.status(404).json(courses);
     }
     console.log(courses, "sssssssss");
     return res.status(200).json(courses);

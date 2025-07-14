@@ -1,7 +1,12 @@
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import CourseForm from "../../components/forms/courseForms/CourseForm";
 import { cousers } from "../../types/course";
-import { updateCourse } from "../../api/coursesAPI";
+import { getCourse, updateCourse } from "../../api/coursesAPI";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import UpdateVideo from "../../components/videoUpload/UpdateVideo";
@@ -10,7 +15,6 @@ function UpdateCourse() {
   const { idCourse } = useParams();
   const queryClient = useQueryClient();
   const [decpription, setDecpription] = useState("");
-  const [course, setCourse] = useState<cousers>();
 
   const handleDecriptionChange = (NewDecpription: string) => {
     setDecpription(NewDecpription);
@@ -52,21 +56,15 @@ function UpdateCourse() {
       formData.append("thumbnail", data.thumbnail[0]);
     }
 
-    console.log(formData.getAll("price"));
+    console.log(formData.getAll("description"), "form data");
 
     mutateUpdate(formData);
   };
 
-  useEffect(() => {
-    setCourse(queryClient.getQueryData(["course", idCourse]));
-
-    if (course) {
-      console.log("Course found in cache:", course);
-    } else {
-      console.log("Course not found in cache, fetching...");
-    }
-  }, []);
-
+  const { data: course } = useQuery({
+    queryKey: ["course", idCourse],
+    queryFn: () => getCourse(idCourse!),
+  });
   return (
     <div>
       {course ? ( // Render CourseForm only when the course is available

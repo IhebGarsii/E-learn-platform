@@ -92,9 +92,11 @@ export const getInstructorCourses = async (userId: string) => {
         method: "GET",
       }
     );
-    if (!response.ok) {
-      throw new Error(`${response}`);
-    }
+  if (!response.ok) {
+    throw new Error(
+      `Request failed: ${response.status} ${response.statusText}`
+    );
+  }
     return await response.json();
   } catch (error) {
     console.log(error);

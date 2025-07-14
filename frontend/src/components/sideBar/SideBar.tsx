@@ -35,10 +35,10 @@ function SideBar() {
   }, [user]);
 
   const Menus = [
-    { title: "Dashboard", src: "Chart_fill", link: "/addProject" },
-    { title: "Inbox", src: "Chat", link: "/coursesDarshboard" },
+    { title: "Add Project", src: "Chart_fill", link: "/addProject" },
+    { title: "Add Course", src: "Chat", link: "/coursesDarshboard" },
     {
-      title: "Accounts",
+      title: "My Courses",
       src: "User",
       gap: true,
       link: "/instructorCourseList",

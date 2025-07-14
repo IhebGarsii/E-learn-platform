@@ -54,20 +54,7 @@ function CourseDetail() {
       mutateCart(course._id);
     }
   };
-  const { mutate: mutateDelete } = useMutation({
-    mutationFn: (course: cousers) =>
-      DeleteCourse(localStorage.getItem("idUser")!, course._id),
-    onSuccess: (data) => {
-      console.log(data, "ererere");
-      navigate("/courses");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-  const handleDelete = (course: cousers) => {
-    mutateDelete(course);
-  };
+
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading course data.</div>;
@@ -78,7 +65,6 @@ function CourseDetail() {
     setTag(tag);
     navigate("/courses");
   };
-  const isInstructor = localStorage.getItem("roles") == "instructor";
   return (
     <div className="flex min-h-full flex-col gap-6 lg:w-[90%] md:mt-9 md:flex-row lg:justify-start md:items-start mt-12 mx-auto items-center md:gap-10">
       {
@@ -103,22 +89,7 @@ function CourseDetail() {
               <span>Created By {course.instructorId}</span>
               <span>Last Updated {course.lastUpdated}</span>
             </div>
-            {isInstructor && (
-              <div className="flex justify-between items-center gap-4 mt-10">
-                <button
-                  className="bg-red-600 text-white px-4 py-2 rounded"
-                  onClick={() => handleDelete(course)}
-                >
-                  <MdDelete />
-                </button>
-                <Link
-                  to={`/updateCourse/${idCourse}`}
-                  className="bg-blue-600 text-white px-4 py-2 justify-center rounded"
-                >
-                  <FaRegEdit />
-                </Link>
-              </div>
-            )}
+            
           </div>
 
           <div className="shadow-md border p-4 mt-4 rounded-md bg-white">
