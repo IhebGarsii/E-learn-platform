@@ -9,6 +9,7 @@ import { cousers } from "../../types/course";
 import { useUserState } from "../../state/user";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import toast from "react-hot-toast";
 function AddCourse() {
   const {
     register,
@@ -23,7 +24,6 @@ function AddCourse() {
   const [videoSections, setVideoSections] = useState<any[]>([]);
   const [descValue, setDescValue] = useState("");
   const [decpription, setDecpription] = useState("");
-  const { setData: setUser } = useUserState();
 
   const handleTagsChange = (newTags: tags[]) => {
     setTags(newTags);
@@ -57,7 +57,7 @@ function AddCourse() {
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => addCourse(formData),
     onSuccess: (data) => {
-      setUser(data.user);
+      toast.success("Course added successfully!");
     },
   });
 

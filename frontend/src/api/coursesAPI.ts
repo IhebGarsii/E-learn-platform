@@ -99,7 +99,6 @@ export const getInstructorCourses = async (userId: string) => {
   }
     return await response.json();
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

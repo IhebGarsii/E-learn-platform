@@ -30,36 +30,34 @@ function InstructorCourseCard({ course }: InstructorCourseCardProp) {
     mutateDelete(course);
   };
   return (
-    <div className="flex flex-coll gap-2 text-xs">
-      <img
-        className=" rounded object-cover"
-        src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
-        width={80}
-        height={50}
-        alt=""
-      />
-      <Link
-        to={`/Course/${course._id}`}
-        className="hover:text-blue-500 w-[50%] cursor-pointer"
+    <div className="flex flex-coll items-center bg-gray-100 gap-2 text-xs">
+      <div className="flex items-center gap-2 w-full  p-2">
+        <img
+          className=" rounded object-cover"
+          src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
+          width={80}
+          height={50}
+          alt=""
+        />
+        <Link
+          to={`/Course/${course._id}`}
+          className="hover:text-blue-500 w-[50%] cursor-pointer"
+        >
+          {course.title}
+        </Link>
+      </div>
+      <button
+        className="bg-red-600 text-white px-4 py-2 rounded"
+        onClick={() => handleDelete(course)}
       >
-        {course.title}
+        <MdDelete />
+      </button>
+      <Link
+        to={`/updateCourse/${course._id}`}
+        className="bg-blue-600 text-white px-4 py-2 justify-center rounded"
+      >
+        <FaRegEdit />
       </Link>
-      {isInstructor && (
-        <div className="flex justify-between items-center gap-4 mt-10">
-          <button
-            className="bg-red-600 text-white px-4 py-2 rounded"
-            onClick={() => handleDelete(course)}
-          >
-            <MdDelete />
-          </button>
-          <Link
-            to={`/updateCourse/${course._id}`}
-            className="bg-blue-600 text-white px-4 py-2 justify-center rounded"
-          >
-            <FaRegEdit />
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

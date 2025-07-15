@@ -1,21 +1,16 @@
-import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CourseForm from "../../components/forms/courseForms/CourseForm";
 import { cousers } from "../../types/course";
 import { getCourse, updateCourse } from "../../api/coursesAPI";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import UpdateVideo from "../../components/videoUpload/UpdateVideo";
 
 function UpdateCourse() {
   const { idCourse } = useParams();
   const queryClient = useQueryClient();
   const [decpription, setDecpription] = useState("");
-
+  const navigate = useNavigate();
   const handleDecriptionChange = (NewDecpription: string) => {
     setDecpription(NewDecpription);
   };
@@ -23,10 +18,10 @@ function UpdateCourse() {
     mutationFn: (formData: FormData) =>
       updateCourse(formData, localStorage.getItem("idUser")!, idCourse!),
     onSuccess: (data) => {
-      console.log(
-        "updated course in  cashe",
-        queryClient.getQueryData(["course", idCourse])
-      );
+      queryClient.invalidateQueries({
+        queryKey: ["course", idCourse],
+      });
+      navigate(`/course/${idCourse}`);
     },
     onError: (error) => {
       console.log(error);
@@ -36,7 +31,6 @@ function UpdateCourse() {
     console.log(data, "update course");
 
     const formData = new FormData();
-    formData.append("description", decpription);
 
     Object.keys(data).forEach((key) => {
       const value = data[key as keyof cousers];

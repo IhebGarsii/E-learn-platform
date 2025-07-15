@@ -16,7 +16,6 @@ function InstructorCoursesList() {
     queryFn: () => getInstructorCourses(userId!),
     enabled: !!userId,
   });
-  console.log(courses);
 
   if (isError) {
     return <>error</>;
@@ -28,7 +27,6 @@ function InstructorCoursesList() {
       </div>
     );
   }
-  console.log("coursssssssssssssses", courses);
 
   if (!Array.isArray(courses)) {
     return (
@@ -41,11 +39,13 @@ function InstructorCoursesList() {
     );
   }
   return (
-    <div className="flex flex-col gap-4 mt-16 p-4">
-      <h1>My Courses</h1>
-      {courses?.map((course: cousers) => (
-        <InstructorCourseCard course={course} />
-      ))}
+    <div className="flex flex-col gap-4 items-center  mt-16 p-4 lg:text-base">
+      <div className="flex flex-col gap-4 w-full max-w-4xl">
+        <h1>My Courses</h1>
+        {courses?.map((course: cousers) => (
+          <InstructorCourseCard course={course} />
+        ))}
+      </div>
     </div>
   );
 }
