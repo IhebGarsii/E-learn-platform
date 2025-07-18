@@ -6,7 +6,6 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { comment } from "../../types/comment";
-import { useUserState } from "../../state/user";
 type commentProps = {
   idVideo: string;
   idVid: string;
@@ -15,8 +14,6 @@ function Comment({ idVideo, idVid }: commentProps) {
   const [comment, setComment] = useState("");
 
   const queryClient = useQueryClient();
-
-  const { data: user } = useUserState();
 
   const handleComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -27,6 +24,8 @@ function Comment({ idVideo, idVid }: commentProps) {
       commentText: comment,
       givenUser: localStorage.getItem("idUser")!,
     };
+    console.log(commentToAdded, "gg");
+
     setComment("");
 
     mutateComment(commentToAdded);
@@ -36,7 +35,8 @@ function Comment({ idVideo, idVid }: commentProps) {
     mutationFn: (data: comment) => addCommentToVideo(data),
     onSuccess: () => {
       console.log("comment added ");
-      queryClient.invalidateQueries({ queryKey: ["video"] });
+
+      queryClient.invalidateQueries({ queryKey: ["videoComment", idVid] });
     },
     onError: (error) => {
       console.log("error in adding the comment", error);

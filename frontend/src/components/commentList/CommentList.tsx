@@ -3,8 +3,12 @@ import { addReplyAPI } from "../../api/commentAPI";
 import { useState } from "react";
 import { formatedDate } from "../../utl/formatedDate";
 import { replyComment } from "../../types/replyComment";
-
-function CommentList({ comment }: any) {
+import { comment } from "../../types/comment";
+type CommentListProp = {
+  comment: any;
+  idVid?: string;
+};
+function CommentList({ comment, idVid }: CommentListProp) {
   const queryClient = useQueryClient();
 
   const [reply, setReply] = useState("");
@@ -13,7 +17,7 @@ function CommentList({ comment }: any) {
   const { mutate: mutateReply } = useMutation({
     mutationFn: (data: replyComment) => addReplyAPI(data),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["video"] });
+      queryClient.invalidateQueries({ queryKey: ["videoComment", idVid] });
       setReply("");
     },
   });

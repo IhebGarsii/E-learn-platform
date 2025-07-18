@@ -1,63 +1,88 @@
 import { useParams } from "react-router-dom";
-import Comment from "../../components/commentair/Comment";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getVideoComments } from "../../api/commentAPI";
-import CommentList from "../../components/commentList/CommentList";
-import { comment } from "../../types/comment";
 import { useEffect, useState } from "react";
-import { cousers } from "../../types/course";
+import ReactPlayer from "react-player";
+import Comment from "../../components/commentair/Comment";
+import CommentList from "../../components/commentList/CommentList";
 import CourseContent from "../../components/courseContent/CourseContent";
+
+import { comment } from "../../types/comment";
+import { cousers } from "../../types/course";
 
 function VideoPlayer() {
   const { idVideo, idVid, idCourse } = useParams();
   const queryClient = useQueryClient();
-  const [course, setCourse] = useState<cousers>();
-  /*   const [Video, setVideo] = useState<cousers>(); */
- 
-  const { data: videoComents } = useQuery({
-    queryKey: ["videoComment",idVid],
-    queryFn: () => getVideoComments(course?.video._id!, idVid!),
-    enabled: !!course?.video._id && !!idVid,
-  });
-  useEffect(() => {
-    console.log(course?.video._id!, "eeeeeeeeeeeeee");
-  }, [course?.video._id!]);
-  useEffect(() => {
-    setCourse(queryClient.getQueryData(["course", idCourse]));
 
-    if (course) {
-      console.log("Course found in cache:", course?.video);
+  const [course, setCourse] = useState<cousers>();
+
+  useEffect(() => {
+    const cachedCourse = queryClient.getQueryData<cousers>([
+      "course",
+      idCourse,
+    ]);
+    setCourse(cachedCourse);
+
+    if (cachedCourse) {
+      console.log("Course found in cache:", cachedCourse.video);
     } else {
       console.log("Course not found in cache, fetching...");
     }
-  }, []);
+  }, [idCourse, queryClient]);
 
+  const { data: videoComents, isLoading } = useQuery({
+    queryKey: ["videoComment", idVid],
+    queryFn: () => getVideoComments(course?.video._id!, idVid!),
+    enabled: !!course?.video._id && !!idVid,
+  });
 
-  if (!videoComents) {
-    console.log(videoComents);
-
-    return <div className="h-screen bg-red-500">fddffddffd</div>;
-  } else {
-    console.log(videoComents);
+  if (isLoading || !course) {
+    return (
+      <div className="min-h-screen flex justify-center items-center text-gray-700 text-xl">
+        Loading video...
+      </div>
+    );
   }
+
   return (
-    <div className="mt-15   flex flex-col items-center gap-5 justify-center pt-14">
-      <div className="">
-        <video
-          style={{ width: "90%", height: "100%" }}
+    <div className="pt-20 pb-10 px-4 w-full max-w-6xl mx-auto">
+      {/* Video Player */}
+      <div className="w-full rounded-xl overflow-hidden shadow-lg mb-8">
+        <ReactPlayer
           src={`http://localhost:4000/uploads/courses/${idVideo}`}
           controls
-        ></video>
-        <div className="flex flex-col items-start w-[90%]   ">
-          <Comment idVideo={idVideo!} idVid={idVid!} />
-
-          {videoComents.comments &&
-            videoComents.comments.map((comment: comment, index: number) => (
-              <CommentList key={index} comment={comment} />
-            ))}
-        </div>
-        {<CourseContent video={course?.video.video} />}
+          width="100%"
+          height="100%"
+          className="rounded-xl overflow-hidden shadow-md"
+        />
       </div>
+
+      {/* Comments */}
+      <div className="mb-10 w-full space-y-4">
+        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Comments</h2>
+
+        {/* Add new comment */}
+        <Comment idVideo={idVideo!} idVid={idVid!} />
+
+        {/* List comments */}
+        {videoComents?.comments?.length > 0 ? (
+          videoComents.comments.map((comment: comment, index: number) => (
+            <CommentList key={index} comment={comment} idVid={idVid} />
+          ))
+        ) : (
+          <p className="text-gray-500">No comments yet.</p>
+        )}
+      </div>
+
+      {/* Course Content */}
+      {course?.video.video && (
+        <div className="w-full mt-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+            Course Content
+          </h2>
+          <CourseContent video={course.video.video} />
+        </div>
+      )}
     </div>
   );
 }
