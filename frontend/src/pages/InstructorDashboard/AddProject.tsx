@@ -54,7 +54,7 @@ function AddProject() {
 
   return (
     <form
-      className="mt-16 h-ful flex flex-col p-2 gap-5"
+      className="mt-16 h-ful flex flex-col p-2 gap-5 w-full lg:w-[50%] mx-auto"
       onSubmit={handleSubmit(createProject)}
     >
       {/* Title Field */}

@@ -94,12 +94,12 @@ function Navbar() {
     navigate("/");
   };
   return (
-    <div className="fixed w-full z-10 font-[Poppins] bg-gradient-to-t from-[#fbc2eb] to-[#a6c1ee]">
+    <div className="fixed w-full z-10 font-[Poppins] ">
       <header className="bg-white ">
         <nav className="flex justify-around  z items-center w-full  mx-auto">
           <div>
             <img
-              className="w-12 cursor-pointer"
+              className="h-8 w-auto sm:h-10 md:h-12 lg:h-14 transition-all duration-300 cursor-pointer"
               src="https://cdn-icons-png.flaticon.com/512/5968/5968204.png"
               alt="Logo"
             />

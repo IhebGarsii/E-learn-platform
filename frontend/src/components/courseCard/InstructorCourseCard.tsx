@@ -10,54 +10,57 @@ import { useStore } from "../../hooks/zustand";
 type InstructorCourseCardProp = {
   course: cousers;
 };
+
 function InstructorCourseCard({ course }: InstructorCourseCardProp) {
   const queryClient = useQueryClient();
   const setTag = useStore((state) => state.setTagSearch);
   const navigate = useNavigate();
+
   const { mutate: mutateDelete } = useMutation({
     mutationFn: (course: cousers) =>
       DeleteCourse(localStorage.getItem("idUser")!, course._id),
-    onSuccess: (data) => {
-      console.log(data, "ererere");
-      queryClient.invalidateQueries({
-        queryKey: ["instructorCourses"],
-      });
-      toast.success("Successfully Deleted and Yeted!");
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["instructorCourses"] });
+      toast.success("Course deleted successfully!");
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
     },
   });
+
   const handleDelete = (course: cousers) => {
     mutateDelete(course);
   };
+
   const searchTag = (tag: string) => {
     setTag(tag);
     navigate("/courses");
   };
+
   return (
-    <div className="flex flex-coll items-center justify-between bg-gray-100 gap-2 text-xs lg:text-sm lg:px-10  lg:h-40">
-      <div className="flex items-center gap-2 max-w-70  p-2">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-white rounded-lg shadow p-4 mb-4 gap-4 transition hover:shadow-lg">
+      {/* Image and Info */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1">
         <img
-          className=" rounded object-cover"
           src={`http://localhost:4000/uploads/courses/${course.thumbnail}`}
-          width={80}
-          height={50}
-          alt=""
+          alt="Course Thumbnail"
+          className="w-full sm:w-24 h-32 sm:h-20 object-cover rounded"
         />
-        <div className=" flex flex-col gap-2">
+
+        <div className="flex flex-col gap-2 overflow-hidden w-full">
           <Link
             to={`/Course/${course._id}`}
-            className="hover:text-blue-500 w-[50%] cursor-pointer "
+            className="text-base font-semibold text-gray-800 hover:text-blue-600 truncate"
           >
             {course.title}
           </Link>
-          <div>
+
+          <div className="flex flex-wrap gap-2">
             {course.tags.map((tag, i) => (
               <span
-                onClick={() => searchTag(tag)}
-                className="p-1 cursor-pointer hover:text-blue-500 "
                 key={i}
+                onClick={() => searchTag(tag)}
+                className="text-xs bg-gray-200 px-2 py-1 rounded cursor-pointer hover:bg-blue-100 transition"
               >
                 {tag}
               </span>
@@ -65,21 +68,27 @@ function InstructorCourseCard({ course }: InstructorCourseCardProp) {
           </div>
         </div>
       </div>
-      <nav>
-        <span> {course.studentsId.length} </span>
-      </nav>
-      <div className="flex flex-col">
+
+      {/* Students Count */}
+      <div className="flex justify-between sm:justify-start sm:items-center gap-4 text-sm text-gray-600 sm:w-auto">
+        <span>{course.studentsId.length} students</span>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex gap-2 justify-end sm:flex-col">
         <button
-          className="bg-red-600 text-white px-4 py-2 rounded"
           onClick={() => handleDelete(course)}
+          className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-2 rounded transition w-10 h-10"
+          title="Delete"
         >
-          <MdDelete />
+          <MdDelete size={18} />
         </button>
         <Link
           to={`/updateCourse/${course._id}`}
-          className="bg-blue-600 text-white px-4 py-2 justify-center rounded"
+          className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white p-2 rounded transition w-10 h-10"
+          title="Edit"
         >
-          <FaRegEdit />
+          <FaRegEdit size={18} />
         </Link>
       </div>
     </div>

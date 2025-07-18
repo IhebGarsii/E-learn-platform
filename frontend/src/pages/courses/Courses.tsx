@@ -34,6 +34,8 @@ function Courses() {
     queryFn: () => searchProducts(debouncedSearchTerm),
     enabled: !!debouncedSearchTerm,
   });
+  console.log(searchResults,"searshed results");
+  
 
   // Prefetch next page
   useEffect(() => {
