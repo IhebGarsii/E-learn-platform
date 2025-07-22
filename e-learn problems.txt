@@ -24,6 +24,11 @@ in course detail wide page cant see the tags *** fixed
 category when i reload wont show all hieght *** fixed
 rework filter   *** finished
 
+
+
+
+
+add enrole to course
 fix navbar responsive 
 fix sidebar icons desepier sometimes
 online users cant seem to work 

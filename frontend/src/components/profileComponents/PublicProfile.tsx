@@ -4,7 +4,7 @@ import ProjectCard from "../projectComponents/ProjectCard";
 import { useState } from "react";
 import ProjectDetail from "../projectComponents/ProjectDetail";
 import DOMPurify from "dompurify";
-import PublicProfileCourseCard from "./PublicProfileCourseCard";
+import PublicProfileCourseCard from "../courseCard/PublicProfileCourseCard";
 import { IoClose } from "react-icons/io5";
 
 function PublicProfile() {
@@ -36,8 +36,8 @@ function PublicProfile() {
             {user?.firstName} {user?.lastName}
           </span>
           <div className="flex  flex-col ">
-            <h2>follower: {user?.followers.length}</h2>
-            <h2>following: {user?.following.length} </h2>
+            <h2>follower: {user?.followers?.length}</h2>
+            <h2>following: {user?.following?.length} </h2>
           </div>
           <div className=" flex flex-wrap items-center  ">
             <Rating

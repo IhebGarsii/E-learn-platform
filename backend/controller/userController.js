@@ -319,7 +319,26 @@ const getOnlineUsers = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
+const updateUserPhoto = async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const image = req.file.originalname;
+    console.log(image, "image");
+    const user = await userModel.findByIdAndUpdate(
+      idUser,
+      { image },
+      { new: true }
+    );
+    console.log(user, "user");
+    if (!user) {
+      return res.status(404).json("User Not Found");
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 
 module.exports = {
   updateUser,
@@ -336,4 +355,5 @@ module.exports = {
   updateUserInformation,
   manageRate,
   getOnlineUsers,
+  updateUserPhoto,
 };

@@ -3,6 +3,7 @@ import UpdateBasic from "../../components/profileComponents/UpdateBasic";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import UpdateInformation from "../../components/profileComponents/UpdateInformation";
+import UpdatePhoto from "../../components/forms/userForms/UpdatePhoto";
 
 function Profile() {
   const { data: user } = useUserState();
@@ -10,10 +11,12 @@ function Profile() {
 
   const renderSection = () => {
     switch (activeSection) {
+      case "Profile":
+        return <>profile</>;
       case "Photo":
-        return <>Photo</>;
+        return <UpdatePhoto />;
       case "Account Security":
-        return <>acount</>;
+        return <UpdateBasic />;
       case "Update Information":
         return <UpdateInformation />;
       case "Close account":

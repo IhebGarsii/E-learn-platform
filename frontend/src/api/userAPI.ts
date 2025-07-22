@@ -114,3 +114,19 @@ export const getOnlineUsers = async (idList: string[]) => {
     return error;
   }
 };
+
+export const UpdateUserPhoto = async (image: File, idUser: string) => {
+  const formData = new FormData();
+  formData.append("image", image);
+
+  const response = await fetch(`${BASE_URL}/updateUserPhoto/${idUser}`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to upload image");
+  }
+
+  return response.json();
+};
