@@ -10,6 +10,7 @@ function UpdatePhoto() {
       UpdateUserPhoto(image, localStorage.getItem("idUser")!),
     onSuccess: () => {
       console.log("Image uploaded successfully");
+      //problem hereeeeeeeeeeeeeeeeee
       queryClient.invalidateQueries(["user", localStorage.getItem("idUser")!]);
     },
     onError: (error) => {
