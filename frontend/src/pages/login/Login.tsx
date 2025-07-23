@@ -39,7 +39,7 @@ function Login() {
       localStorage.setItem("roles", data.user.role);
       setRole(data.user.role);
       setUserId(data.user._id);
-      queryClient.setQueryData(["user"], data.user);
+      queryClient.invalidateQueries({ queryKey: ["user", data.user._id] });
       navigate("/courses");
     },
     onError: (error: Error) => {

@@ -24,11 +24,7 @@ function Navbar() {
   const setRole = useStore((state) => state.setRole);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    setUserId(localStorage.getItem("idUser"));
-  }, []);
+  const userId = localStorage.getItem("idUser");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -72,6 +68,9 @@ function Navbar() {
     refetchIntervalInBackground: false,
     staleTime: Infinity,
   });
+  console.log(user, "navbar user");
+  console.log(userId, "navbar userId");
+
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
 
@@ -154,7 +153,7 @@ function Navbar() {
             </ul>
           </div>
           <div className="flex items-center gap-6 min-w-fit">
-            {user ? (
+            {user !== null ? (
               <div className="relative">
                 {logedin ? (
                   <>
