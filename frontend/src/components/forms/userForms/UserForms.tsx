@@ -3,21 +3,31 @@ import { instructor } from "../../../types/instructor";
 import { Link } from "react-router-dom";
 import { useUserState } from "../../../state/user";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 type userFormProps = {
   onSubmit: (data: instructor) => void;
   isPending: boolean;
   update?: boolean;
 };
 function UserForms({ onSubmit, isPending, update }: userFormProps) {
+  const userId = useMemo(() => localStorage.getItem("idUser"), []);
   const { register, handleSubmit, setValue } = useForm<instructor>();
-  const { data: user } = useUserState();
+  const { data: user } = useQuery<instructor>({
+    queryKey: ["user", userId],
+    enabled: !!userId,
+  });
   /* setValue("firstName", user?.firstName!); */
   useEffect(() => {
     if (user) {
+      console.log(user, "user form");
+
       // Set the values using the keys of the Instructor interface
       (Object.keys(user) as Array<keyof instructor>).forEach((key) => {
         if (key in user) {
+          console.log(key === "password");
+
+          if (key === "password") return;
           setValue(key, user[key as keyof instructor] as string);
         }
       });

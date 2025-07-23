@@ -36,3 +36,4 @@ online users cant seem to work
 add toast around the platform
 change the login design
 when i got first page in courses again it refetch again
+i thing confirm password dont work for update and signup
