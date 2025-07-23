@@ -30,6 +30,7 @@ rework filter   *** finished
 
 add enrole to course
 fix navbar responsive 
+fix navbar when phone mode overflow with white 
 fix sidebar icons desepier sometimes
 online users cant seem to work 
 add toast around the platform

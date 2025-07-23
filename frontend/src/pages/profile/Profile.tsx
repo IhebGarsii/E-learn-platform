@@ -1,12 +1,19 @@
-import { useUserState } from "../../state/user";
 import UpdateBasic from "../../components/profileComponents/UpdateBasic";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import UpdateInformation from "../../components/profileComponents/UpdateInformation";
 import UpdatePhoto from "../../components/forms/userForms/UpdatePhoto";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { instructor } from "../../types/instructor";
+import { getUserById } from "../../api/userAPI";
 
 function Profile() {
-  const { data: user } = useUserState();
+  const userId = useMemo(() => localStorage.getItem("idUser"), []);
+  const { data: user } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+  });
   const [activeSection, setActiveSection] = useState("Profile");
 
   const renderSection = () => {

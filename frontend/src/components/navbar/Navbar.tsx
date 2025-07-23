@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import img from "../../assets/arrow-dwon.png";
@@ -16,9 +16,6 @@ import Skeleton from "react-loading-skeleton";
 function Navbar() {
   console.log("navbar");
 
-  useEffect(() => {
-    setUserId(localStorage.getItem("idUser"));
-  }, []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
@@ -27,8 +24,7 @@ function Navbar() {
   const setRole = useStore((state) => state.setRole);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
-
-  const [userId, setUserId] = useState<string | null>(null);
+  const userId = useMemo(() => localStorage.getItem("idUser"), []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -62,7 +58,7 @@ function Navbar() {
     refetchIntervalInBackground: false,
   });
   const { data: user, isLoading } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", userId],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
     refetchInterval: false,
@@ -70,6 +66,7 @@ function Navbar() {
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     refetchIntervalInBackground: false,
+    staleTime: Infinity,
   });
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
@@ -84,7 +81,7 @@ function Navbar() {
   const logout = () => {
     setProfileMenu(false);
     localStorage.clear(); // clears role, token, etc.
-    queryClient.removeQueries({ queryKey: ["user"] });
+    queryClient.removeQueries({ queryKey: ["user", userId] });
     setRole("");
     setOnlineUsersId([]);
     /* socket.disconnect(); */
