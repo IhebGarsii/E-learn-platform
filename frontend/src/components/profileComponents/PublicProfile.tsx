@@ -1,14 +1,28 @@
-import { useUserState } from "../../state/user";
 import { Rating } from "@smastrom/react-rating";
 import ProjectCard from "../projectComponents/ProjectCard";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProjectDetail from "../projectComponents/ProjectDetail";
 import DOMPurify from "dompurify";
 import PublicProfileCourseCard from "../courseCard/PublicProfileCourseCard";
 import { IoClose } from "react-icons/io5";
+import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "../../api/userAPI";
+import { cousers } from "../../types/course";
+import { project } from "../../types/project";
 
 function PublicProfile() {
-  const { data: user } = useUserState();
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem("idUser"));
+  }, []);
+
+  const { data: user } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+  });
+  
 
   const [projectDetail, setProjectDetail] = useState(false);
   const onClickDetail = (display: boolean) => {
@@ -59,12 +73,12 @@ function PublicProfile() {
           dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
         />
         <nav className="grid grid-cols-1 gap-2 mt-4 md:grid-cols-2">
-          {user?.courses.map((course) => (
+          {user?.courses.map((course: cousers) => (
             <PublicProfileCourseCard course={course} key={course._id} />
           ))}
         </nav>
         <div className="relative items-center h-full flex flex-col gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 ">
-          {user?.projects.map((proj) =>
+          {user?.projects.map((proj: project) =>
             typeof proj !== "string" ? (
               <>
                 <ProjectCard

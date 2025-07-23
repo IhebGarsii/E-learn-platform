@@ -24,7 +24,11 @@ function Navbar() {
   const setRole = useStore((state) => state.setRole);
   const setOnlineUsersId = useStore((state) => state.setOnlineUsersId);
   const onlineUsersId = useStore((state) => state.onlineUsersId);
-  const userId = useMemo(() => localStorage.getItem("idUser"), []);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem("idUser"));
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

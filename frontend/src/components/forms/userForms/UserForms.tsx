@@ -3,18 +3,25 @@ import { instructor } from "../../../types/instructor";
 import { Link } from "react-router-dom";
 import { useUserState } from "../../../state/user";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "../../../api/userAPI";
 type userFormProps = {
   onSubmit: (data: instructor) => void;
   isPending: boolean;
   update?: boolean;
 };
 function UserForms({ onSubmit, isPending, update }: userFormProps) {
-  const userId = useMemo(() => localStorage.getItem("idUser"), []);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    if (id) setUserId(id);
+  }, []);
   const { register, handleSubmit, setValue } = useForm<instructor>();
   const { data: user } = useQuery<instructor>({
     queryKey: ["user", userId],
+    queryFn: () => getUserById(userId),
     enabled: !!userId,
   });
   /* setValue("firstName", user?.firstName!); */

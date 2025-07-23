@@ -4,6 +4,8 @@ type publicProfileCourseCardProps = {
   course: cousers;
 };
 function publicProfileCourseCard({ course }: publicProfileCourseCardProps) {
+  console.log(course, "public profile course card");
+  
   return (
     <div
       key={course._id}
@@ -24,7 +26,7 @@ function publicProfileCourseCard({ course }: publicProfileCourseCardProps) {
         </Link>
         <div className="flex flex-col ">
           <nav className="flex flex-wrap gap-1 ">
-            {course.headTags.map((tag, key) => (
+            {course.headTags?.map((tag, key) => (
               <span
                 key={key}
                 className="border-2  border-gray-900 rounded-xl max-w-full p-1 m-1"
@@ -34,7 +36,7 @@ function publicProfileCourseCard({ course }: publicProfileCourseCardProps) {
             ))}
           </nav>
           <nav className="flex flex-wrap gap-1 ">
-            {course.tags.map((tag, key) => (
+            {course.tags?.map((tag, key) => (
               <span
                 key={key}
                 className="border-2 border-gray-900 rounded-xl max-w-full p-1 m-1 "
