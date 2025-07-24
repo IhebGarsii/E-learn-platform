@@ -200,6 +200,7 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json("No user Were Found");
     }
+    console.log(user, "user");
 
     return res.status(200).json(user);
   } catch (error) {
