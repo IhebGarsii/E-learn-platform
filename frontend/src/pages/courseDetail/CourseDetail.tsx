@@ -20,6 +20,7 @@ function CourseDetail() {
   const [desc, setDesc] = useState(false);
   const tag = useStore((state) => state.tagSearch);
   const setTag = useStore((state) => state.setTagSearch);
+  const setCourseId = useStore((state) => state.setCourseId);
 
   const {
     data: course,
@@ -31,7 +32,9 @@ function CourseDetail() {
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
-
+  if (course) {
+    setCourseId(course._id);
+  }
   if (idCourse) {
     localStorage.setItem("CourseId", idCourse);
   }
@@ -54,7 +57,6 @@ function CourseDetail() {
       mutateCart(course._id);
     }
   };
-
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading course data.</div>;
@@ -89,7 +91,6 @@ function CourseDetail() {
               <span>Created By {course.instructorId}</span>
               <span>Last Updated {course.lastUpdated}</span>
             </div>
-            
           </div>
 
           <div className="shadow-md border p-4 mt-4 rounded-md bg-white">

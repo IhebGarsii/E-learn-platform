@@ -8,6 +8,9 @@ type Store = {
   setOnlineUsersId: (onlineUsersId: string[]) => void;
   userId: string;
   setUserId: (userId: string) => void;
+  courseId: string;
+
+  setCourseId: (courseId: string) => void;
 };
 export const useStore = create<Store>((set) => ({
   bears: 0,
@@ -19,4 +22,6 @@ export const useStore = create<Store>((set) => ({
   setOnlineUsersId: (onlineUsersId) => set({ onlineUsersId }),
   userId: "",
   setUserId: (userId) => set({ userId }),
+  courseId: "",
+  setCourseId: (courseId) => set({ courseId }),
 }));

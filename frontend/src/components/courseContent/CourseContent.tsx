@@ -3,6 +3,12 @@ import img from "../../assets/arrow-dwon.png";
 import { Link } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { videoResponse } from "../../types/video";
+import { useQuery } from "@tanstack/react-query";
+import { get } from "react-hook-form";
+import { getUserById } from "../../api/userAPI";
+import { getCourse } from "../../api/coursesAPI";
+import { useStore } from "../../hooks/zustand";
+import { cousers } from "../../types/course";
 type CourseContentProps = {
   video: videoResponse[];
 };
@@ -12,10 +18,24 @@ type DropdownState = {
 };
 
 function CourseContent({ video }: CourseContentProps) {
- 
-
+  const userId = localStorage.getItem("idUser")!;
+  const courseId = useStore((state) => state.courseId);
   // Initialize dropdown state with the first index open
   const [dropdowns, setDropdowns] = useState<DropdownState>({ 0: true });
+  const { data: course } = useQuery<cousers>({
+    queryKey: ["course", courseId],
+    queryFn: () => getCourse(courseId),
+    enabled: !!courseId,
+  });
+  const enrolmentCheck = () => {
+    if (course?.studentsId?.includes(userId)) {
+      return true;
+    } else return false;
+  };
+  console.log(course, "ee");
+  console.log(userId, "éé");
+
+  console.log("enrolmentCheck", enrolmentCheck());
 
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({
@@ -41,12 +61,16 @@ function CourseContent({ video }: CourseContentProps) {
                 {vid.videoList.map((video, vidIndex) => (
                   <div className="flex" key={vidIndex}>
                     <Link
-                      to={`/Course/${localStorage.getItem('CourseId')}/${video._id}/${video.videoName}`}
+                      to={`/Course/${localStorage.getItem("CourseId")}/${video._id}/${video.videoName}`}
                       className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
                     >
-                      <span> {} </span>
-                      <MdOutlineOndemandVideo />{" "}
-                      {video.videoName?.split(".")[0]}
+                      <button
+                        className="flex items-center gap-2"
+                        disabled={!enrolmentCheck()}
+                      >
+                        <MdOutlineOndemandVideo />{" "}
+                        {video.videoName?.split(".")[0]}
+                      </button>
                     </Link>
                   </div>
                 ))}

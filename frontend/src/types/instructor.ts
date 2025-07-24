@@ -24,4 +24,5 @@ export type instructor = {
   certifications: certification;
   followers: string[];
   following: string[];
+  studentsId: string[];
 };
