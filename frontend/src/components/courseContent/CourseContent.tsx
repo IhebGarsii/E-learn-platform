@@ -27,7 +27,7 @@ function CourseContent({ video }: CourseContentProps) {
     queryFn: () => getCourse(courseId),
     enabled: !!courseId,
   });
-  const enrolmentCheck = () => 
+  const enrolmentCheck = () => {
     if (course?.studentsId?.includes(userId)) {
       return true;
     } else return false;
