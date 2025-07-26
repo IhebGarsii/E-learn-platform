@@ -307,6 +307,79 @@ const updateCourse = async (req, res) => {
 
   try {
     let thumbnail;
+    if (req.files["thumbnail"] && req.files["thumbnail"][0]) {
+      thumbnail = req.files["thumbnail"][0];
+    }
+
+    const course = await coursesModel.findById(idCourse).populate("video");
+
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    if (course.instructorId.toString() !== idUser) {
+      return res
+        .status(401)
+        .json({ error: "You are not authorized to update this course." });
+    }
+
+    // Optional: Update video data if new videos uploaded
+    let newVideoDocId = course.video._id;
+
+    if (req.files["video"] && req.files["video"].length > 0) {
+      // Delete old videoCourse doc
+      await videoCourse.findByIdAndDelete(course.video._id);
+
+      const videoFiles = req.files["video"].map((file) => file.originalname);
+      const sectionData = {};
+
+      videoFiles.forEach((file) => {
+        const parts = file.split("_");
+        const sectionTitle = parts.slice(0, -1).join("_");
+        const videoTitle = parts[parts.length - 1];
+
+        if (!sectionData[sectionTitle]) {
+          sectionData[sectionTitle] = { sectionTitle, videoList: [] };
+        }
+
+        sectionData[sectionTitle].videoList.push({ videoName: videoTitle });
+      });
+
+      const newVideo = await videoCourse.create({
+        video: Object.values(sectionData),
+        instructorId: idUser,
+      });
+
+      newVideoDocId = newVideo._id;
+    }
+
+    // Update the course document
+    const updatedCourse = await coursesModel
+      .findByIdAndUpdate(
+        idCourse,
+        {
+          ...req.body,
+          thumbnail: thumbnail?.filename || course.thumbnail,
+          video: newVideoDocId,
+        },
+        { new: true }
+      )
+      .populate("video");
+
+    return res
+      .status(200)
+      .json({ msg: "Your Course Has Been Updated", updatedCourse });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+/* const updateCourse = async (req, res) => {
+  const { idUser, idCourse } = req.params;
+
+  try {
+    let thumbnail;
     if (req.files["thumbnail"] !== undefined) {
       thumbnail = req.files["thumbnail"][0];
     }
@@ -329,7 +402,6 @@ const updateCourse = async (req, res) => {
         { new: true }
       )
       .populate("video");
-    console.log(updatedCourse,'update course');
 
     return res
       .status(200)
@@ -339,7 +411,7 @@ const updateCourse = async (req, res) => {
 
     return res.status(500).json(error.message);
   }
-};
+}; */
 const addReplyComment = async (req, res) => {
   try {
     const { commentID, commentReplyText, givenUser } = req.body;
