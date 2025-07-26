@@ -41,7 +41,9 @@ function UpdateVideo() {
     }) => deleteVideo(idVideos, idSection, idVideo),
     onSuccess: (data) => {
       console.log("Video deleted successfully:", data);
-
+      queryClient.invalidateQueries({
+        queryKey: ["course", idCourse],
+      });
       setData(data);
       setVideo(data.video);
     },
@@ -74,6 +76,11 @@ function UpdateVideo() {
       idVideos: string;
       idSection: string;
     }) => addVideo(formData, idVideos, idSection),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["course", idCourse],
+      });
+    },
   });
   const handleSubmitVideo = (idVideos: string, idSection: string) => {
     const formData = new FormData();

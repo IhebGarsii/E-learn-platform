@@ -75,8 +75,10 @@ const addVideo = async (req, res) => {
       _id: new mongoose.Types.ObjectId(),
     };
     videoSection.videoList.push(newVideo);
+    console.log("New video added:", newVideo);
+    
     await videos.save();
-    return res.status(204).send();
+    return res.status(200).json(videos);
   } catch (error) {
     console.log(error);
 
