@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import companyLogo from "../../assets/pencil.png";
+import companyLogo from "../../../public/pencil.png";
 
 function Footer() {
   return (

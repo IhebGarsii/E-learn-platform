@@ -3,7 +3,7 @@ import { fullVideo } from "../../types/video";
 import { Link, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdDelete, MdOutlineOndemandVideo } from "react-icons/md";
-import img from "../../assets/arrow-dwon.png";
+import img from "../../../public/arrow-dwon.png";
 import { cousers } from "../../types/course";
 import { addVideo, deleteVideo } from "../../api/videoAPI";
 import { useCourseState } from "../../state/course";

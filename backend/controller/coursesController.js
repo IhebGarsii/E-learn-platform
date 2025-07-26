@@ -322,11 +322,14 @@ const updateCourse = async (req, res) => {
     }
     console.log("descprition", req.body.description);
 
-    const updatedCourse = await coursesModel.findByIdAndUpdate(
-      idCourse,
-      { ...req.body, thumbnail: thumbnail?.filename },
-      { new: true }
-    );
+    const updatedCourse = await coursesModel
+      .findByIdAndUpdate(
+        idCourse,
+        { ...req.body, thumbnail: thumbnail?.filename },
+        { new: true }
+      )
+      .populate("video");
+    console.log(updatedCourse,'update course');
 
     return res
       .status(200)

@@ -5,6 +5,7 @@ import { getCourse, updateCourse } from "../../api/coursesAPI";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import UpdateVideo from "../../components/videoUpload/UpdateVideo";
+import toast from "react-hot-toast";
 
 function UpdateCourse() {
   const { idCourse } = useParams();
@@ -21,6 +22,7 @@ function UpdateCourse() {
       queryClient.invalidateQueries({
         queryKey: ["course", idCourse],
       });
+      toast.success('The Course Has Been Uppdated')
       navigate(`/course/${idCourse}`);
     },
     onError: (error) => {

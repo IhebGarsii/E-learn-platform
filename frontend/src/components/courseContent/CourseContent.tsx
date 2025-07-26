@@ -1,5 +1,5 @@
 import { useState } from "react";
-import img from "../../assets/arrow-dwon.png";
+import img from "../../../public/arrow-dwon.png";
 import { Link } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { videoResponse } from "../../types/video";

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
-import img from "../../assets/arrow-dwon.png";
+import img from "../../../public/arrow-dwon.png";
 import useLoginUser from "../../utl/useLoginUser.js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserById } from "../../api/userAPI";
