@@ -27,7 +27,7 @@ rework filter   *** finished
 
 
 
-
+idont know how the delete video work and i the add wont update
 add enrole to course
 fix navbar responsive 
 fix navbar when phone mode overflow with white 
