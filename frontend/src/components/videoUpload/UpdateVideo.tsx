@@ -86,29 +86,26 @@ function UpdateVideo() {
       {course.video &&
         course.video.video.map((vid: any, index: number) => (
           <div key={index}>
-            <h1 className="flex items-center text-xl font-bold gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1">
+            <h1 className="flex justify-between items-center text-sm  gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1">
               <img className="w-3" src={img} alt="Toggle dropdown" />
               <span>{vid.sectionTitle}</span>
-              <button onClick={() => setAddingVideo(!addingVideo)}>
+              <h1 className="text-sm w-fit bg-green-500 whitespace-nowrap">
                 Add Video to This Section
-              </button>
-              {addingVideo && (
-                <>
-                  <input
-                    className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
-                    type="file"
-                    name="video"
-                    onChange={(e) => handleVideoFileChange(e)}
-                  />
-                  <button
-                    onClick={() =>
-                      handleSubmitVideo(course.video?._id!, vid._id)
-                    }
-                  >
-                    submit
-                  </button>
-                </>
-              )}
+              </h1>
+
+              <>
+                <input
+                  className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+                  type="file"
+                  name="video"
+                  onChange={(e) => handleVideoFileChange(e)}
+                />
+                <button
+                  onClick={() => handleSubmitVideo(course.video?._id!, vid._id)}
+                >
+                  submit
+                </button>
+              </>
             </h1>
             <ul>
               {vid.videoList.map((video: any, vidIndex: any) => (

@@ -1,22 +1,8 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Courses from "../../pages/courses/Courses";
-import Login from "../../pages/login/Login";
-import AddCourse from "../../pages/InstructorDashboard/AddCourse";
-import SignUp from "../../pages/signUp/SignUp";
-import CourseDetail from "../../pages/courseDetail/CourseDetail";
-import VideoPlayer from "../../pages/videoPlayer/VideoPlayer";
-import ShopingCart from "../../pages/shopingCart/ShopingCart";
-import Profile from "../../pages/profile/Profile";
-import UpdateBasic from "../profileComponents/UpdateBasic";
-import PublicProfile from "../profileComponents/PublicProfile";
-import AddProject from "../../pages/InstructorDashboard/AddProject";
-import UpdateCourse from "../../pages/InstructorDashboard/UpdateCourse";
-import Welcome from "../../pages/welcome/Welcom";
+import { Link } from "react-router-dom";
+
 import { useUserState } from "../../state/user";
 import { useStore } from "../../hooks/zustand";
-import InstructorsList from "../../pages/instructorsList/InstructorsList";
-import InstructorCoursesList from "../../pages/InstructorDashboard/InstructorCoursesList";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
@@ -106,7 +92,7 @@ function SideBar() {
         </div>
       )}
       <div className="min-h-screen  overflow-hidden w-fit flex-1">
-        <Routes>
+        {/* <Routes>
           <Route path="/Courses" element={<Courses />} />
           <Route path="login/" element={<Login />} />
           <Route path="signup/:role" element={<SignUp />} />
@@ -131,7 +117,7 @@ function SideBar() {
             path="/instructorCourseList"
             element={<InstructorCoursesList />}
           />
-        </Routes>
+        </Routes> */}
       </div>
     </div>
   );
