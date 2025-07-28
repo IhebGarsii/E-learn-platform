@@ -23,17 +23,17 @@ in course detail the footer is above the right  *** fixed
 in course detail wide page cant see the tags *** fixed
 category when i reload wont show all hieght *** fixed
 rework filter   *** finished
+i dont know how the delete video work and i the add wont update  *** fixed
+fix navbar when phone mode overflow with white *** fixed
 
 
 
 
-idont know how the delete video work and i the add wont update
 add enrole to course
 fix navbar responsive 
-fix navbar when phone mode overflow with white 
 fix sidebar icons desepier sometimes
 online users cant seem to work 
 add toast around the platform
 change the login design
 when i got first page in courses again it refetch again
-i thing confirm password dont work for update and signup
+i think confirm password dont work for update and signup
