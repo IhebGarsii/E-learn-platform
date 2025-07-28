@@ -94,8 +94,8 @@ function Navbar() {
     navigate("/");
   };
   return (
-    <div className="fixed w-full z-10 font-[Poppins] ">
-      <header className="bg-white ">
+    <div className="fixed w-full top-0 z-10 font-[Poppins] ">
+      <header className="bg-white  p-2 ">
         <nav className="flex justify-around  z items-center w-full  mx-auto">
           <div>
             <img
