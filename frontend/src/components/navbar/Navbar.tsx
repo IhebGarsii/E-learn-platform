@@ -12,6 +12,7 @@ import { useStore } from "../../hooks/zustand.js";
 import { useUserState } from "../../state/user.js";
 
 import Skeleton from "react-loading-skeleton";
+import InstuctorDropDown from "../instuctorDropDown/InstuctorDropDown.js";
 
 function Navbar() {
   console.log("navbar");
@@ -221,6 +222,7 @@ function Navbar() {
                             Notification
                           </li>
                         </ul>
+                        <InstuctorDropDown />
                       </div>
                     )}
                   </>

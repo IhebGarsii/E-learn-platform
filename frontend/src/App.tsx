@@ -34,7 +34,6 @@ function App() {
   }, []);
   // ***** this sometimes cause infint call for getUserById *****
 
-
   //this couse infinte call
   /*   const { data: userr } = useQuery({
     queryKey: ["user"],
@@ -43,7 +42,7 @@ function App() {
   useEffect(() => {
     useStore.setState({ userId: userr?._id });
   }, [userr]); */
-//end here
+  //end here
   /* useEffect(() => {
    
     if (!user) return;
@@ -89,7 +88,11 @@ function App() {
             element={<PublicProfile />}
           />
           <Route path="updateCourse/:idCourse" element={<UpdateCourse />} />
-          <Route path="/" element={<Welcome />} />
+          <Route
+            path="/"
+            element={localStorage.getItem("idUser") ? <Courses /> : <Welcome />}
+          />
+
           <Route path="/instructorsList" element={<InstructorsList />} />
           <Route
             path="/instructorCourseList"
