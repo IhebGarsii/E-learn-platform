@@ -1,3 +1,5 @@
+import { Products } from "../types/products";
+
 const BASE_URL = "http://localhost:4000/courses";
 
 export const getAllCourses = async (page = 0) => {
@@ -86,19 +88,33 @@ export const searchProducts = async (term: string) => {
 
 export const getInstructorCourses = async (userId: string) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/getInstructorCourses/${userId}`,
-      {
-        method: "GET",
-      }
-    );
-  if (!response.ok) {
-    throw new Error(
-      `Request failed: ${response.status} ${response.statusText}`
-    );
-  }
+    const response = await fetch(`${BASE_URL}/getInstructorCourses/${userId}`, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error(
+        `Request failed: ${response.status} ${response.statusText}`
+      );
+    }
     return await response.json();
   } catch (error) {
     return error;
+  }
+};
+
+export const coursePayment = async (products: Products) => {
+  try {
+    const response = await fetch(`${BASE_URL}/coursePayment`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(products),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Payment error:", error);
+    throw error;
   }
 };

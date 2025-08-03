@@ -42,48 +42,19 @@ function InstuctorDropDown() {
 
   return (
     <div>
-      <div className="">
-        <img
-          src="./src/assets/control.png"
-          className={`absolute cursor-pointer -right-3 top-20 w-7 border-dark-purple
-                   border-2 rounded-full  ${!open && "rotate-180"}`}
-          onClick={() => setOpen(!open)}
-        />
-        <div className="flex gap-x-4 items-center">
-          <img
-            src="./src/assets/logo.png"
-            className={`cursor-pointer duration-500 ${
-              open && "rotate-[360deg]"
-            }`}
-          />
-          <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
-              !open && "scale-0"
-            }`}
+      <ul className="pt-2 pl-5 flex flex-col gap-y-2 text-gray-900">
+        {Menus.map((Menu, index) => (
+          <li
+            key={index}
+            className="flex justify-right w-fit  items-center gap-2"
           >
-            Designer
-          </h1>
-        </div>
-        <ul className="pt-6">
-          {Menus.map((Menu, index) => (
-            <li
-              key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-                      ${Menu.gap ? "mt-9" : "mt-2"} ${
-                        index === 0 && "bg-light-white"
-                      } `}
-            >
-              <img src={`./src/assets/${Menu.src}.png`} />
-              <Link
-                to={Menu.link}
-                className={`${!open && "hidden"} origin-left duration-200`}
-              >
-                {Menu.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+            <img src={`./src/assets/${Menu.src}.png`} />
+            <Link to={Menu.link} className="">
+              {Menu.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

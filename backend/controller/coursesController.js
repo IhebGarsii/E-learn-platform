@@ -458,6 +458,34 @@ const getInstructorCourses = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+
+
+const coursePayment = async (idCourse) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+
+      line_items: await req.body.cart.products.map((item) => {
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: item.title,
+            },
+            unit_amount: item.price * 100,
+          },
+          quantity: item.quantity,
+        };
+      }),
+      success_url: `${process.env.SERVER}/Succ`,
+      cancel_url: `${process.env.SERVER}/cancel.html`,
+    });
+    res.status(200).json({ url: session.url });
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+}
 module.exports = {
   getAllCourses,
   getCourse,

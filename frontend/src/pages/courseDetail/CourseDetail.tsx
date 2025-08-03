@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { DeleteCourse, getCourse } from "../../api/coursesAPI";
+import { coursePayment, DeleteCourse, getCourse } from "../../api/coursesAPI";
 import { FaVideo, FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
@@ -13,6 +13,7 @@ import { MdDelete } from "react-icons/md";
 import { addToCart } from "../../api/cartAPI";
 import { cousers } from "../../types/course";
 import { useStore } from "../../hooks/zustand";
+import { Products } from "../../types/products";
 
 function CourseDetail() {
   const { idCourse } = useParams();
@@ -66,6 +67,19 @@ function CourseDetail() {
   const searchTag = (tag: string) => {
     setTag(tag);
     navigate("/courses");
+  };
+  const { mutate: paymentMutate } = useMutation({
+    mutationFn: (products: Products[]) => coursePayment(products),
+  });
+  const handlePayment = () => {
+    const products: Products[] = [
+      {
+        title: course.title,
+        quantity: 1,
+        price: course.price,
+      },
+    ];
+    paymentMutate(products);
   };
   return (
     <div className="flex min-h-full flex-col gap-6 lg:w-[90%] md:mt-9 md:flex-row lg:justify-start md:items-start mt-12 mx-auto items-center md:gap-10">
@@ -180,7 +194,10 @@ function CourseDetail() {
 
       <div className="fixed bottom-0 bg-white w-full md:hidden flex justify-between px-4 py-3 shadow-md border-t">
         <span className="text-2xl font-bold">${course.price}</span>
-        <button className="bg-dark-blue text-white text-lg rounded-md h-10 px-6">
+        <button
+          onClick={() => handlePayment()}
+          className="bg-dark-blue text-white text-lg rounded-md h-10 px-6"
+        >
           Buy Now
         </button>
       </div>

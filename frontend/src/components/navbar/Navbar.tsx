@@ -155,10 +155,10 @@ function Navbar() {
           </div>
           <div className="flex items-center gap-6 min-w-fit">
             {user !== null ? (
-              <div className="relative">
+              <div className="relative ">
                 {logedin ? (
                   <>
-                    <div className="flex flex-row-reverse items-center w-50 gap-6">
+                    <div className="flex flex-row-reverse items-center  gap-6">
                       <img
                         className="w-10 h-10 rounded-full"
                         src={`http://localhost:4000/uploads/users/${user?.image}`}
@@ -193,9 +193,9 @@ function Navbar() {
                     {profileMenu && (
                       <div
                         ref={profileRef}
-                        className="absolute z-10 bg-gray-300 p-2 h-fit"
+                        className="absolute z-10 rounded bg-gray-300 p-2 right-7 top-12 h-fit"
                       >
-                        <ul className="flex flex-col gap-1">
+                        <ul className="flex flex-col gap-1 w-56 ">
                           <li
                             onClick={logout}
                             className="hover:bg-blue-500 hover:text-white cursor-pointer"
@@ -221,8 +221,8 @@ function Navbar() {
                           >
                             Notification
                           </li>
+                          {user?.role === "instructor" && <InstuctorDropDown />}
                         </ul>
-                        <InstuctorDropDown />
                       </div>
                     )}
                   </>

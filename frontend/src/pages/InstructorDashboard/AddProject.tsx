@@ -53,106 +53,111 @@ function AddProject() {
   };
 
   return (
-    <form
-      className="mt-16 h-ful flex flex-col p-2 gap-5 w-full lg:w-[50%] mx-auto"
-      onSubmit={handleSubmit(createProject)}
-    >
-      {/* Title Field */}
-      <label htmlFor="title" className="font-semibold text-gray-700">
-        Project Title
-      </label>
-      <input
-        id="title"
-        {...register("title")}
-        type="text"
-        placeholder="Enter project title"
-        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-      />
-
-      {/* Description Field */}
-      <label htmlFor="description" className="font-semibold text-gray-700">
-        Project Description
-      </label>
-      <div>
-        <ReactQuill
-          id="description"
-          className=" h-ful" // Set height here
-          theme="snow"
-          placeholder="Enter Description"
-          value={descValue}
-          onChange={setDescValue}
+    <div className="w-[90%] min-h-screen mt-20 lg:w-[40%] mx-auto">
+      <form
+        className="w-full px-8 py-2 bg-gray-100 flex flex-col gap-2"
+        onSubmit={handleSubmit(createProject)}
+      >
+        {/* Title Field */}
+        <label htmlFor="title" className="font-semibold text-gray-700">
+          Project Title
+        </label>
+        <input
+          id="title"
+          {...register("title")}
+          type="text"
+          placeholder="Enter project title"
+          className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
         />
-      </div>
-      {/* Image Upload */}
-      <label htmlFor="images" className="font-semibold text-gray-700">
-        Upload Images
-      </label>
-      <input
-        id="images"
-        {...register("images")}
-        multiple
-        type="file"
-        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-      />
 
-      {/* GitHub Link */}
-      <label htmlFor="githubLink" className="font-semibold text-gray-700">
-        GitHub Link
-      </label>
-      <input
-        id="githubLink"
-        {...register("githubLink")}
-        type="url"
-        placeholder="https://github.com/your-repo"
-        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-      />
-
-      {/* Live Demo Link */}
-      <label htmlFor="liveDemoLink" className="font-semibold text-gray-700">
-        Live Demo Link
-      </label>
-      <input
-        id="liveDemoLink"
-        {...register("liveDemoLink")}
-        type="url"
-        placeholder="https://your-project-live-demo.com"
-        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-      />
-
-      {/* Visibility */}
-      <label htmlFor="visibility" className="font-semibold text-gray-700">
-        Visibility
-      </label>
-      <select
-        id="visibility"
-        {...register("visibility")}
-        className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
-      >
-        <option value="public">Public</option>
-        <option value="private">Private</option>
-      </select>
-
-      {/* Tags */}
-      <nav className="flex flex-col">
-        <label htmlFor="tags" className="font-semibold text-gray-700">
-          Tags
+        {/* Description Field */}
+        <label htmlFor="description" className="font-semibold text-gray-700">
+          Project Description
         </label>
-        <TagInput tags={tags} onChange={handleTagsChange} />
-
-        <label htmlFor="headTags" className="font-semibold text-gray-700 mt-4">
-          Header Tags
+        <div>
+          <ReactQuill
+            id="description"
+            className=" h-ful" // Set height here
+            theme="snow"
+            placeholder="Enter Description"
+            value={descValue}
+            onChange={setDescValue}
+          />
+        </div>
+        {/* Image Upload */}
+        <label htmlFor="images" className="font-semibold text-gray-700">
+          Upload Images
         </label>
-        <TagInput tags={headTags} onChange={handleHeadTagsChange} />
-      </nav>
+        <input
+          id="images"
+          {...register("images")}
+          multiple
+          type="file"
+          className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        />
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
-      >
-        Submit
-      </button>
-    </form>
+        {/* GitHub Link */}
+        <label htmlFor="githubLink" className="font-semibold text-gray-700">
+          GitHub Link
+        </label>
+        <input
+          id="githubLink"
+          {...register("githubLink")}
+          type="url"
+          placeholder="https://github.com/your-repo"
+          className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        />
+
+        {/* Live Demo Link */}
+        <label htmlFor="liveDemoLink" className="font-semibold text-gray-700">
+          Live Demo Link
+        </label>
+        <input
+          id="liveDemoLink"
+          {...register("liveDemoLink")}
+          type="url"
+          placeholder="https://your-project-live-demo.com"
+          className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        />
+
+        {/* Visibility */}
+        <label htmlFor="visibility" className="font-semibold text-gray-700">
+          Visibility
+        </label>
+        <select
+          id="visibility"
+          {...register("visibility")}
+          className="border border-gray-100 px-4 py-2 rounded-lg shadow-sm border-2 border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-gray-400"
+        >
+          <option value="public">Public</option>
+          <option value="private">Private</option>
+        </select>
+
+        {/* Tags */}
+        <nav className="flex flex-col">
+          <label htmlFor="tags" className="font-semibold text-gray-700">
+            Tags
+          </label>
+          <TagInput tags={tags} onChange={handleTagsChange} />
+
+          <label
+            htmlFor="headTags"
+            className="font-semibold text-gray-700 mt-4"
+          >
+            Header Tags
+          </label>
+          <TagInput tags={headTags} onChange={handleHeadTagsChange} />
+        </nav>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }
 
