@@ -87,6 +87,8 @@ console.log("Current courseId from store:", currentCourseId);
         price: course.price,
       },
     ];
+    console.log("Products for payment:", products);
+    
     paymentMutate(products);
   };
 
