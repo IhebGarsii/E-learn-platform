@@ -1,20 +1,33 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCartState } from "../../state/cart";
-import { removeFromCart } from "../../api/cartAPI";
+import { getUserCart, removeFromCart } from "../../api/cartAPI";
 import CartRow from "../../components/cartComponents/CartRow";
 import { useState } from "react";
-import { cartSaved } from "../../types/cart";
+import { cart, cartSaved } from "../../types/cart";
 import CartCoupon from "../../components/cartComponents/CartCoupon";
+import { useStore } from "../../hooks/zustand";
+import { cousers } from "../../types/course";
 
 function ShopingCart() {
-  const { data: cart, setData } = useCartState();
+  const userId = localStorage.getItem("idUser");
+
+  console.log(userId);
+
+  const queryClient = useQueryClient();
+  const { data: cart } = useQuery<cartSaved>({
+    queryKey: ["cart", userId],
+    queryFn: () => getUserCart(userId!),
+    enabled: !!userId,
+  });
+  console.log("cart from cart", cart);
+
   const { mutate: mutateRemove } = useMutation({
     mutationFn: (idCourse: string) => removeFromCart(idCourse, cart?._id!),
     onError: (error) => {
       console.log(error);
     },
     onSuccess: (data) => {
-      setData(data);
+      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
     },
   });
 
@@ -30,9 +43,9 @@ function ShopingCart() {
         You Have {cart?.quantity} Items In Your Cart
       </h1>
       <div className="flex items-center w-[80%] flex-col lg:items-start  lg:flex-row gap-5 mx-auto">
-        <CartCoupon />
+        <CartCoupon cart={cart} />
         <nav className="w-full mx-auto">
-          {cart?.courses?.map((course) => (
+          {cart?.courses?.map((course: any) => (
             <CartRow key={course._id} course={course} onRemove={handleRemove} />
           ))}
         </nav>

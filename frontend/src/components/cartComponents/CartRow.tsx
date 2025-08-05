@@ -47,7 +47,7 @@ function CartRow({ course, onRemove }: cartRowProps) {
                 ({course.avgRate.nbRate} ratings)
               </span>
             </div>
-            <nav className="flex w-full bg-red-200 justify-between md:justify-start md:gap-3">
+            <nav className="flex w-full  justify-between md:justify-start md:gap-3">
               <h2 className="whitespace-nowrap text-xs">
                 {course.duration} Total Hours
               </h2>

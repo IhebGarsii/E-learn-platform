@@ -45,7 +45,7 @@ function SmallCart({ cart }: smallCartProp) {
           total: {cart?.totalPrice}$
         </h1>
         <Link
-          to={`cart/${user?._id}`}
+          to={`cart/${cart.idUser}`}
           className="cursor-pointer hover:text-blue-500 hover:font-bold "
         >
           View Cart

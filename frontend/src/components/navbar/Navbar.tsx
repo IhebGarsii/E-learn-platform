@@ -49,7 +49,7 @@ function Navbar() {
   }, [profileMenu]);
 
   const { data: cart } = useQuery({
-    queryKey: ["cart"],
+    queryKey: ["cart", userId],
     queryFn: () => getUserCart(userId),
     enabled: !!userId,
     refetchInterval: false,
@@ -58,6 +58,8 @@ function Navbar() {
     refetchOnReconnect: false,
     refetchIntervalInBackground: false,
   });
+  console.log('cart',cart);
+
   const { data: user, isLoading } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUserById(userId),

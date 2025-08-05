@@ -14,7 +14,7 @@ function CourseCard({ course }: CourseCardProps) {
   }
 
   const queryClient = useQueryClient();
-  const { setData } = useCartState();
+  const userId = localStorage.getItem("idUser");
 
   const rate = course.avgRate?.rate || 0;
   const formattedRate = typeof rate === "number" ? rate.toFixed(1) : "0.0";
@@ -27,7 +27,7 @@ function CourseCard({ course }: CourseCardProps) {
       console.log(error);
     },
     onSuccess: (data) => {
-      setData(data);
+      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
     },
   });
 

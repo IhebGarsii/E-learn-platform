@@ -73,32 +73,37 @@ const getUserCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const { idCourse, idCart } = req.params;
+
     const cart = await cartModel.findById(idCart);
     if (!cart) {
       return res.status(404).json("Cart Not Found");
     }
 
     cart.courses = cart.courses.filter(
-      (course) => course.toString() !== idCourse
+      (courseId) => courseId.toString() !== idCourse
     );
 
     cart.quantity = cart.courses.length;
-    const course = await coursesModel.findById(idCourse);
-    if (course) {
-      cart.totalPrice -= course.price;
-    }
+
+    const populatedCourses = await coursesModel.find({
+      _id: { $in: cart.courses },
+    });
+
+    cart.totalPrice = populatedCourses.reduce((sum, course) => {
+      return sum + course.price;
+    }, 0);
 
     await cart.save();
-    console.log("cart", cart);
-    const cartt = await cartModel.findById(idCart).populate("courses");
 
-    return res.status(201).json(cartt);
+    const updatedCart = await cartModel.findById(idCart).populate("courses");
+    return res.status(200).json(updatedCart);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({
       message: "An error occurred while removing the item from the cart.",
     });
   }
 };
+
 
 module.exports = { addToCart, getUserCart, removeFromCart };
