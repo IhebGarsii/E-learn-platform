@@ -69,6 +69,12 @@ const userModel = new Schema({
       ref: "userModel",
     },
   ],
+  boughtCourses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "coursesModel", // Reference to a Course model
+    },
+  ],
   aboutMe: {
     type: String,
   },

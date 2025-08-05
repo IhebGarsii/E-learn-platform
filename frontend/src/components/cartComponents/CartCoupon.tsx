@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { coursePayment } from "../../api/coursesAPI";
+import { addStudentToCourse, coursePayment } from "../../api/coursesAPI";
 import { applyCoupon } from "../../api/cartAPI";
 import { Products } from "../../types/products";
 import { cartSaved } from "../../types/cart";
@@ -31,13 +31,12 @@ function CartCoupon({ cart }: CartCouponProps) {
     queryFn: () => applyCoupon(coupon),
     enabled: triggerCheck && !!coupon,
   });
-
+ 
   const { mutate: paymentMutate } = useMutation({
     mutationFn: (products: Products[]) => coursePayment(products),
     onSuccess: (data) => {
       if (data.url) {
         setBoughtCourses(boughtC);
-
         window.location.href = data.url;
       }
     },

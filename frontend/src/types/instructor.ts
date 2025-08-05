@@ -25,4 +25,5 @@ export type instructor = {
   followers: string[];
   following: string[];
   studentsId: string[];
+  boughtCourses: string[]; // Array of course IDs
 };

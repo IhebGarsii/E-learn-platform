@@ -31,7 +31,7 @@ cuppon not working *** fixed
 
 
 
-
+fix the zustand go black after usenig window
 add enrole to course
 fix navbar responsive 
 fix sidebar icons desepier sometimes

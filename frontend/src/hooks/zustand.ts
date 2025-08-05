@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
 type Store = {
   tagSearch: string;
   setTagSearch: (tag: string) => void;
@@ -13,18 +15,28 @@ type Store = {
   boughtCourses: string[];
   setBoughtCourses: (boughtCourses: string[]) => void;
 };
-export const useStore = create<Store>((set) => ({
-  bears: 0,
-  tagSearch: "",
-  setTagSearch: (tagSearch) => set({ tagSearch }),
-  role: "",
-  setRole: (role) => set({ role }),
-  onlineUsersId: [],
-  setOnlineUsersId: (onlineUsersId) => set({ onlineUsersId }),
-  userId: "",
-  setUserId: (userId) => set({ userId }),
-  courseId: "",
-  setCourseId: (courseId) => set({ courseId }),
-  boughtCourses: [],
-  setBoughtCourses: (boughtCourses) => set({ boughtCourses }),
-}));
+
+export const useStore = create<Store>()(
+  persist(
+    (set) => ({
+      tagSearch: "",
+      setTagSearch: (tagSearch) => set({ tagSearch }),
+      role: "",
+      setRole: (role) => set({ role }),
+      onlineUsersId: [],
+      setOnlineUsersId: (onlineUsersId) => set({ onlineUsersId }),
+      userId: "",
+      setUserId: (userId) => set({ userId }),
+      courseId: "",
+      setCourseId: (courseId) => set({ courseId }),
+      boughtCourses: [],
+      setBoughtCourses: (boughtCourses) => set({ boughtCourses }),
+    }),
+    {
+      name: "e-learn-store", // Key in localStorage
+      partialize: (state) => ({
+        boughtCourses: state.boughtCourses,
+      }),
+    }
+  )
+);

@@ -104,8 +104,8 @@ export const getInstructorCourses = async (userId: string) => {
 
 export const coursePayment = async (products: Products[]) => {
   try {
-    console.log('api payment');
-    
+    console.log("api payment");
+
     const response = await fetch(`${BASE_URL}/coursePayment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -117,6 +117,25 @@ export const coursePayment = async (products: Products[]) => {
     return await response.json();
   } catch (error) {
     console.error("Payment error:", error);
+    throw error;
+  }
+};
+
+export const addStudentToCourse = async (
+  courseIds: string[],
+  userId: string
+) => {
+  try {
+    const response = await fetch(`${BASE_URL}/addStudentToCourse/${userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ courseIds }),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error adding student to course:", error);
     throw error;
   }
 };
