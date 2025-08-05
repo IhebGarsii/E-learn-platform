@@ -3,7 +3,7 @@
 const express = require("express");
 const Stripe = require("stripe");
 const router = express.Router();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+/* const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2024-08-01",
 });
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -37,7 +37,6 @@ router.post(
 
     res.sendStatus(200);
   }
-);
+); */
 
 module.exports = router;
-

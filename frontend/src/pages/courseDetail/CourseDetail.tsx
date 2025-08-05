@@ -23,6 +23,8 @@ function CourseDetail() {
   const setTag = useStore((state) => state.setTagSearch);
   const setCourseId = useStore((state) => state.setCourseId);
   const currentCourseId = useStore((state) => state.courseId); // 👈 Get current value
+  const courseId = useStore((state) => state.courseId); // 👈 Get courseId from store
+console.log("Current courseId from store:", currentCourseId);
 
   useEffect(() => {
     if (idCourse && idCourse !== currentCourseId) {
@@ -68,9 +70,9 @@ function CourseDetail() {
   const { mutate: paymentMutate } = useMutation({
     mutationFn: (products: Products[]) => coursePayment(products),
     onSuccess: (data) => {
-     if (data.url) {
-       window.location.href = data.url;
-     }
+      if (data.url) {
+        window.location.href = data.url;
+      }
     },
     onError: (error) => {
       console.log("Payment error", error);
