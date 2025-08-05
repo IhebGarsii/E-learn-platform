@@ -25,6 +25,8 @@ import VideoPlayer from "./pages/videoPlayer/VideoPlayer";
 import Welcome from "./pages/welcome/Welcom";
 import InstructorsList from "./pages/instructorsList/InstructorsList";
 import InstructorCoursesList from "./pages/InstructorDashboard/InstructorCoursesList";
+import PaymentSuccess from "./pages/afterPayment/PaymentSuccess";
+import PaymentFailure from "./pages/afterPayment/PaymentFailure";
 function App() {
   // You can get user data from cache directly
   const user = useStore((state) => state.userId);
@@ -98,6 +100,8 @@ function App() {
             path="/instructorCourseList"
             element={<InstructorCoursesList />}
           />
+          <Route path='PaymentSuccess' element={<PaymentSuccess />} />
+          <Route path='PaymentFailure' element={<PaymentFailure />} />
         </Routes>
         <Footer />
       </SkeletonTheme>

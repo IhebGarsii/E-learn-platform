@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -19,9 +19,16 @@ function CourseDetail() {
   const { idCourse } = useParams();
   const navigate = useNavigate();
   const [desc, setDesc] = useState(false);
-  const tag = useStore((state) => state.tagSearch);
+
   const setTag = useStore((state) => state.setTagSearch);
   const setCourseId = useStore((state) => state.setCourseId);
+  const currentCourseId = useStore((state) => state.courseId); // 👈 Get current value
+
+  useEffect(() => {
+    if (idCourse && idCourse !== currentCourseId) {
+      setCourseId(idCourse); // ✅ Only set if changed
+    }
+  }, [idCourse, currentCourseId, setCourseId]);
 
   const {
     data: course,
@@ -33,12 +40,12 @@ function CourseDetail() {
     enabled: !!idCourse, // Ensure query is only run if idCourse is available
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
-  if (course) {
-    setCourseId(course._id);
-  }
-  if (idCourse) {
-    localStorage.setItem("CourseId", idCourse);
-  }
+
+  useEffect(() => {
+    if (idCourse) {
+      localStorage.setItem("CourseId", idCourse);
+    }
+  }, []);
 
   const queryClient = useQueryClient();
 
@@ -58,19 +65,18 @@ function CourseDetail() {
       mutateCart(course._id);
     }
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading course data.</div>;
-  if (!course) return <div>No course found.</div>;
-
-  const sanitizedHtml = DOMPurify.sanitize(course.description || "");
-  const searchTag = (tag: string) => {
-    setTag(tag);
-    navigate("/courses");
-  };
   const { mutate: paymentMutate } = useMutation({
     mutationFn: (products: Products[]) => coursePayment(products),
+    onSuccess: (data) => {
+     if (data.url) {
+       window.location.href = data.url;
+     }
+    },
+    onError: (error) => {
+      console.log("Payment error", error);
+    },
   });
+
   const handlePayment = () => {
     const products: Products[] = [
       {
@@ -80,6 +86,15 @@ function CourseDetail() {
       },
     ];
     paymentMutate(products);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading course data.</div>;
+  if (!course) return <div>No course found.</div>;
+  const sanitizedHtml = DOMPurify.sanitize(course.description || "");
+  const searchTag = (tag: string) => {
+    setTag(tag);
+    navigate("/courses");
   };
   return (
     <div className="flex min-h-full flex-col gap-6 lg:w-[90%] md:mt-9 md:flex-row lg:justify-start md:items-start mt-12 mx-auto items-center md:gap-10">
@@ -155,7 +170,10 @@ function CourseDetail() {
           >
             Add to cart
           </button>
-          <button className="w-full border border-black text-black text-lg rounded-md h-10">
+          <button
+            onClick={() => handlePayment()}
+            className="w-full border border-black text-black text-lg rounded-md h-10"
+          >
             Buy Now
           </button>
         </div>

@@ -342,7 +342,7 @@ const updateCourse = async (req, res) => {
     const updatedCourse = await coursesModel
       .findByIdAndUpdate(idCourse, updateData, { new: true })
       .populate("video");
-console.log(updatedCourse);
+    console.log(updatedCourse);
 
     return res
       .status(200)
@@ -352,8 +352,6 @@ console.log(updatedCourse);
     return res.status(500).json({ error: error.message });
   }
 };
-
-
 
 /* const updateCourse = async (req, res) => {
   const { idUser, idCourse } = req.params;
@@ -459,14 +457,16 @@ const getInstructorCourses = async (req, res) => {
   }
 };
 
-
-const coursePayment = async (idCourse) => {
+const coursePayment = async (req, res) => {
   try {
+
+    const stripe = require("stripe")(process.env.STRIPE);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
 
-      line_items: await req.body.cart.products.map((item) => {
+      line_items: await req.body.map((item) => {
         return {
           price_data: {
             currency: "usd",
@@ -478,14 +478,15 @@ const coursePayment = async (idCourse) => {
           quantity: item.quantity,
         };
       }),
-      success_url: `${process.env.SERVER}/Succ`,
-      cancel_url: `${process.env.SERVER}/cancel.html`,
+      success_url: `${process.env.SERVER}/PaymentSuccess`,
+      cancel_url: `${process.env.SERVER}/PaymentFailure`,
     });
     res.status(200).json({ url: session.url });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ err: err.message });
   }
-}
+};
 module.exports = {
   getAllCourses,
   getCourse,
@@ -498,4 +499,5 @@ module.exports = {
   addReplyComment,
   getSearchedCourses,
   getInstructorCourses,
+  coursePayment,
 };

@@ -102,8 +102,10 @@ export const getInstructorCourses = async (userId: string) => {
   }
 };
 
-export const coursePayment = async (products: Products) => {
+export const coursePayment = async (products: Products[]) => {
   try {
+    console.log('api payment');
+    
     const response = await fetch(`${BASE_URL}/coursePayment`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

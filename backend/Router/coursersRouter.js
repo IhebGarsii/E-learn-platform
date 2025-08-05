@@ -12,6 +12,7 @@ const {
   addReplyComment,
   getSearchedCourses,
   getInstructorCourses,
+  coursePayment,
 } = require("../controller/coursesController");
 const multer = require("multer");
 const path = require("path");
@@ -61,5 +62,6 @@ coursesRouter.put(
 );
 coursesRouter.put("/rate/:idCourse", rateCourse);
 coursesRouter.get("/getInstructorCourses/:userId", getInstructorCourses);
+coursesRouter.post("/coursePayment", coursePayment);
 
 module.exports = coursesRouter;
