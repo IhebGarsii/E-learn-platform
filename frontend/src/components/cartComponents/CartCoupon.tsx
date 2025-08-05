@@ -4,6 +4,8 @@ import { coursePayment } from "../../api/coursesAPI";
 import { applyCoupon } from "../../api/cartAPI";
 import { Products } from "../../types/products";
 import { cartSaved } from "../../types/cart";
+import { useStore } from "../../hooks/zustand";
+import { set } from "react-hook-form";
 
 type CartCouponProps = {
   cart: cartSaved | undefined;
@@ -12,6 +14,13 @@ type CartCouponProps = {
 function CartCoupon({ cart }: CartCouponProps) {
   const [coupon, setCoupon] = useState("");
   const [triggerCheck, setTriggerCheck] = useState(false);
+  const setBoughtCourses = useStore((state) => state.setBoughtCourses);
+  const [boughtC, setBoughtC] = useState<string[]>([]);
+  const boughtCourses = useStore((state) => state.boughtCourses);
+
+  useEffect(() => {
+    console.log("boughtCourses in store updated:", boughtCourses);
+  }, [boughtCourses]);
 
   const {
     data: discount,
@@ -27,7 +36,9 @@ function CartCoupon({ cart }: CartCouponProps) {
     mutationFn: (products: Products[]) => coursePayment(products),
     onSuccess: (data) => {
       if (data.url) {
-        /* window.location.href = data.url; */
+        setBoughtCourses(boughtC);
+
+        window.location.href = data.url;
       }
     },
     onError: (error) => {
@@ -41,15 +52,17 @@ function CartCoupon({ cart }: CartCouponProps) {
 
   const handlePayment = () => {
     const products: Products[] =
-      cart?.courses?.map((course) => ({
-        title: course.title,
-        quantity: 1,
-        price: discount?.discount
-          ? Math.floor(course.price * (1 - discount.discount))
-          : course.price,
-      })) || [];
-      console.log("Products for payment:", products);
-      
+      cart?.courses?.map((course) => {
+        return {
+          title: course.title,
+          quantity: 1,
+          courseId: course._id,
+          price: discount?.discount
+            ? Math.floor(course.price * (1 - discount.discount))
+            : course.price,
+        };
+      }) || [];
+    setBoughtC(products.map((product) => product.courseId));
 
     paymentMutate(products);
   };
@@ -58,7 +71,7 @@ function CartCoupon({ cart }: CartCouponProps) {
   const finalPrice = discount?.discount
     ? totalPrice * (1 - discount.discount)
     : totalPrice;
-console.log(finalPrice, "final price");
+  console.log(finalPrice, "final price");
 
   return (
     <div className="flex flex-col gap-2 w-full lg:w-[40%]">

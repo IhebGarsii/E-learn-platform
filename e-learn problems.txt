@@ -27,12 +27,12 @@ i dont know how the delete video work and i the add wont update  *** fixed
 fix navbar when phone mode overflow with white *** fixed
 fix margin top after i added padding to navbar *** fixed
 fix add project css *** fixed
+cuppon not working *** fixed
 
 
 
 
 add enrole to course
-cuppon not working
 fix navbar responsive 
 fix sidebar icons desepier sometimes
 online users cant seem to work 

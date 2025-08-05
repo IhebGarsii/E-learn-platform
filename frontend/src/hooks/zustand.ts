@@ -9,8 +9,9 @@ type Store = {
   userId: string;
   setUserId: (userId: string) => void;
   courseId: string;
-
   setCourseId: (courseId: string) => void;
+  boughtCourses: string[];
+  setBoughtCourses: (boughtCourses: string[]) => void;
 };
 export const useStore = create<Store>((set) => ({
   bears: 0,
@@ -24,4 +25,6 @@ export const useStore = create<Store>((set) => ({
   setUserId: (userId) => set({ userId }),
   courseId: "",
   setCourseId: (courseId) => set({ courseId }),
+  boughtCourses: [],
+  setBoughtCourses: (boughtCourses) => set({ boughtCourses }),
 }));

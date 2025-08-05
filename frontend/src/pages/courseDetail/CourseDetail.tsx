@@ -24,7 +24,7 @@ function CourseDetail() {
   const setCourseId = useStore((state) => state.setCourseId);
   const currentCourseId = useStore((state) => state.courseId); // 👈 Get current value
   const courseId = useStore((state) => state.courseId); // 👈 Get courseId from store
-console.log("Current courseId from store:", currentCourseId);
+  console.log("Current courseId from store:", currentCourseId);
 
   useEffect(() => {
     if (idCourse && idCourse !== currentCourseId) {
@@ -85,10 +85,11 @@ console.log("Current courseId from store:", currentCourseId);
         title: course.title,
         quantity: 1,
         price: course.price,
+        courseId: course._id || "", // Ensure courseId is included
       },
     ];
     console.log("Products for payment:", products);
-    
+
     paymentMutate(products);
   };
 

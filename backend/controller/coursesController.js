@@ -459,7 +459,6 @@ const getInstructorCourses = async (req, res) => {
 
 const coursePayment = async (req, res) => {
   try {
-
     const stripe = require("stripe")(process.env.STRIPE);
 
     const session = await stripe.checkout.sessions.create({
