@@ -491,6 +491,7 @@ const addStudentToCourse = async (req, res) => {
     const { courseIds } = req.body;
     const { userId } = req.params;
     let boughtC = [];
+    console.log(courseIds, "courseIds");
 
     courseIds.forEach(async (course) => {
       const courseData = await coursesModel.findById(course);
@@ -507,7 +508,6 @@ const addStudentToCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(user);
 
     user.boughtCourses.push(...boughtC);
     await user.save();

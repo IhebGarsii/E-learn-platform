@@ -69,12 +69,7 @@ const userModel = new Schema({
       ref: "userModel",
     },
   ],
-  boughtCourses: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "coursesModel", // Reference to a Course model
-    },
-  ],
+
   aboutMe: {
     type: String,
   },
@@ -89,6 +84,11 @@ const userModel = new Schema({
       ref: "certificationModel",
     },
   ],
+  boughtCourses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "coursesModel", // Reference to a Course model
+    },
+  ],
 });
-
 module.exports = mongoose.model("userModel", userModel);

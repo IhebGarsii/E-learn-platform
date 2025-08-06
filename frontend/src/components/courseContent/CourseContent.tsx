@@ -30,12 +30,13 @@ function CourseContent({ video }: CourseContentProps) {
   const enrolmentCheck = () => {
     if (course?.studentsId?.includes(userId)) {
       return true;
+    } else if (course?.instructorId === userId) {
+      return true;
     } else return false;
   };
-  console.log(course, "ee");
-  console.log(userId, "éé");
+ 
 
-  console.log("enrolmentCheck", enrolmentCheck());
+ 
 
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({

@@ -1,15 +1,23 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "../../hooks/zustand";
 import { addStudentToCourse } from "../../api/coursesAPI";
 import { useEffect } from "react";
 
 function PaymentSuccess() {
   const boughtCourses = useStore((state) => state.boughtCourses);
+  const queryClient = useQueryClient();
+  console.log(boughtCourses);
+
   const { mutate: mutateAddingstudent } = useMutation({
     mutationFn: () =>
       addStudentToCourse(boughtCourses, localStorage.getItem("idUser")!),
     onSuccess: (data) => {
       console.log("Students added to course successfully", data);
+      queryClient.invalidateQueries({ queryKey: ["courses", boughtCourses] });
+
+      queryClient.invalidateQueries({
+        queryKey: ["user", localStorage.getItem("idUser")!],
+      });
     },
     onError: (error) => {
       console.error("Error adding students to course:", error);
