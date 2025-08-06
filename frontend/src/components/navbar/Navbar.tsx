@@ -58,7 +58,7 @@ function Navbar() {
     refetchOnReconnect: false,
     refetchIntervalInBackground: false,
   });
-  console.log('cart',cart);
+  console.log("cart", cart);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["user", userId],
@@ -71,8 +71,7 @@ function Navbar() {
     refetchIntervalInBackground: false,
     staleTime: Infinity,
   });
-  console.log(user, "navbar user");
-  console.log(userId, "navbar userId");
+  console.log(user?.role );
 
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
@@ -96,6 +95,7 @@ function Navbar() {
 
     navigate("/");
   };
+
   return (
     <div className="fixed w-full top-0 z-10 font-[Poppins] ">
       <header className="bg-white  p-2 ">
@@ -223,6 +223,13 @@ function Navbar() {
                           >
                             Notification
                           </li>
+                          {user?.role === "student" && (
+                            <>
+                              <Link to={`studentCourseList/${user._id}`}>
+                                Student Courses
+                              </Link>
+                            </>
+                          )}
                           {user?.role === "instructor" && <InstuctorDropDown />}
                         </ul>
                       </div>

@@ -17,6 +17,7 @@ const {
   manageRate,
   getOnlineUsers,
   updateUserPhoto,
+  getStudentCourses,
 } = require("../controller/userController");
 const userRouter = express.Router();
 const upload = multer({
@@ -47,5 +48,6 @@ userRouter.delete("/deleteAcountByAdmin/:idUser/:idBlock", deleteAcountByAdmin);
 userRouter.put("/manageRate/:idUser", manageRate);
 userRouter.post("/getOnlineUsers", getOnlineUsers);
 userRouter.post("/updateUserPhoto/:idUser", upload.single("image"), updateUserPhoto);
+userRouter.get("/getStudentCourses/:idUser", getStudentCourses);
 
 module.exports = userRouter;

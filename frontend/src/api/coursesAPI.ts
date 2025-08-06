@@ -139,3 +139,4 @@ export const addStudentToCourse = async (
     throw error;
   }
 };
+

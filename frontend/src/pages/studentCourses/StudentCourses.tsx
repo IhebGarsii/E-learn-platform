@@ -1,21 +1,22 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getInstructorCourses } from "../../api/coursesAPI";
 import Skeleton from "react-loading-skeleton";
 import { cousers } from "../../types/course";
 import InstructorCourseCard from "../../components/courseCard/InstructorCourseCard";
 import { Link } from "react-router-dom";
+import { getStudentCourses } from "../../api/userAPI";
 
-function InstructorCoursesList() {
+function StudentCourses() {
   const userId = localStorage.getItem("idUser");
   const {
     data: courses,
     isPending,
     isError,
   } = useQuery({
-    queryKey: ["instructorCourses"],
-    queryFn: () => getInstructorCourses(userId!),
+    queryKey: ["studentCourses", [userId]],
+    queryFn: () => getStudentCourses(userId!),
     enabled: !!userId,
   });
+  console.log(courses, "student courses");
 
   if (isError) {
     return <>error</>;
@@ -32,8 +33,8 @@ function InstructorCoursesList() {
     return (
       <div className="flex flex-col gap-4 h-screen justify-center items-center ">
         <h1>No courses found</h1>
-        <Link className="hover:text-blue-500" to={`/addProject`}>
-          Why don't you start Now!
+        <Link className="hover:text-blue-500" to={`/courses`}>
+          Buy Now!
         </Link>
       </div>
     );
@@ -43,11 +44,11 @@ function InstructorCoursesList() {
       <div className="flex flex-col gap-4 w-full max-w-4xl">
         <h1>My Courses</h1>
         {courses?.map((course: cousers) => (
-          <InstructorCourseCard student={false} course={course} />
+          <InstructorCourseCard student={true} course={course} />
         ))}
       </div>
     </div>
   );
 }
 
-export default InstructorCoursesList;
+export default StudentCourses;

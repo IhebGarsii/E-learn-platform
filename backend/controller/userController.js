@@ -340,7 +340,22 @@ const updateUserPhoto = async (req, res) => {
     return res.status(500).json(error);
   }
 };
+const getStudentCourses = async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    console.log(idUser, "idUser");
 
+    const courses = await userModel.findById(idUser).populate("boughtCourses");
+    if (courses.length == 0) {
+      return res.status(404).json(courses);
+    }
+    console.log(courses.boughtCourses, "sssssssss");
+    return res.status(200).json(courses.boughtCourses);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 module.exports = {
   updateUser,
   registerInstroctor,
@@ -357,4 +372,5 @@ module.exports = {
   manageRate,
   getOnlineUsers,
   updateUserPhoto,
+  getStudentCourses,
 };

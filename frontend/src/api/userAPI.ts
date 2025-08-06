@@ -130,3 +130,17 @@ export const UpdateUserPhoto = async (image: File, idUser: string) => {
 
   return response.json();
 };
+export const getStudentCourses = async (idUser: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/getStudentCourses/${idUser}`);
+    if (!response.ok) {
+      throw new Error(
+        `Request failed: ${response.status} ${response.statusText}`
+      );
+    }
+    return await response.json();
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};

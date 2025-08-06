@@ -521,6 +521,8 @@ const addStudentToCourse = async (req, res) => {
       .json({ message: "Server error", error: error.message });
   }
 };
+
+
 module.exports = {
   getAllCourses,
   getCourse,
@@ -535,4 +537,5 @@ module.exports = {
   getInstructorCourses,
   coursePayment,
   addStudentToCourse,
+ 
 };

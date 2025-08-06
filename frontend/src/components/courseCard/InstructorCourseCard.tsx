@@ -9,9 +9,10 @@ import { useStore } from "../../hooks/zustand";
 
 type InstructorCourseCardProp = {
   course: cousers;
+  student: boolean;
 };
 
-function InstructorCourseCard({ course }: InstructorCourseCardProp) {
+function InstructorCourseCard({ course, student }: InstructorCourseCardProp) {
   const queryClient = useQueryClient();
   const setTag = useStore((state) => state.setTagSearch);
   const navigate = useNavigate();
@@ -75,22 +76,24 @@ function InstructorCourseCard({ course }: InstructorCourseCardProp) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-2 justify-end sm:flex-col">
-        <button
-          onClick={() => handleDelete(course)}
-          className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-2 rounded transition w-10 h-10"
-          title="Delete"
-        >
-          <MdDelete size={18} />
-        </button>
-        <Link
-          to={`/updateCourse/${course._id}`}
-          className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white p-2 rounded transition w-10 h-10"
-          title="Edit"
-        >
-          <FaRegEdit size={18} />
-        </Link>
-      </div>
+      {!student && (
+        <div className="flex gap-2 justify-end sm:flex-col">
+          <button
+            onClick={() => handleDelete(course)}
+            className="flex items-center justify-center bg-red-600 hover:bg-red-700 text-white p-2 rounded transition w-10 h-10"
+            title="Delete"
+          >
+            <MdDelete size={18} />
+          </button>
+          <Link
+            to={`/updateCourse/${course._id}`}
+            className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white p-2 rounded transition w-10 h-10"
+            title="Edit"
+          >
+            <FaRegEdit size={18} />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
