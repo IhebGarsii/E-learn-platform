@@ -90,31 +90,37 @@ const rateCourse = async (req, res) => {
 
 const AddCourse = async (req, res) => {
   try {
-    console.log(req.files, "Files received:");
+    console.log("Files received:", req.files);
 
     const videoFiles = [];
     const sectionData = {};
 
-    // Collect all video file names
+    // Collect video file info
     if (req.files["video"]) {
       req.files["video"].forEach((file) => {
-        videoFiles.push(file.filename);
+        videoFiles.push({
+          serverFilename: file.filename, // Used to read the file from disk
+          originalFilename: file.originalname, // Used to extract section/video names
+        });
       });
     }
 
+    for (const file of videoFiles) {
+      const parts = file.originalFilename.split("_");
 
-    for (const filename of videoFiles) {
-      const parts = filename.split("_");
+      // Skip if filename doesn't have at least one underscore
+      if (parts.length < 2) continue;
+
       const sectionTitle = parts.slice(0, -1).join("_");
       const videoTitle = parts[parts.length - 1];
 
-      const videoPath = path.resolve("uploads/courses", filename);
+      const videoPath = path.resolve("uploads/courses", file.serverFilename);
       let duration = 0;
 
       try {
         duration = await getVideoDurationInSeconds(videoPath, ffprobePath);
       } catch (err) {
-        console.error("Error getting duration for", filename, err);
+        console.error("Error getting duration for", file.originalFilename, err);
       }
 
       if (!sectionData[sectionTitle]) {
@@ -123,12 +129,14 @@ const AddCourse = async (req, res) => {
 
       sectionData[sectionTitle].videoList.push({
         videoName: videoTitle,
-        duration: Math.round(duration), // Optional: round to nearest second
+        duration: Math.round(duration),
       });
     }
 
+    // Convert to array format for DB
     const sections = Object.values(sectionData);
 
+    // Handle thumbnail
     let thumbnail;
     if (req.files["thumbnail"] !== undefined) {
       thumbnail = req.files["thumbnail"][0];
@@ -136,13 +144,13 @@ const AddCourse = async (req, res) => {
       return res.status(400).json("You must provide a thumbnail");
     }
 
-    // Save video structure
+    // Save videos to videoCourse collection
     const savedVideo = await videoCourse.create({
       video: sections,
       instructorId: req.body.instructorId,
     });
 
-    // Save course
+    // Save course data
     const course = await coursesModel.create({
       ...req.body,
       thumbnail: thumbnail.filename,
@@ -228,7 +236,7 @@ const AddCourse = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
-}; */
+};  */ 
 
 const getComments = async (req, res) => {
   try {

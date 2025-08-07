@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 interface VideoUploadProps {
-  onChange: (
-    sections: {
-      sectionTitle: string;
-      videoList: { videoTitle: string; file: File }[];
-    }[]
-  ) => void;
+  onChange: (files: File[]) => void;
 }
 
 interface Video {
   videoTitle: string;
-  file: File | null;
+  videoExtension: File | null;
 }
 
 interface VideoSection {
@@ -23,19 +18,16 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onChange }) => {
   const [videoSections, setVideoSections] = useState<VideoSection[]>([]);
 
   const handleAddSection = () => {
-    setVideoSections((prev) => [...prev, { sectionTitle: "", videoList: [] }]);
+    setVideoSections((prevSections) => [
+      ...prevSections,
+      { sectionTitle: "", videoList: [] },
+    ]);
   };
 
   const handleSectionTitleChange = (index: number, title: string) => {
-    const updated = [...videoSections];
-    updated[index].sectionTitle = title;
-    setVideoSections(updated);
-  };
-
-  const handleAddVideo = (sectionIndex: number) => {
-    const updated = [...videoSections];
-    updated[sectionIndex].videoList.push({ videoTitle: "", file: null });
-    setVideoSections(updated);
+    const updatedSections = [...videoSections];
+    updatedSections[index].sectionTitle = title;
+    setVideoSections(updatedSections);
   };
 
   const handleVideoFileChange = (
@@ -44,84 +36,131 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onChange }) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    const updatedSections = [...videoSections];
 
-    const updated = [...videoSections];
-    const section = updated[sectionIndex];
-
-    // Require section title before adding file
-    if (!section.sectionTitle.trim()) {
-      alert("Please enter a section title before uploading videos.");
-      return;
+    if (!updatedSections[sectionIndex]) {
+      updatedSections[sectionIndex] = { sectionTitle: "", videoList: [] };
     }
 
-    // Derive videoTitle from file name without extension
-    const videoTitle = file.name.replace(/\.[^/.]+$/, "");
+    const currentVideoList = updatedSections[sectionIndex].videoList;
 
-    section.videoList[videoIndex] = {
-      videoTitle,
-      file,
-    };
+    if (!currentVideoList[videoIndex]) {
+      currentVideoList[videoIndex] = { videoTitle: "", videoExtension: null };
+    }
 
-    setVideoSections(updated);
+    if (file) {
+      const { sectionTitle } = updatedSections[sectionIndex];
+
+      const newFileName = `${sectionTitle}_${file.name}`;
+
+      currentVideoList[videoIndex].videoExtension = new File(
+        [file],
+        newFileName,
+        { type: file.type }
+      );
+
+      setVideoSections(updatedSections);
+
+      const allFiles = videoSections.flatMap((section) =>
+        section.videoList
+          .filter((video) => video.videoExtension)
+          .map((video) => video.videoExtension as File)
+      );
+
+      onChange(allFiles);
+    }
   };
 
-  // Notify parent of structured data whenever videoSections changes
-  useEffect(() => {
-    // Filter out incomplete videos (file is null or sectionTitle empty)
-    const validSections = videoSections
-      .filter((section) => section.sectionTitle.trim() !== "")
-      .map((section) => ({
-        sectionTitle: section.sectionTitle.trim(),
-        videoList: section.videoList.filter((video) => video.file !== null) as {
-          videoTitle: string;
-          file: File;
-        }[],
-      }));
-
-    onChange(validSections);
-  }, [videoSections, onChange]);
+  const handleAddVideo = (sectionIndex: number) => {
+    const updatedSections = [...videoSections];
+    if (!updatedSections[sectionIndex]) {
+      updatedSections[sectionIndex] = { sectionTitle: "", videoList: [] };
+    }
+    updatedSections[sectionIndex].videoList.push({
+      videoTitle: "",
+      videoExtension: null,
+    });
+    setVideoSections(updatedSections);
+  };
 
   return (
     <div className="my-5 mx-auto flex flex-col gap-4 items-center">
       <button
         onClick={handleAddSection}
-        className="rounded-lg relative w-40 h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-600 active:bg-green-700"
+        className="rounded-lg relative w-40 h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
       >
-        <span className="text-gray-200 font-semibold ml-7">Add Section</span>
+        <span className="text-gray-200 font-semibold ml-7 transform group-hover:translate-x-20 transition-all duration-300">
+          Add Section
+        </span>
+        <span className="absolute right-0 h-full w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
+          <svg
+            className="svg w-8 text-white"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line x1="12" x2="12" y1="5" y2="19"></line>
+            <line x1="5" x2="19" y1="12" y2="12"></line>
+          </svg>
+        </span>
       </button>
-
       {videoSections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-4 items-center" key={sectionIndex}>
           <input
             type="text"
-            className="outline-none border border-gray-300 px-4 py-2 rounded-lg"
-            placeholder={`Section ${sectionIndex + 1} Title`}
+            className="outline-none border border-gray-50 px-4 py-2 rounded-lg shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
             value={section.sectionTitle}
             onChange={(e) =>
               handleSectionTitleChange(sectionIndex, e.target.value)
             }
+            placeholder={`Section ${sectionIndex + 1} Title`}
           />
           {section.videoList.map((video, videoIndex) => (
-            <div key={videoIndex} className="w-full max-w-xs">
+            <div
+              key={videoIndex}
+              className="grid w-full max-w-xs items-center gap-1.5"
+            >
               <input
+                className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
                 type="file"
-                accept="video/*"
+                name="video"
                 onChange={(e) =>
                   handleVideoFileChange(sectionIndex, videoIndex, e)
                 }
-                className="w-full"
               />
-              {video.videoTitle && (
-                <p className="text-sm mt-1">{video.videoTitle}</p>
-              )}
             </div>
           ))}
+
           <button
             onClick={() => handleAddVideo(sectionIndex)}
-            className="rounded-lg w-40 h-10 cursor-pointer border border-blue-500 bg-blue-500 text-white"
+            className="rounded-lg relative w-40 h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
           >
-            Add Video
+            <span className="text-gray-200 font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300">
+              Add Video
+            </span>
+            <span className="absolute right-0 h-full w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300">
+              <svg
+                className="svg w-8 text-white"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="12" x2="12" y1="5" y2="19"></line>
+                <line x1="5" x2="19" y1="12" y2="12"></line>
+              </svg>
+            </span>
           </button>
         </div>
       ))}
