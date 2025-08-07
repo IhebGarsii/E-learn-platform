@@ -88,6 +88,7 @@ const userModel = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "coursesModel", // Reference to a Course model
+      default: [],
     },
   ],
 });

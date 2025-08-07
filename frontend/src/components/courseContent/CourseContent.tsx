@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
 import { videoResponse } from "../../types/video";
 import { useQuery } from "@tanstack/react-query";
-import { get } from "react-hook-form";
-import { getUserById } from "../../api/userAPI";
+
 import { getCourse } from "../../api/coursesAPI";
 import { useStore } from "../../hooks/zustand";
 import { cousers } from "../../types/course";
+import { FaLockOpen, FaLock } from "react-icons/fa6";
+import { CiLock, CiUnlock } from "react-icons/ci";
+
 type CourseContentProps = {
   video: videoResponse[];
 };
@@ -34,9 +36,6 @@ function CourseContent({ video }: CourseContentProps) {
       return true;
     } else return false;
   };
- 
-
- 
 
   const handleDrop = (index: number) => {
     setDropdowns((prev) => ({
@@ -44,6 +43,7 @@ function CourseContent({ video }: CourseContentProps) {
       [index]: !prev[index], // Toggle the dropdown state for the clicked index
     }));
   };
+  console.log(video, "dddddddddddd");
 
   return (
     <div className="border-2 border-gray-300 py-2  ">
@@ -51,19 +51,22 @@ function CourseContent({ video }: CourseContentProps) {
         video.map((vid, index) => (
           <div key={index}>
             <h1
-              className="flex items-center text-xl font-bold gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1"
+              className="flex items-center justify-between text-sm  gap-2 cursor-pointer border-b-2 border-gray-300 pl-5 pb-1"
               onClick={() => handleDrop(index)}
             >
-              <img className="w-3" src={img} alt="Toggle dropdown" />
-              <span>{vid.sectionTitle}</span>
+              <div className="flex items-center gap-2">
+                <img className="w-3" src={img} alt="Toggle dropdown" />
+                <span>{vid.sectionTitle}</span>
+              </div>
+              <span>{vid.videoList.length} lectures </span>
             </h1>
             {dropdowns[index] && (
               <ul>
                 {vid.videoList.map((video, vidIndex) => (
-                  <div className="flex" key={vidIndex}>
+                  <div className="flex items-center w-full  " key={vidIndex}>
                     <Link
                       to={`/Course/${localStorage.getItem("CourseId")}/${video._id}/${video.videoName}`}
-                      className="flex items-center gap-4 underline text-lg  cursor-pointer ml-12 text-blue-700"
+                      className="flex items-center justify-between w-full gap-4 underline text-lg cursor-pointer mx-12  text-blue-700"
                     >
                       <button
                         className="flex items-center gap-2"
@@ -72,6 +75,11 @@ function CourseContent({ video }: CourseContentProps) {
                         <MdOutlineOndemandVideo />{" "}
                         {video.videoName?.split(".")[0]}
                       </button>
+                      {enrolmentCheck() ? (
+                        <CiUnlock className="w-5 h-5 stroke-[1]" />
+                      ) : (
+                        <CiLock className="w-5 h-5 stroke-[1]" />
+                      )}
                     </Link>
                   </div>
                 ))}

@@ -7,10 +7,8 @@ const videoModel = new Schema({
       sectionTitle: { type: String, required: true },
       videoList: [
         {
-          videoName: {
-            type: String,
-            required: true,
-          },
+          videoName: { type: String, required: true },
+          duration: { type: Number }, // duration in seconds
           comments: [
             {
               type: mongoose.Schema.Types.ObjectId,
@@ -21,6 +19,7 @@ const videoModel = new Schema({
       ],
     },
   ],
+
   instructorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",

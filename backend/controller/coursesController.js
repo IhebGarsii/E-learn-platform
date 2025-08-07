@@ -2,9 +2,13 @@ const commentsModel = require("../model/commentsModel");
 const coursesModel = require("../model/coursesModel");
 const videoCourse = require("../model/videoCourse");
 const userModel = require("../model/userModel");
-
+const ffmpeg = require("fluent-ffmpeg");
+const path = require("path");
 const mongoose = require("mongoose");
 const replyModel = require("../model/replyModel");
+const fs = require("fs");
+const { getVideoDurationInSeconds } = require("get-video-duration");
+const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
@@ -83,7 +87,83 @@ const rateCourse = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 const AddCourse = async (req, res) => {
+  try {
+    console.log(req.files, "Files received:");
+
+    const videoFiles = [];
+    const sectionData = {};
+
+    // Collect all video file names
+    if (req.files["video"]) {
+      req.files["video"].forEach((file) => {
+        videoFiles.push(file.filename);
+      });
+    }
+
+
+    for (const filename of videoFiles) {
+      const parts = filename.split("_");
+      const sectionTitle = parts.slice(0, -1).join("_");
+      const videoTitle = parts[parts.length - 1];
+
+      const videoPath = path.resolve("uploads/courses", filename);
+      let duration = 0;
+
+      try {
+        duration = await getVideoDurationInSeconds(videoPath, ffprobePath);
+      } catch (err) {
+        console.error("Error getting duration for", filename, err);
+      }
+
+      if (!sectionData[sectionTitle]) {
+        sectionData[sectionTitle] = { sectionTitle, videoList: [] };
+      }
+
+      sectionData[sectionTitle].videoList.push({
+        videoName: videoTitle,
+        duration: Math.round(duration), // Optional: round to nearest second
+      });
+    }
+
+    const sections = Object.values(sectionData);
+
+    let thumbnail;
+    if (req.files["thumbnail"] !== undefined) {
+      thumbnail = req.files["thumbnail"][0];
+    } else {
+      return res.status(400).json("You must provide a thumbnail");
+    }
+
+    // Save video structure
+    const savedVideo = await videoCourse.create({
+      video: sections,
+      instructorId: req.body.instructorId,
+    });
+
+    // Save course
+    const course = await coursesModel.create({
+      ...req.body,
+      thumbnail: thumbnail.filename,
+      video: savedVideo._id,
+    });
+
+    // Link course to instructor
+    const user = await userModel.findById(req.body.instructorId);
+    user.courses.push(course._id);
+    await user.save();
+
+    res.status(201).json({
+      message: "Course added successfully!",
+      user,
+    });
+  } catch (error) {
+    console.error("AddCourse error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+/* const AddCourse = async (req, res) => {
   try {
     console.log("Files received:", req.files);
 
@@ -98,7 +178,7 @@ const AddCourse = async (req, res) => {
       });
     }
     console.log("Video filenames:", videoFiles);
-
+    
     // Process filenames to extract section titles and videos
     videoFiles.forEach((file) => {
       // Extract the part after the last underscore and before the file extension
@@ -148,7 +228,7 @@ const AddCourse = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
-};
+}; */
 
 const getComments = async (req, res) => {
   try {
@@ -522,7 +602,6 @@ const addStudentToCourse = async (req, res) => {
   }
 };
 
-
 module.exports = {
   getAllCourses,
   getCourse,
@@ -537,5 +616,4 @@ module.exports = {
   getInstructorCourses,
   coursePayment,
   addStudentToCourse,
- 
 };
