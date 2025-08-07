@@ -2,7 +2,7 @@ import { useState } from "react";
 import img from "../../../public/arrow-dwon.png";
 import { Link } from "react-router-dom";
 import { MdOutlineOndemandVideo } from "react-icons/md";
-import { videoResponse } from "../../types/video";
+import { halfVideo, videoResponse } from "../../types/video";
 import { useQuery } from "@tanstack/react-query";
 
 import { getCourse } from "../../api/coursesAPI";
@@ -44,6 +44,26 @@ function CourseContent({ video }: CourseContentProps) {
     }));
   };
   console.log(video, "dddddddddddd");
+  const videoDuration = () => {
+    let videoD = 0;
+    video.forEach((vid) => {
+      vid.videoList.forEach((video) => {
+        videoD += video.duration;
+      });
+    });
+    const hrs = Math.floor(videoD / 3600);
+    const mins = Math.floor((videoD % 3600) / 60);
+    const secs = videoD % 60;
+
+    const formattedMins = mins.toString().padStart(2, "0");
+    const formattedSecs = secs.toString().padStart(2, "0");
+
+    if (hrs > 0) {
+      return `${hrs}hr:${formattedMins}min`;
+    } else {
+      return `${mins}min`;
+    }
+  };
 
   return (
     <div className="border-2 border-gray-300 py-2  ">
@@ -58,7 +78,10 @@ function CourseContent({ video }: CourseContentProps) {
                 <img className="w-3" src={img} alt="Toggle dropdown" />
                 <span>{vid.sectionTitle}</span>
               </div>
-              <span>{vid.videoList.length} lectures </span>
+              <div>
+                <span>{vid.videoList.length} lectures </span>
+                <span> {videoDuration()} </span>
+              </div>
             </h1>
             {dropdowns[index] && (
               <ul>
@@ -66,7 +89,7 @@ function CourseContent({ video }: CourseContentProps) {
                   <div className="flex items-center w-full  " key={vidIndex}>
                     <Link
                       to={`/Course/${localStorage.getItem("CourseId")}/${video._id}/${video.videoName}`}
-                      className="flex items-center justify-between w-full gap-4 underline text-lg cursor-pointer mx-12  text-blue-700"
+                      className="flex items-center justify-between w-full  gap-4 underline text-md cursor-pointer mx-12  text-blue-700"
                     >
                       <button
                         className="flex items-center gap-2"
