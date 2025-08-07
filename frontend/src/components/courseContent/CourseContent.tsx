@@ -10,9 +10,10 @@ import { useStore } from "../../hooks/zustand";
 import { cousers } from "../../types/course";
 import { FaLockOpen, FaLock } from "react-icons/fa6";
 import { CiLock, CiUnlock } from "react-icons/ci";
+import toast from "react-hot-toast";
 
 type CourseContentProps = {
-  video: videoResponse[];
+  video: halfVideo[];
 };
 
 type DropdownState = {
@@ -53,15 +54,22 @@ function CourseContent({ video }: CourseContentProps) {
     });
     const hrs = Math.floor(videoD / 3600);
     const mins = Math.floor((videoD % 3600) / 60);
-    const secs = videoD % 60;
 
     const formattedMins = mins.toString().padStart(2, "0");
-    const formattedSecs = secs.toString().padStart(2, "0");
 
     if (hrs > 0) {
       return `${hrs}hr:${formattedMins}min`;
     } else {
       return `${mins}min`;
+    }
+  };
+  const pleaseBuyHover = (e: any) => {
+    if (!enrolmentCheck()) {
+      e.preventDefault();
+      console.log("ding dong");
+      toast.error("Please buy the course to access the content.", {
+        duration: 3000,
+      });
     }
   };
 
@@ -80,6 +88,7 @@ function CourseContent({ video }: CourseContentProps) {
               </div>
               <div>
                 <span>{vid.videoList.length} lectures </span>
+
                 <span> {videoDuration()} </span>
               </div>
             </h1>
@@ -89,15 +98,15 @@ function CourseContent({ video }: CourseContentProps) {
                   <div className="flex items-center w-full  " key={vidIndex}>
                     <Link
                       to={`/Course/${localStorage.getItem("CourseId")}/${video._id}/${video.videoName}`}
-                      className="flex items-center justify-between w-full  gap-4 underline text-md cursor-pointer mx-12  text-blue-700"
+                      className="flex items-center justify-between w-full gap-4 underline text-md cursor-pointer mx-12 text-blue-700"
+                      onClick={(e) => pleaseBuyHover(e)}
                     >
-                      <button
+                      <div
                         className="flex items-center gap-2"
-                        disabled={!enrolmentCheck()}
                       >
                         <MdOutlineOndemandVideo />{" "}
                         {video.videoName?.split(".")[0]}
-                      </button>
+                      </div>
                       {enrolmentCheck() ? (
                         <CiUnlock className="w-5 h-5 stroke-[1]" />
                       ) : (

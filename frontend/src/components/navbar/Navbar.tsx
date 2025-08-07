@@ -236,12 +236,20 @@ function Navbar() {
                     )}
                   </>
                 ) : (
-                  <Link
-                    to="/signup"
-                    className="bg-[#a6c1ee] text-white px-5 py-2 rounded-full hover:bg-[#87acec] whitespace-nowrap"
-                  >
-                    Sign up
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      to="/signup"
+                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs"
+                    >
+                      Sign up
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs"
+                    >
+                      Login
+                    </Link>
+                  </div>
                 )}
               </div>
             ) : (
