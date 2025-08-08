@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "../../hooks/zustand";
 import { addStudentToCourse } from "../../api/coursesAPI";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function PaymentSuccess() {
   const boughtCourses = useStore((state) => state.boughtCourses);
   const queryClient = useQueryClient();
-  console.log(boughtCourses);
-
+  const navigate = useNavigate();
   const { mutate: mutateAddingstudent } = useMutation({
     mutationFn: () =>
       addStudentToCourse(boughtCourses, localStorage.getItem("idUser")!),
@@ -18,6 +18,13 @@ function PaymentSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["user", localStorage.getItem("idUser")!],
       });
+      setTimeout(() => {
+        if (boughtCourses.length > 1) {
+          navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
+        } else {
+          navigate(`/Course/${localStorage.getItem("CourseId")}`);
+        }
+      }, 4000);
     },
     onError: (error) => {
       console.error("Error adding students to course:", error);

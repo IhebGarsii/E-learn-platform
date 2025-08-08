@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { useUserState } from "../../state/user";
 import { useStore } from "../../hooks/zustand";
+import img from ""
 function InstuctorDropDown() {
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<string>("");
@@ -18,26 +19,49 @@ function InstuctorDropDown() {
       console.log("ROLE", user.role);
     }
   }, [user]);
-
   const Menus = [
-    { title: "Add Project", src: "Chart_fill", link: "/addProject" },
-    { title: "Add Course", src: "Chat", link: "/coursesDarshboard" },
+    {
+      title: "Add Project",
+      src: "../../../public/Chart_fill",
+      link: "/addProject",
+    },
+    {
+      title: "Add Course",
+      src: "../../../public/Chat",
+      link: "/coursesDarshboard",
+    },
     {
       title: "My Courses",
-      src: "User",
+      src: "../../../public/User",
       gap: true,
       link: "/instructorCourseList",
     },
-    { title: "Schedule ", src: "Calendar", link: "/coursesDarshboard" },
-    { title: "Search", src: "Search", link: "/coursesDarshboard" },
-    { title: "Analytics", src: "Chart", link: "/coursesDarshboard" },
+    {
+      title: "Schedule ",
+      src: "../../../public/Calendar",
+      link: "/coursesDarshboard",
+    },
+    {
+      title: "Search",
+      src: "../../../public/Search",
+      link: "/coursesDarshboard",
+    },
+    {
+      title: "Analytics",
+      src: "../../../public/Chart",
+      link: "/coursesDarshboard",
+    },
     {
       title: "Manage Courses ",
-      src: "Folder",
+      src: "../../../public/Folder",
       link: "/coursesDarshboard",
       gap: true,
     },
-    { title: "Setting", src: "Setting", link: "/coursesDarshboard" },
+    {
+      title: "Setting",
+      src: "../../../public/Setting",
+      link: "/coursesDarshboard",
+    },
   ];
 
   return (

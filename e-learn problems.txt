@@ -28,11 +28,11 @@ fix navbar when phone mode overflow with white *** fixed
 fix margin top after i added padding to navbar *** fixed
 fix add project css *** fixed
 cuppon not working *** fixed
+add enrole to course *** finished
 
 
 
 add when go to another page you will go to the top of the page
-add enrole to course
 fix navbar responsive 
 fix sidebar icons desepier sometimes
 online users cant seem to work 
