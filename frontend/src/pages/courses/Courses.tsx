@@ -63,7 +63,7 @@ function Courses() {
   if (isError) return <div>Error: {error.message}</div>;
 
   return (
-    <div>
+    <div className="md:mt-5 flex flex-col items-center justify-center">
       <Search onSearch={setTagSearch} />
 
       <div className="flex flex-col justify-center sm:flex-row pr-10 w-full items-start gap-5">

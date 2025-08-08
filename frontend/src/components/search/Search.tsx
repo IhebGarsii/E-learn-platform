@@ -14,7 +14,7 @@ const Search = ({ onSearch }: SearchProps) => {
     onSearch(value);
   };
   return (
-    <div className="flex mt-14 items-center mx-auto border w-[90%] md:w-[90%] lg:w-[49%]  pr-3 gap-2 bg-white border-gray-500/30 h-[46px] rounded-[5px] overflow-hidden">
+    <div className="flex mt-14 items-center mx-auto border w-[90%] md:w-[90%] lg:w-[70%] lg:mr-20  pr-3 gap-2 bg-white border-gray-500/30 h-[46px] rounded-[5px] overflow-hidden">
       <input
         className="w-full h-full pl-5 outline-none placeholder-gray-500 text-sm"
         placeholder={tag.length > 0 ? tag : "Search by tags"}

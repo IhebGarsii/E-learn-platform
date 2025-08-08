@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import img from "../../../public/arrow-dwon.png";
@@ -9,13 +9,11 @@ import { FaCartShopping } from "react-icons/fa6";
 import { getUserCart } from "../../api/cartAPI.js";
 import SmallCart from "../cartComponents/SmallCart.js";
 import { useStore } from "../../hooks/zustand.js";
-import { useUserState } from "../../state/user.js";
 
 import Skeleton from "react-loading-skeleton";
 import InstuctorDropDown from "../instuctorDropDown/InstuctorDropDown.js";
 
 function Navbar() {
-  console.log("navbar");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
@@ -58,7 +56,6 @@ function Navbar() {
     refetchOnReconnect: false,
     refetchIntervalInBackground: false,
   });
-  console.log("cart", cart);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ["user", userId],
@@ -71,7 +68,6 @@ function Navbar() {
     refetchIntervalInBackground: false,
     staleTime: Infinity,
   });
-  console.log(user?.role );
 
   const navigate = useNavigate();
   const logedin = useLoginUser(localStorage.getItem("idUser")!);
@@ -239,13 +235,13 @@ function Navbar() {
                   <div className="flex items-center gap-2">
                     <Link
                       to="/signup"
-                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs"
+                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs lg:text-sm lg:px-4 lg:py-2"
                     >
                       Sign up
                     </Link>
                     <Link
                       to="/login"
-                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs"
+                      className="bg-[#a6c1ee] text-white px-3 py-1 rounded-full hover:bg-[#87acec] whitespace-nowrap text-xs lg:text-sm lg:px-4 lg:py-2"
                     >
                       Login
                     </Link>
