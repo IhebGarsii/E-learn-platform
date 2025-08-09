@@ -90,7 +90,6 @@ const rateCourse = async (req, res) => {
 
 const AddCourse = async (req, res) => {
   try {
-    console.log("Files received:", req.files);
 
     const videoFiles = [];
     const sectionData = {};

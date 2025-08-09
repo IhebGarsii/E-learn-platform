@@ -54,7 +54,7 @@ function AddCourse() {
     console.log(updatedSections);
   };
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (formData: FormData) => addCourse(formData),
     onSuccess: (data) => {
       toast.success("Course added successfully!");
@@ -222,7 +222,7 @@ function AddCourse() {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
         >
-          Add Course
+          {isPending ? "pending" : "Add Course"}
         </button>
       </form>
       <VideoUpload onChange={handleVideoChange} />

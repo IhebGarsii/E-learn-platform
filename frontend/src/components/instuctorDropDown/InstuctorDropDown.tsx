@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 import { useUserState } from "../../state/user";
 import { useStore } from "../../hooks/zustand";
-import img from ""
 function InstuctorDropDown() {
   const [open, setOpen] = useState(false);
   const [role, setRole] = useState<string>("");

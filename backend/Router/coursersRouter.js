@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const uploadFields = upload.fields([
   { name: "thumbnail", maxCount: 1 },
-  { name: "video", maxCount: 20 }, // Adjust maxCount based on your needs
+  { name: "video", maxCount: 50 }, // Adjust maxCount based on your needs
 ]);
 coursesRouter.post("/addCourse", uploadFields, AddCourse);
 
