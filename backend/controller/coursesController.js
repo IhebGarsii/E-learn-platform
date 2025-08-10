@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const replyModel = require("../model/replyModel");
 const fs = require("fs");
 const { getVideoDurationInSeconds } = require("get-video-duration");
+const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
 const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
   try {
@@ -90,7 +91,6 @@ const rateCourse = async (req, res) => {
 
 const AddCourse = async (req, res) => {
   try {
-
     const videoFiles = [];
     const sectionData = {};
 
@@ -170,72 +170,6 @@ const AddCourse = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-/* const AddCourse = async (req, res) => {
-  try {
-    console.log("Files received:", req.files);
-
-    const videoFiles = [];
-    const sectionData = {};
-
-    // Check if video files are present
-    if (req.files["video"]) {
-      req.files["video"].forEach((file) => {
-        // Extract filename and save to array
-        videoFiles.push(file.originalname);
-      });
-    }
-    console.log("Video filenames:", videoFiles);
-    
-    // Process filenames to extract section titles and videos
-    videoFiles.forEach((file) => {
-      // Extract the part after the last underscore and before the file extension
-      const parts = file.split("_"); // Split by underscore
-
-      const sectionTitle = parts.slice(0, -1).join("_"); // All but last part
-      const videoTitle = parts[parts.length - 1]; // Last part after last underscore
-
-      // Organize by section
-      if (!sectionData[sectionTitle]) {
-        sectionData[sectionTitle] = { sectionTitle, videoList: [] };
-      }
-      // Save video titles as objects with a `videoName` property
-      sectionData[sectionTitle].videoList.push({ videoName: videoTitle });
-    });
-
-    // Convert sectionData to an array
-    const sections = Object.values(sectionData);
-    let thumbnail;
-    if (req.files["thumbnail"] !== undefined) {
-      thumbnail = req.files["thumbnail"][0];
-    } else {
-      return res.status(400).json("you must provide a thumbnail");
-    }
-
-    // Save video data with the new structure
-    const savedVideo = await videoCourse.create({
-      video: sections,
-      instructorId: req.body.instructorId,
-    });
-
-    // Save course data including the reference to the saved video
-    const course = await coursesModel.create({
-      ...req.body,
-      thumbnail: thumbnail.filename,
-      video: savedVideo._id, // Include organized sections
-    });
-    const user = await userModel.findById(req.body.instructorId);
-    user.courses.push(course._id);
-    await user.save();
-    // Respond to the client
-    res.status(201).json({
-      message: "Course added successfully!",
-      user,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
-  }
-};  */ 
 
 const getComments = async (req, res) => {
   try {
@@ -573,7 +507,7 @@ const coursePayment = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
-const addStudentToCourse = async (req, res) => {
+/* const addStudentToCourse = async (req, res) => {
   try {
     const { courseIds } = req.body;
     const { userId } = req.params;
@@ -597,10 +531,104 @@ const addStudentToCourse = async (req, res) => {
     }
 
     user.boughtCourses.push(...boughtC);
+
+    boughtC.forEach( (courseId) => {
+      const course = await coursesModel.findById(courseId);
+      const studentChoice = await studentAlsoBoughtModel.findOne({category:course.headTags[0]});
+      if(!studentChoice ){
+        const choice = await studentAlsoboughtModel.create({
+          category:course.headTags[0],
+          courseArrayNumber:[{
+            courseId:course._id,
+            nbOfTimesBought:1
+            
+          }],
+        
+        })
+        await choice.save()
+      }else {
+        studentChoice.courseArrayNumber.push({course._id,nbOfTimesBought:nbOfTimesBought++});
+        
+
+      }
+    });
+
     await user.save();
     res
       .status(200)
       .json({ message: "Students added to course successfully", user });
+  } catch (error) {
+    console.error("Error adding student to course:", error);
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
+  }
+}; */
+const addStudentToCourse = async (req, res) => {
+  try {
+    const { courseIds } = req.body;
+    const { userId } = req.params;
+
+    let boughtC = [];
+
+    // Add student to each course
+    for (const courseId of courseIds) {
+      const courseData = await coursesModel.findById(courseId);
+      if (!courseData) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      if (!courseData.studentsId.includes(userId)) {
+        courseData.studentsId.push(userId);
+        boughtC.push(courseData._id);
+        await courseData.save();
+      }
+    }
+
+    // Find the user
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.boughtCourses.push(...boughtC);
+
+    // Update studentAlsoBought model
+    for (const courseId of boughtC) {
+      const course = await coursesModel.findById(courseId);
+      const category = course.headTags[0];
+
+      let studentChoice = await studentAlsoBoughtModel.findOne({ category });
+
+      if (!studentChoice) {
+        studentChoice = new studentAlsoBoughtModel({
+          category,
+          courseArrayNumber: [{ courseId: course._id, nbOfTimesBought: 1 }],
+        });
+      } else {
+        const existingEntry = studentChoice.courseArrayNumber.find(
+          (item) => item.courseId.toString() === course._id.toString()
+        );
+
+        if (existingEntry) {
+          existingEntry.nbOfTimesBought += 1;
+        } else {
+          studentChoice.courseArrayNumber.push({
+            courseId: course._id,
+            nbOfTimesBought: 1,
+          });
+        }
+      }
+
+      await studentChoice.save();
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Students added to course successfully",
+      user,
+    });
   } catch (error) {
     console.error("Error adding student to course:", error);
     return res
