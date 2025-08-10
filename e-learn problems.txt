@@ -32,6 +32,9 @@ add enrole to course *** finished
 
 
 
+
+
+add component Students also bought
 add when go to another page you will go to the top of the page
 fix navbar responsive 
 fix sidebar icons desepier sometimes

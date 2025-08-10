@@ -2,19 +2,18 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { coursePayment, DeleteCourse, getCourse } from "../../api/coursesAPI";
-import { FaVideo, FaCloudDownloadAlt, FaRegEdit } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
+import { coursePayment, getCourse } from "../../api/coursesAPI";
+import { FaVideo, FaCloudDownloadAlt } from "react-icons/fa";
 import { MdArticle, MdAccessTimeFilled } from "react-icons/md";
 import CourseContent from "../../components/courseContent/CourseContent";
 import DOMPurify from "dompurify";
-import { MdDelete } from "react-icons/md";
 
 import { addToCart } from "../../api/cartAPI";
-import { cousers } from "../../types/course";
 import { useStore } from "../../hooks/zustand";
 import { Products } from "../../types/products";
 import Skeleton from "react-loading-skeleton";
+import StudentsAlsoBought from "../../components/studentAlsoBought/StudentsAlsoBought ";
 
 function CourseDetail() {
   const { idCourse } = useParams();
@@ -94,13 +93,14 @@ function CourseDetail() {
     paymentMutate(products);
   };
 
-  if (isLoading) return (
-    <div className="mt-20 flex flex-col text-center ml-50 gap-2 ">
-      <Skeleton height={150} width="70%" />
-      <Skeleton count={5} width="70%" />
-      <Skeleton height={150} width="70%" />
-    </div>
-  );
+  if (isLoading)
+    return (
+      <div className="mt-20 flex flex-col text-center ml-50 gap-2 ">
+        <Skeleton height={150} width="70%" />
+        <Skeleton count={5} width="70%" />
+        <Skeleton height={150} width="70%" />
+      </div>
+    );
   if (error) return <div>Error loading course data.</div>;
   if (!course) return <div>No course found.</div>;
   const sanitizedHtml = DOMPurify.sanitize(course.description || "");
@@ -164,6 +164,7 @@ function CourseDetail() {
             {desc ? "see less" : "see more"}
           </button>
         </div>
+        <StudentsAlsoBought />
       </div>
 
       <div className="flex-1 lg:h-fit   md:w-[20%] shadow-md border rounded-md p-4 bg-white mb-32">
@@ -220,7 +221,6 @@ function CourseDetail() {
           ))}
         </div>
       </div>
-
       <div className="fixed bottom-0 bg-white w-full md:hidden flex justify-between px-4 py-3 shadow-md border-t">
         <span className="text-2xl font-bold">${course.price}</span>
         <button
