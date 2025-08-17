@@ -11,7 +11,10 @@ const addToCart = async (req, res) => {
     const cartt = await cartModel
       .findOne({ idUser })
       .populate("courses")
-     
+     .populate({
+        path: "courses.studentsId",
+        model: "userModel",
+      });
     // if new cart has to be created
     if (!cartt) {
       console.log("!cartt");
