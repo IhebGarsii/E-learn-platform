@@ -1,8 +1,15 @@
 const express = require("express");
 const {
   getUserCart,
-  a
+  addToCart,
+  removeFromCart,
+} = require("../controller/cartController");
+
+
+const cartRouter = express.Router();
+
+cartRouter.get("/getUserCart/:idUser", getUserCart);
+cartRouter.get("/addToCart/:idUser/:idCourse", addToCart);
 cartRouter.get("/removeFromCart/:idCart/:idCourse", removeFromCart);
 
 module.exports = cartRouter;
-gi
