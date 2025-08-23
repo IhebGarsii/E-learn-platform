@@ -54,5 +54,6 @@ export const applyCoupon = async (coupon: string) => {
     throw error;
   }
 };
-export const updateProductQuantity = async () => {};
-s
+export const updateProductQuantity = async () => {
+  
+};
