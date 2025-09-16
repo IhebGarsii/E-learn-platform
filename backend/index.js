@@ -73,6 +73,6 @@ io.on("connection", (socket) => {
  */
 app.listen("4000", () => console.log("Connected To Port 4000"));
 mongoose
-  .connect('mongodb://127.0.0.1:27017/E-Learning')
+  .connect(process.env.mongodb)
   .then(() => console.log("Connected to DATABASE"))
   .catch((error) => console.error(error));
