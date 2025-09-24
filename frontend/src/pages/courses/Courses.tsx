@@ -66,8 +66,8 @@ function Courses() {
     <div className="md:mt-5 flex flex-col items-center justify-center">
       <Search onSearch={setTagSearch} />
 
-      <div className="flex flex-col justify-center sm:flex-row pr-10 w-full items-start gap-5">
-        <div className="border-4 h-fit m-5 lg:sticky w-full sm:w-fit top-0 sm:top-5">
+      <div className="flex flex-col   justify-center sm:flex-row pr-10 w-full items-start gap-5">
+        <div className="border-4 h-fit bg-gray-200   m-5 lg:sticky w-full sm:w-fit top-0 sm:top-5">
           <Filter onFilterChange={handleFilterChange} courses={data?.courses} />
         </div>
 

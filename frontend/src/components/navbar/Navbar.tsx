@@ -57,7 +57,7 @@ function Navbar() {
     refetchIntervalInBackground: false,
   });
 
-  const { data: user, isLoading } = useQuery({
+  const { data: user} = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUserById(userId),
     enabled: !!userId,

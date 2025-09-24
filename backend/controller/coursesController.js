@@ -174,7 +174,6 @@ const AddCourse = async (req, res) => {
 const getComments = async (req, res) => {
   try {
     // Log the request parameters
-    console.log(req.params);
 
     // Extract parameters from the request
     const { videoList, idVideo } = req.params;
@@ -184,8 +183,6 @@ const getComments = async (req, res) => {
     const idVideoId = new mongoose.Types.ObjectId(idVideo);
 
     // Log IDs to ensure they are correctly formatted
-    console.log("Video List ID:", videoListId);
-    console.log("Video ID:", idVideoId);
 
     // Find the document with the specified videoListId and populate comments along with the user who created them
     const videoEntry = await videoCourse
@@ -210,7 +207,6 @@ const getComments = async (req, res) => {
       .exec();
 
     // Log the result to see what's returned
-    console.log("Video Entry:", videoEntry);
 
     if (!videoEntry) {
       return res.status(404).json({ message: "Video list not found" });
@@ -247,7 +243,6 @@ const getComments = async (req, res) => {
 const addCommentToVideo = async (req, res) => {
   try {
     const { idVid, commentText, givenUser } = req.body; // idVid is the video ID and commentText is the comment to add.
-    console.log(req.body);
     // Create the comment document first
     const newComment = await commentsModel.create({
       givenUser,
@@ -307,7 +302,6 @@ const deleteCourse = async (req, res) => {
         );
     }
 
-    console.log(coursre.instructorId.equals(idUser));
     if (!coursre.instructorId.equals(idUser)) {
       console.log("You Don't Have The Permition For This Action");
 
@@ -316,7 +310,6 @@ const deleteCourse = async (req, res) => {
         .json("You Don't Have The Permition For This Action");
     }
     const deletedCoures = await coursesModel.findByIdAndDelete(idCourse);
-    console.log(deletedCoures);
     return res.status(202).json("Coures Deleted Succsefuly");
   } catch (error) {
     console.log(error);
@@ -363,7 +356,6 @@ const updateCourse = async (req, res) => {
     const updatedCourse = await coursesModel
       .findByIdAndUpdate(idCourse, updateData, { new: true })
       .populate("video");
-    console.log(updatedCourse);
 
     return res
       .status(200)
@@ -414,7 +406,6 @@ const updateCourse = async (req, res) => {
 const addReplyComment = async (req, res) => {
   try {
     const { commentID, commentReplyText, givenUser } = req.body;
-    console.log(req.body);
 
     const comment = await commentsModel.findById(commentID);
     if (!comment) {
@@ -442,7 +433,6 @@ const addReplyComment = async (req, res) => {
 const getSearchedCourses = async (req, res) => {
   try {
     const search = req.query.search;
-    console.log("coursesdsssssssssssssssss");
 
     const query = search
       ? {
@@ -464,13 +454,11 @@ const getSearchedCourses = async (req, res) => {
 const getInstructorCourses = async (req, res) => {
   try {
     const { userId } = req.params;
-    console.log(userId, "ssssssssssss");
 
     const courses = await coursesModel.find({ instructorId: userId });
     if (courses.length == 0) {
       return res.status(404).json(courses);
     }
-    console.log(courses, "sssssssss");
     return res.status(200).json(courses);
   } catch (error) {
     console.log(error);
@@ -652,17 +640,3 @@ module.exports = {
   coursePayment,
   addStudentToCourse,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-

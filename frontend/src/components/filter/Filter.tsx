@@ -93,7 +93,7 @@ function Filter({ onFilterChange, courses }: FilterProps) {
   return (
     <form
       onSubmit={handleSubmit(onSubmitFilter)}
-      className="bg-gray-200 p-4 sm:p-5 rounded-md shadow-md w-full overflow-x-hidden"
+      className=" p-4 sm:p-5 rounded-md shadow-md w-full overflow-x-hidden"
     >
       <div className="flex flex-col space-y-2">
         <label htmlFor="duration" className="font-medium">

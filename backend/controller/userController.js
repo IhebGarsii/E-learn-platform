@@ -200,7 +200,6 @@ const getUserById = async (req, res) => {
     if (!user) {
       return res.status(404).json("No user Were Found");
     }
-    console.log(user, "user");
 
     return res.status(200).json(user);
   } catch (error) {
@@ -307,7 +306,6 @@ const deleteAcountByAdmin = async (req, res) => {
 const getOnlineUsers = async (req, res) => {
   try {
     const { idList } = req.body;
-    console.log(idList, "idList");
 
     if (!Array.isArray(idList)) {
       return res.status(400).json({ message: "ids must be an array" });
@@ -324,13 +322,11 @@ const updateUserPhoto = async (req, res) => {
   try {
     const { idUser } = req.params;
     const image = req.file.originalname;
-    console.log(image, "image");
     const user = await userModel.findByIdAndUpdate(
       idUser,
       { image },
       { new: true }
     );
-    console.log(user, "user");
     if (!user) {
       return res.status(404).json("User Not Found");
     }
@@ -343,13 +339,11 @@ const updateUserPhoto = async (req, res) => {
 const getStudentCourses = async (req, res) => {
   try {
     const { idUser } = req.params;
-    console.log(idUser, "idUser");
 
     const courses = await userModel.findById(idUser).populate("boughtCourses");
     if (courses.length == 0) {
       return res.status(404).json(courses);
     }
-    console.log(courses.boughtCourses, "sssssssss");
     return res.status(200).json(courses.boughtCourses);
   } catch (error) {
     console.log(error);

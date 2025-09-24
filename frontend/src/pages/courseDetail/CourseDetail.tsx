@@ -13,7 +13,7 @@ import { addToCart } from "../../api/cartAPI";
 import { useStore } from "../../hooks/zustand";
 import { Products } from "../../types/products";
 import Skeleton from "react-loading-skeleton";
-import StudentsAlsoBought from "../../components/studentAlsoBought/StudentsAlsoBought ";
+import StudentsAlsoBought from "../../components/studentAlsoBought/StudentsAlsoBought";
 
 function CourseDetail() {
   const { idCourse } = useParams();
@@ -164,7 +164,7 @@ function CourseDetail() {
             {desc ? "see less" : "see more"}
           </button>
         </div>
-        <StudentsAlsoBought />
+        <StudentsAlsoBought category={course.headTags[0]} />
       </div>
 
       <div className="flex-1 lg:h-fit   md:w-[20%] shadow-md border rounded-md p-4 bg-white mb-32">

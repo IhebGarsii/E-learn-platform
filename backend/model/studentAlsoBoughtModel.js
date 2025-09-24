@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const studentAlsoBoughtSchema = new Schema({
-  category: {
-    type: String,
-    required: true, // optional, but usually categories are required
-  },
+  category: [
+    {
+      type: String,
+      required: true, // optional, but usually categories are required
+    },
+  ],
   courseArrayNumber: [
     {
       courseId: {

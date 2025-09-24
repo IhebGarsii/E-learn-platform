@@ -17,6 +17,7 @@ const {
 } = require("../controller/coursesController");
 const multer = require("multer");
 const path = require("path");
+const { getMostBoughtCourses } = require("../controller/bestCoursesController");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -65,4 +66,5 @@ coursesRouter.put("/rate/:idCourse", rateCourse);
 coursesRouter.get("/getInstructorCourses/:userId", getInstructorCourses);
 coursesRouter.post("/coursePayment", coursePayment);
 coursesRouter.post("/addStudentToCourse/:userId", addStudentToCourse);
+coursesRouter.post("/studentAlsoBought", getMostBoughtCourses);
 module.exports = coursesRouter;

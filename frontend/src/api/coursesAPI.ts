@@ -5,9 +5,15 @@ const BASE_URL = "http://localhost:4000/courses";
 export const getAllCourses = async (page = 0) => {
   try {
     const response = await fetch(`${BASE_URL}/getAllCourses?page=${page}`);
-    return await response.json(); // Should return { courses: [...], hasMore: true/false }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch courses: ${response.status}`);
+    }
+
+    return await response.json();
   } catch (error) {
-    throw error;
+    console.error("Error fetching courses:", error); // log for debugging
+    throw error; // re-throw so caller knows something went wrong
   }
 };
 
@@ -82,6 +88,8 @@ export const searchProducts = async (term: string) => {
     }
     return response.json();
   } catch (error) {
+    console.log(error);
+
     throw error;
   }
 };
@@ -139,4 +147,19 @@ export const addStudentToCourse = async (
     throw error;
   }
 };
-
+export const studentAlsoBought = async (coursesTags: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/studentAlsoBought`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ coursesTags }),
+    });
+    if (!response.ok) {
+      throw new Error("error");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("error");
+  }
+};

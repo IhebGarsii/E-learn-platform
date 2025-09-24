@@ -69,7 +69,7 @@ function App() {
       <SkeletonTheme baseColor="#e0e0e0" highlightColor="#f5f5f5">
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
-
+      
         <Navbar />
         {/* <SideBar /> */}
         <Routes>
