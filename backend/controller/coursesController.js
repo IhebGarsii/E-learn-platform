@@ -9,6 +9,7 @@ const replyModel = require("../model/replyModel");
 const fs = require("fs");
 const { getVideoDurationInSeconds } = require("get-video-duration");
 const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
+const cartModel = require("../model/cartModel");
 const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
   try {
@@ -612,6 +613,14 @@ const addStudentToCourse = async (req, res) => {
     }
 
     await user.save();
+
+    const cart = await cartModel.findOne({ idUser: user._id });
+  
+    cart.courses.filter((courseId) => courseIds.includes(courseId));
+    cart.courses = [];
+    cart.quantity = 0;
+    cart.totalPrice = 0;
+    await cart.save();
 
     res.status(200).json({
       message: "Students added to course successfully",
