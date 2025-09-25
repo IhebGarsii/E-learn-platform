@@ -615,11 +615,15 @@ const addStudentToCourse = async (req, res) => {
     await user.save();
 
     const cart = await cartModel.findOne({ idUser: user._id });
-  
-    cart.courses.filter((courseId) => courseIds.includes(courseId));
-    cart.courses = [];
-    cart.quantity = 0;
-    cart.totalPrice = 0;
+
+    for (const courseId of courseIds) {
+      const course = await coursesModel.findById(courseId);
+      cart.totalPrice -= course.price;
+      cart.quantity -= 1;
+    }
+    cart.courses = cart.courses.filter(
+      (courseId) => !courseIds.includes(courseId.toString())
+    );
     await cart.save();
 
     res.status(200).json({

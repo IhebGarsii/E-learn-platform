@@ -18,13 +18,13 @@ function PaymentSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["user", localStorage.getItem("idUser")!],
       });
-      setTimeout(() => {
+     /*  setTimeout(() => {
         if (boughtCourses.length > 1) {
           navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
         } else {
           navigate(`/Course/${localStorage.getItem("CourseId")}`);
         }
-      }, 4000);
+      }, 4000); */
     },
     onError: (error) => {
       console.error("Error adding students to course:", error);
