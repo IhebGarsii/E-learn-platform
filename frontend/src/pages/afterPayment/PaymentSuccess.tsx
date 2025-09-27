@@ -18,7 +18,10 @@ function PaymentSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["user", localStorage.getItem("idUser")!],
       });
-     /*  setTimeout(() => {
+      queryClient.invalidateQueries({
+        queryKey: ["cart", localStorage.getItem("idUser")],
+      });
+      /*  setTimeout(() => {
         if (boughtCourses.length > 1) {
           navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
         } else {

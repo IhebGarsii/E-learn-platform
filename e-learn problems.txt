@@ -33,7 +33,8 @@ add enrole to course *** finished
 
 
 
-fix payment lost some data after reseting pc
+fix payment lost some data after reseting pc *** fixed
+when refreshing payment success the function add student work again 
 add component Students also bought
 add when go to another page you will go to the top of the page
 fix navbar responsive 

@@ -12,7 +12,7 @@ const studentAlsoBoughtSchema = new Schema({
     {
       courseId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "courseModel",
+        ref: "coursesModel",
       },
       nbOfTimesBought: {
         type: Number,
