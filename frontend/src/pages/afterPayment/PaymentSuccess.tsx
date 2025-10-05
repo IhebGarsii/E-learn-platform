@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "../../hooks/zustand";
 import { addStudentToCourse } from "../../api/coursesAPI";
 import { useEffect } from "react";
@@ -21,13 +21,13 @@ function PaymentSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["cart", localStorage.getItem("idUser")],
       });
-      /*  setTimeout(() => {
+      setTimeout(() => {
         if (boughtCourses.length > 1) {
           navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
         } else {
           navigate(`/Course/${localStorage.getItem("CourseId")}`);
         }
-      }, 4000); */
+      }, 4000);
     },
     onError: (error) => {
       console.error("Error adding students to course:", error);
