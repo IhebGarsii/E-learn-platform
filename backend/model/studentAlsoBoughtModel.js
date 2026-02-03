@@ -5,7 +5,6 @@ const studentAlsoBoughtSchema = new Schema({
   category: [
     {
       type: String,
-      required: true, // optional, but usually categories are required
     },
   ],
   courseArrayNumber: [

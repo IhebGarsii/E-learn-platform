@@ -10,6 +10,7 @@ const fs = require("fs");
 const { getVideoDurationInSeconds } = require("get-video-duration");
 const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
 const cartModel = require("../model/cartModel");
+const { log } = require("console");
 const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
   try {
@@ -557,6 +558,7 @@ const addStudentToCourse = async (req, res) => {
   try {
     const { courseIds } = req.body;
     const { userId } = req.params;
+    console.log("eeeeeeeeeeeeeeeeeeeee", courseIds, userId);
 
     let boughtC = [];
 
@@ -583,33 +585,37 @@ const addStudentToCourse = async (req, res) => {
     user.boughtCourses.push(...boughtC);
 
     // Update studentAlsoBought model
-    for (const courseId of boughtC) {
+    // Update studentAlsoBought model for ALL courseIds
+    for (const courseId of courseIds) {
       const course = await coursesModel.findById(courseId);
+      if (!course) continue; // skip if course not found
+
       const category = course.headTags[0];
+      console.log(category, "dddddddddddddd");
 
-      let studentChoice = await studentAlsoBoughtModel.findOne({ category });
+      // Try to increment nbOfTimesBought if course already exists
+      const updated = await studentAlsoBoughtModel.findOneAndUpdate(
+        { category, "courseArrayNumber.courseId": course._id },
+        { $inc: { "courseArrayNumber.$.nbOfTimesBought": 1 } },
+        { new: true }
+      );
 
-      if (!studentChoice) {
-        studentChoice = new studentAlsoBoughtModel({
-          category,
-          courseArrayNumber: [{ courseId: course._id, nbOfTimesBought: 1 }],
-        });
-      } else {
-        const existingEntry = studentChoice.courseArrayNumber.find(
-          (item) => item.courseId.toString() === course._id.toString()
+      if (!updated) {
+        
+        // If no matching course entry exists, push a new one
+        await studentAlsoBoughtModel.findOneAndUpdate(
+          { category },
+          {
+            $push: {
+              courseArrayNumber: {
+                courseId: course._id,
+                nbOfTimesBought: 1,
+              },
+            },
+          },
+          { upsert: true, new: true }
         );
-
-        if (existingEntry) {
-          existingEntry.nbOfTimesBought += 1;
-        } else {
-          studentChoice.courseArrayNumber.push({
-            courseId: course._id,
-            nbOfTimesBought: 1,
-          });
-        }
       }
-
-      await studentChoice.save();
     }
 
     await user.save();

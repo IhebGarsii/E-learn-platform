@@ -1,3 +1,4 @@
+import { useStore } from "zustand";
 import { Products } from "../types/products";
 
 const BASE_URL = "http://localhost:4000/courses";

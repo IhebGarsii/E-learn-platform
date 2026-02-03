@@ -6,13 +6,16 @@ import { useNavigate } from "react-router-dom";
 
 function PaymentSuccess() {
   const boughtCourses = useStore((state) => state.boughtCourses);
+  const setBoughtCourses = useStore((state) => state.setBoughtCourses);
+
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { mutate: mutateAddingstudent } = useMutation({
+  /*   const navigate = useNavigate();
+   */ const { mutate: mutateAddingstudent } = useMutation({
     mutationFn: () =>
       addStudentToCourse(boughtCourses, localStorage.getItem("idUser")!),
     onSuccess: (data) => {
       console.log("Students added to course successfully", data);
+      
       queryClient.invalidateQueries({ queryKey: ["courses", boughtCourses] });
 
       queryClient.invalidateQueries({
@@ -21,13 +24,13 @@ function PaymentSuccess() {
       queryClient.invalidateQueries({
         queryKey: ["cart", localStorage.getItem("idUser")],
       });
-      setTimeout(() => {
+      /*  setTimeout(() => {
         if (boughtCourses.length > 1) {
           navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
         } else {
           navigate(`/Course/${localStorage.getItem("CourseId")}`);
         }
-      }, 4000);
+      }, 4000); */
     },
     onError: (error) => {
       console.error("Error adding students to course:", error);
@@ -35,6 +38,8 @@ function PaymentSuccess() {
   });
 
   useEffect(() => {
+    console.log(boughtCourses, "boughtCourses");
+
     if (boughtCourses.length && localStorage.getItem("idUser")!) {
       mutateAddingstudent();
     }
