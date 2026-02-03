@@ -23,7 +23,9 @@ function CourseDetail() {
   const setTag = useStore((state) => state.setTagSearch);
   const setCourseId = useStore((state) => state.setCourseId);
   const currentCourseId = useStore((state) => state.courseId); // 👈 Get current value
+  const setBoughtCourses = useStore((state) => state.setBoughtCourses);
   const courseId = useStore((state) => state.courseId); // 👈 Get courseId from store
+
   console.log("Current courseId from store:", currentCourseId);
 
   useEffect(() => {
@@ -67,10 +69,23 @@ function CourseDetail() {
       mutateCart(course._id);
     }
   };
+
   const { mutate: paymentMutate } = useMutation({
-    mutationFn: (products: Products[]) => coursePayment(products),
-    onSuccess: (data) => {
+    // mutationFn receives ONE object with both products and bo
+    mutationFn: async ({
+      products,
+    }: {
+      products: Products[];
+      bo: string[];
+    }) => {
+      return coursePayment(products); // call your API with products
+    },
+    onSuccess: (data, variables) => {
       if (data.url) {
+        // ✅ variables.bo is available here
+        setBoughtCourses(variables.bo);
+        console.log(variables.bo,"rrrrrrrrrrrrrrrrrrr");
+
         window.location.href = data.url;
       }
     },
@@ -85,12 +100,17 @@ function CourseDetail() {
         title: course.title,
         quantity: 1,
         price: course.price,
-        courseId: course._id || "", // Ensure courseId is included
+        courseId: course._id || "",
       },
     ];
+
+    // Build array of courseIds
+    const bo = products.map((p) => p.courseId);
+
     console.log("Products for payment:", products);
 
-    paymentMutate(products);
+    // ✅ Pass both products and bo together
+    paymentMutate({ products, bo });
   };
 
   if (isLoading)
