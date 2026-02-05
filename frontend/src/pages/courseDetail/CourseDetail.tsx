@@ -84,7 +84,7 @@ function CourseDetail() {
       if (data.url) {
         // ✅ variables.bo is available here
         setBoughtCourses(variables.bo);
-        console.log(variables.bo,"rrrrrrrrrrrrrrrrrrr");
+        console.log(variables.bo, "rrrrrrrrrrrrrrrrrrr");
 
         window.location.href = data.url;
       }
@@ -134,6 +134,7 @@ function CourseDetail() {
         <div className="bg-[#2C3539] rounded-lg p-6">
           <h1 className="text-4xl text-white font-bold">{course.title}</h1>
           <h2 className="text-2xl text-white">{course.secondTitle}</h2>
+
           <div className="flex items-center gap-2 text-white mt-2">
             <span>{course.avgRate.rate}</span>
             <Rating
@@ -184,7 +185,6 @@ function CourseDetail() {
             {desc ? "see less" : "see more"}
           </button>
         </div>
-        <StudentsAlsoBought category={course.headTags[0]} />
       </div>
 
       <div className="flex-1 lg:h-fit   md:w-[20%] shadow-md border rounded-md p-4 bg-white mb-32">
@@ -250,6 +250,9 @@ function CourseDetail() {
           Buy Now
         </button>
       </div>
+          <StudentsAlsoBought category={course.headTags[0]} />
+          
+
     </div>
   );
 }

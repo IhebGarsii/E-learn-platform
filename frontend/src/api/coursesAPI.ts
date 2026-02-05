@@ -156,6 +156,8 @@ export const studentAlsoBought = async (coursesTags: string) => {
       body: JSON.stringify({ coursesTags }),
     });
     if (!response.ok) {
+      
+      
       throw new Error("error");
     }
     return await response.json();
