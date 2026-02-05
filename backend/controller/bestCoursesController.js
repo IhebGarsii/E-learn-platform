@@ -2,30 +2,42 @@ const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
 
 const getMostBoughtCourses = async (req, res) => {
   try {
-    const courses = await studentAlsoBoughtModel
-      .find({ category: { $in: req.body.coursesTags } }) 
-      .populate("courseArrayNumber.courseId");
+    const docs = await studentAlsoBoughtModel
+      .find({ category: { $in: req.body.coursesTags } })
+      .populate("courseArrayNumber.courseId")
+      .lean();
 
-    if (!courses || courses.length === 0) {
+    if (!docs.length) {
       return res.status(404).json({ message: "No courses found" });
     }
 
-    // ✅ Flatten courseArrayNumber from all matching documents
-    let allCourses = [];
-    courses.forEach((doc) => {
-      allCourses = allCourses.concat(doc.courseArrayNumber);
+    const courseMap = new Map();
+
+    docs.forEach((doc) => {
+      doc.courseArrayNumber
+        .filter((item) => item.courseId)
+        .forEach((item) => {
+          const id = item.courseId._id.toString();
+
+          if (!courseMap.has(id)) {
+            courseMap.set(id, { ...item });
+          } else {
+            courseMap.get(id).nbOfTimesBought += item.nbOfTimesBought;
+          }
+        });
     });
 
-    // ✅ Sort by nbOfTimesBought descending
-    allCourses.sort((a, b) => b.nbOfTimesBought - a.nbOfTimesBought);
+    const topCourses = Array.from(courseMap.values())
+      .sort(
+        (a, b) =>
+          b.nbOfTimesBought - a.nbOfTimesBought ||
+          a.courseId._id.localeCompare(b.courseId._id)
+      )
+      .slice(0, 5);
 
-    // ✅ Take top 5
-    const topCourses = allCourses.slice(0, 5);
-
-    return res.status(200).json(topCourses);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: error.message });
+    res.status(200).json(topCourses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 

@@ -128,6 +128,7 @@ function CourseDetail() {
     setTag(tag);
     navigate("/courses");
   };
+  
   return (
     <div className="flex min-h-full flex-col gap-6 lg:w-[90%] md:mt-9 md:flex-row  lg:justify-start md:items-start mt-12 mx-auto items-center md:gap-10 ">
       <div className="flex-1  w-full md:min-w-[70%] flex flex-col p-4">

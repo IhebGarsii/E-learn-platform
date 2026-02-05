@@ -588,33 +588,54 @@ const addStudentToCourse = async (req, res) => {
     // Update studentAlsoBought model for ALL courseIds
     for (const courseId of courseIds) {
       const course = await coursesModel.findById(courseId);
-      if (!course) continue; // skip if course not found
+      if (!course) continue;
 
-      const category = course.headTags[0];
-      console.log(category, "dddddddddddddd");
+      for (const tag of course.headTags) {
+        // 1️⃣ Does a document for this tag exist?
+        const categoryDoc = await studentAlsoBoughtModel.findOne({
+          category: tag,
+        });
 
-      // Try to increment nbOfTimesBought if course already exists
-      const updated = await studentAlsoBoughtModel.findOneAndUpdate(
-        { category, "courseArrayNumber.courseId": course._id },
-        { $inc: { "courseArrayNumber.$.nbOfTimesBought": 1 } },
-        { new: true }
-      );
-
-      if (!updated) {
-        
-        // If no matching course entry exists, push a new one
-        await studentAlsoBoughtModel.findOneAndUpdate(
-          { category },
-          {
-            $push: {
-              courseArrayNumber: {
+        if (!categoryDoc) {
+          // 2️⃣ Create NEW document (tag does NOT exist)
+          await studentAlsoBoughtModel.create({
+            category: tag,
+            courseArrayNumber: [
+              {
                 courseId: course._id,
                 nbOfTimesBought: 1,
               },
-            },
+            ],
+          });
+          continue;
+        }
+
+        // 3️⃣ Tag exists → try to increment existing course
+        const updated = await studentAlsoBoughtModel.findOneAndUpdate(
+          {
+            category: tag,
+            "courseArrayNumber.courseId": course._id,
           },
-          { upsert: true, new: true }
+          {
+            $inc: { "courseArrayNumber.$.nbOfTimesBought": 1 },
+          },
+          { new: true }
         );
+
+        if (!updated) {
+          // 4️⃣ Course not in array → push it
+          await studentAlsoBoughtModel.updateOne(
+            { category: tag },
+            {
+              $push: {
+                courseArrayNumber: {
+                  courseId: course._id,
+                  nbOfTimesBought: 1,
+                },
+              },
+            }
+          );
+        }
       }
     }
 
