@@ -10,6 +10,7 @@ const fs = require("fs");
 const { getVideoDurationInSeconds } = require("get-video-duration");
 const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
 const cartModel = require("../model/cartModel");
+const paymentHistoryModel = require("../model/pymentHistoryModel");
 const { log } = require("console");
 const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
@@ -497,69 +498,19 @@ const coursePayment = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
-/* const addStudentToCourse = async (req, res) => {
-  try {
-    const { courseIds } = req.body;
-    const { userId } = req.params;
-    let boughtC = [];
-    console.log(courseIds, "courseIds");
 
-    courseIds.forEach(async (course) => {
-      const courseData = await coursesModel.findById(course);
-      if (!courseData) {
-        return res.status(404).json({ message: "Course not found" });
-      }
-      if (!courseData.studentsId.includes(userId)) {
-        courseData.studentsId.push(userId);
-        boughtC.push(courseData._id);
-        await courseData.save();
-      }
-    });
-    const user = await userModel.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    user.boughtCourses.push(...boughtC);
-
-    boughtC.forEach( (courseId) => {
-      const course = await coursesModel.findById(courseId);
-      const studentChoice = await studentAlsoBoughtModel.findOne({category:course.headTags[0]});
-      if(!studentChoice ){
-        const choice = await studentAlsoboughtModel.create({
-          category:course.headTags[0],
-          courseArrayNumber:[{
-            courseId:course._id,
-            nbOfTimesBought:1
-            
-          }],
-        
-        })
-        await choice.save()
-      }else {
-        studentChoice.courseArrayNumber.push({course._id,nbOfTimesBought:nbOfTimesBought++});
-        
-
-      }
-    });
-
-    await user.save();
-    res
-      .status(200)
-      .json({ message: "Students added to course successfully", user });
-  } catch (error) {
-    console.error("Error adding student to course:", error);
-    return res
-      .status(500)
-      .json({ message: "Server error", error: error.message });
-  }
-}; */
 const addStudentToCourse = async (req, res) => {
   try {
     const { courseIds } = req.body;
     const { userId } = req.params;
-    console.log("eeeeeeeeeeeeeeeeeeeee", courseIds, userId);
-
+    const paymentHistory = await paymentHistoryModel.create({
+      userId,
+      courseIds,
+      totalAmount: 0,
+      currency: "dinar",
+      paymentStatus: "paid",
+    });
+    await paymentHistory.save();
     let boughtC = [];
 
     // Add student to each course

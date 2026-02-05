@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const paymentHistory = new Schema({
+const paymentHistoryModel = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -34,17 +34,9 @@ const paymentHistory = new Schema({
     index: true,
   },
 
-  paymentMethod: {
-    type: String,
-    enum: ["card", "paypal", "stripe", "wallet"],
-    required: true,
-  },
+  
 
-  transactionId: {
-    type: String,
-    unique: true,
-    sparse: true,
-  },
+
 
   purchasedAt: {
     type: Date,
@@ -52,4 +44,4 @@ const paymentHistory = new Schema({
     index: true,
   },
 });
-module.exports = mongoose.model("paymentHistory", paymentHistory);
+module.exports = mongoose.model("paymentHistoryModel", paymentHistoryModel);
