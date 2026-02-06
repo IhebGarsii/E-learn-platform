@@ -3,9 +3,13 @@ import { useStore } from "../../hooks/zustand";
 import { addStudentToCourse } from "../../api/coursesAPI";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { addNewPayment } from "../../api/paymentAPI";
+import { payment } from "../../types/paymentOrder";
 
 function PaymentSuccess() {
   const boughtCourses = useStore((state) => state.boughtCourses);
+  const formData = new FormData();
+
   const setBoughtCourses = useStore((state) => state.setBoughtCourses);
 
   const queryClient = useQueryClient();
@@ -15,7 +19,7 @@ function PaymentSuccess() {
       addStudentToCourse(boughtCourses, localStorage.getItem("idUser")!),
     onSuccess: (data) => {
       console.log("Students added to course successfully", data);
-      
+
       queryClient.invalidateQueries({ queryKey: ["courses", boughtCourses] });
 
       queryClient.invalidateQueries({
@@ -36,12 +40,21 @@ function PaymentSuccess() {
       console.error("Error adding students to course:", error);
     },
   });
+  const { mutate: mutateAddPayment } = useMutation({
+    mutationFn: () => addNewPayment(formData),
+  });
 
   useEffect(() => {
     console.log(boughtCourses, "boughtCourses");
 
     if (boughtCourses.length && localStorage.getItem("idUser")!) {
       mutateAddingstudent();
+      boughtCourses.forEach((courseId) => {
+        formData.append("courseIds[]", courseId);
+      });
+      formData.append("userId", localStorage.getItem("idUser")!);
+
+      mutateAddPayment();
     }
   }, [boughtCourses, localStorage.getItem("idUser")!, mutateAddingstudent]);
 
