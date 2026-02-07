@@ -12,6 +12,7 @@ const videoRouter = require("./Router/videoRouter");
 const webhookRoute = require("./Router/webhook");
 const http = require("http");
 const { Server } = require("socket.io");
+const paymentHistoryRouter = require("./Router/paymentHistoryRouter");
 const app = express();
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -30,6 +31,7 @@ app.use("/cart", cartRouter);
 app.use("/coupon", couponRouer);
 app.use("/projects", projectRouter);
 app.use("/videos", videoRouter);
+app.use("/paymentHistory", paymentHistoryRouter);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {

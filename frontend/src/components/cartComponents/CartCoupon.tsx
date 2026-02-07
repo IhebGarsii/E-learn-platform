@@ -5,7 +5,6 @@ import { applyCoupon } from "../../api/cartAPI";
 import { Products } from "../../types/products";
 import { cartSaved } from "../../types/cart";
 import { useStore } from "../../hooks/zustand";
-import { set } from "react-hook-form";
 
 type CartCouponProps = {
   cart: cartSaved | undefined;
@@ -31,13 +30,14 @@ function CartCoupon({ cart }: CartCouponProps) {
     queryFn: () => applyCoupon(coupon),
     enabled: triggerCheck && !!coupon,
   });
- 
+
   const { mutate: paymentMutate } = useMutation({
     mutationFn: (products: Products[]) => coursePayment(products),
     onSuccess: (data) => {
       if (data.url) {
         setBoughtCourses(boughtC);
-        window.location.href = data.url;
+    
+        /* window.location.href = data.url; */
       }
     },
     onError: (error) => {

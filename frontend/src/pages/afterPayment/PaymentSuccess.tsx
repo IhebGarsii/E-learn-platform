@@ -1,62 +1,49 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "../../hooks/zustand";
 import { addStudentToCourse } from "../../api/coursesAPI";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { addNewPayment } from "../../api/paymentAPI";
 import { payment } from "../../types/paymentOrder";
 
 function PaymentSuccess() {
   const boughtCourses = useStore((state) => state.boughtCourses);
-  const formData = new FormData();
-
-  const setBoughtCourses = useStore((state) => state.setBoughtCourses);
-
+  const userId = localStorage.getItem("idUser");
   const queryClient = useQueryClient();
-  /*   const navigate = useNavigate();
-   */ const { mutate: mutateAddingstudent } = useMutation({
-    mutationFn: () =>
-      addStudentToCourse(boughtCourses, localStorage.getItem("idUser")!),
-    onSuccess: (data) => {
-      console.log("Students added to course successfully", data);
+  const hasPaidRef = useRef(false);
 
-      queryClient.invalidateQueries({ queryKey: ["courses", boughtCourses] });
-
-      queryClient.invalidateQueries({
-        queryKey: ["user", localStorage.getItem("idUser")!],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["cart", localStorage.getItem("idUser")],
-      });
-      /*  setTimeout(() => {
-        if (boughtCourses.length > 1) {
-          navigate(`/studentCourseList/${localStorage.getItem("idUser")}`);
-        } else {
-          navigate(`/Course/${localStorage.getItem("CourseId")}`);
-        }
-      }, 4000); */
-    },
-    onError: (error) => {
-      console.error("Error adding students to course:", error);
+  const { mutate: mutateAddingstudent } = useMutation({
+    mutationFn: () => addStudentToCourse(boughtCourses, userId!),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      queryClient.invalidateQueries({ queryKey: ["user", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
     },
   });
+
   const { mutate: mutateAddPayment } = useMutation({
-    mutationFn: () => addNewPayment(formData),
+    mutationFn: (formData: FormData) => addNewPayment(formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["paymentHistory", userId] });
+    },
+    onError: console.error,
   });
 
   useEffect(() => {
-    console.log(boughtCourses, "boughtCourses");
+    if (!boughtCourses.length || !userId || hasPaidRef.current) return;
 
-    if (boughtCourses.length && localStorage.getItem("idUser")!) {
-      mutateAddingstudent();
-      boughtCourses.forEach((courseId) => {
-        formData.append("courseIds[]", courseId);
-      });
-      formData.append("userId", localStorage.getItem("idUser")!);
+    hasPaidRef.current = true;
 
-      mutateAddPayment();
-    }
-  }, [boughtCourses, localStorage.getItem("idUser")!, mutateAddingstudent]);
+    mutateAddingstudent();
+
+    const formData = new FormData();
+    boughtCourses.forEach((id) => formData.append("courseIds[]", id));
+    formData.append("userId", userId);
+    const obj = Object.fromEntries(formData.entries());
+    console.log(obj,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+
+    mutateAddPayment(formData);
+  }, [boughtCourses, userId]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">

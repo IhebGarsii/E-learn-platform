@@ -10,7 +10,7 @@ const fs = require("fs");
 const { getVideoDurationInSeconds } = require("get-video-duration");
 const studentAlsoBoughtModel = require("../model/studentAlsoBoughtModel");
 const cartModel = require("../model/cartModel");
-const paymentHistoryModel = require("../model/pymentHistoryModel");
+const paymentHistoryModel = require("../model/paymentHistoryModel");
 const { log } = require("console");
 const ffprobePath = require("ffprobe-static").path;
 const getAllCourses = async (req, res) => {
