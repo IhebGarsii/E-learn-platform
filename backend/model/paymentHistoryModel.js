@@ -19,7 +19,6 @@ const paymentHistoryModel = new Schema({
 
   totalAmount: {
     type: Number,
-    required: true,
   },
 
   currency: {
@@ -30,7 +29,6 @@ const paymentHistoryModel = new Schema({
   paymentStatus: {
     type: String,
     enum: ["pending", "paid", "failed", "refunded"],
-    required: true,
     index: true,
   },
 

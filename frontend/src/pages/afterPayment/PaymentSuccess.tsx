@@ -37,10 +37,10 @@ function PaymentSuccess() {
     mutateAddingstudent();
 
     const formData = new FormData();
-    boughtCourses.forEach((id) => formData.append("courseIds[]", id));
+    formData.append("courseIds", JSON.stringify(boughtCourses));
     formData.append("userId", userId);
     const obj = Object.fromEntries(formData.entries());
-    console.log(obj,'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    console.log(obj, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
     mutateAddPayment(formData);
   }, [boughtCourses, userId]);

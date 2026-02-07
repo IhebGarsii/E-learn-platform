@@ -37,7 +37,7 @@ function CartCoupon({ cart }: CartCouponProps) {
       if (data.url) {
         setBoughtCourses(boughtC);
     
-        /* window.location.href = data.url; */
+        window.location.href = data.url;
       }
     },
     onError: (error) => {

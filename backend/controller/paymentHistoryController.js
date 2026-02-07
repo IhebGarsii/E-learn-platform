@@ -21,13 +21,14 @@ const getPaymentHistoryByUser = async (req, res) => {
 const addNewPayment = async (req, res) => {
   try {
     console.log(req.body, "addNewPayment");
+    const { userId } = req.body;
+    const courseIds = JSON.parse(req.body.courseIds);
+
     const newPayment = await paymentHistoryModel.create({
       userId,
       courseIds,
-      totalAmount,
       currency: "dinar",
-      paymentStatus: "paid", // only after success
-      paymentMethod,
+      paymentStatus: "paid",
       purchasedAt: new Date(),
     });
     if (!newPayment) {
