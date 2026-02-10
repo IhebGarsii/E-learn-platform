@@ -90,5 +90,9 @@ const userModel = new Schema({
       default: [],
     },
   ],
+  userStatistic: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userModel",
+  },
 });
 module.exports = mongoose.model("userModel", userModel);
